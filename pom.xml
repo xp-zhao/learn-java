@@ -12,6 +12,8 @@
         <module>rabbitmq-demo</module>
         <module>utils-demo</module>
         <module>learn-shiro</module>
+        <module>ms-web</module>
+        <module>simple-sso</module>
     </modules>
 
 
