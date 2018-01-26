@@ -2,19 +2,17 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>learn-java</artifactId>
+        <groupId>com.xp</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xp</groupId>
-    <artifactId>learn-java</artifactId>
+    <artifactId>learn-spring</artifactId>
     <packaging>pom</packaging>
-    <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>rabbitmq-demo</module>
-        <module>utils-demo</module>
-        <module>learn-shiro</module>
-        <module>ms-web</module>
-        <module>simple-sso</module>
-        <module>learn-spring</module>
+        <module>custom-tag</module>
     </modules>
 
 
