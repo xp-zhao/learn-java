@@ -5,9 +5,9 @@
          id="WebApp_ID" version="2.5">
   <display-name>springsessiondemo</display-name>
 
-  <!-- Character Filter -->
+  <!-- 强制进行转码 -->
   <filter>
-    <filter-name>encodingFilter</filter-name>
+    <filter-name>CharacterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
     <init-param>
       <param-name>encoding</param-name>
@@ -15,8 +15,10 @@
     </init-param>
   </filter>
   <filter-mapping>
-    <filter-name>encodingFilter</filter-name>
+    <filter-name>CharacterEncodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
   </filter-mapping>
 
   <!-- Spring Listener -->

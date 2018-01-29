@@ -25,6 +25,7 @@
     </build>
     <modules>
         <module>spring-session</module>
+        <module>web-demo</module>
     </modules>
 
     <properties>

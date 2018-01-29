@@ -13,6 +13,7 @@
         <module>sso-client</module>
         <module>sso-system1</module>
         <module>sso-system2</module>
+        <module>sso-cache</module>
     </modules>
 
     <properties>
