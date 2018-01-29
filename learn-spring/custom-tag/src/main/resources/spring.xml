@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:rpc="http://www.example.org/user"
+       xmlns:test="http://www.example.org/user"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.example.org/user
        http://www.example.org/user.xsd ">
 
-    <rpc:user id="testbean" userName="aaa" email="bbb"/>
+    <test:user id="testbean" userName="aaa" email="bbb"/>
+
+    <test:service id="testService" contact="contact" serviceName="com.xp" serviceImplName="com.xp.impl"/>
 
     <!--<bean id="userService" class="com.xp.service.impl.UserServiceImpl"/>-->
     <!--<rpc:service interface="com.xp.service.UserService" impl="userService"/>-->

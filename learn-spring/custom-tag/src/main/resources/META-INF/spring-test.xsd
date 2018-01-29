@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schema xmlns="http://www.w3.org/2001/XMLSchema"
         targetNamespace="http://www.example.org/user"
-        xmlns:tns="http://www.example.org/user"
         elementFormDefault="qualified">
 
     <element name="user">
@@ -9,6 +8,15 @@
             <attribute name="id" type="string"/>
             <attribute name="userName" type="string"/>
             <attribute name="email" type="string"/>
+        </complexType>
+    </element>
+
+    <element name="service">
+        <complexType>
+            <attribute name="id" type="string"/>
+            <attribute name="contact" type="string"/>
+            <attribute name="serviceName" type="string"/>
+            <attribute name="serviceImplName" type="string"/>
         </complexType>
     </element>
 

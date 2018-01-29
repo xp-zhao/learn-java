@@ -15,6 +15,7 @@
         <module>ms-web</module>
         <module>simple-sso</module>
         <module>learn-spring</module>
+        <module>learn-cache</module>
     </modules>
 
 

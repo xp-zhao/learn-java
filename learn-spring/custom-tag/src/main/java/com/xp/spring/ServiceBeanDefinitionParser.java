@@ -20,13 +20,16 @@ public class ServiceBeanDefinitionParser extends AbstractSingleBeanDefinitionPar
 
 	@Override
 	protected void doParse(Element element, BeanDefinitionBuilder builder) {
-		String anInterface = element.getAttribute("interface");
-		String impl = element.getAttribute("impl");
 
-		if(StringUtils.hasText(anInterface))
+		String contact = element.getAttribute("contact");
+		String serviceName = element.getAttribute("serviceName");
+		String serviceImplName = element.getAttribute("serviceImplName");
+
+		if(StringUtils.hasText(contact))
 		{
-			builder.addPropertyValue("interface",anInterface);
-			builder.addPropertyValue("impl",impl);
+			builder.addPropertyValue("contact",contact);
+			builder.addPropertyValue("serviceName",serviceName);
+			builder.addPropertyValue("serviceImplName",serviceImplName);
 		}
 	}
 }

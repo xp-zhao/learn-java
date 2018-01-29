@@ -11,5 +11,6 @@ public class MyNamespaceHandler extends NamespaceHandlerSupport
 	public void init()
 	{
 		this.registerBeanDefinitionParser("user",new UserBeanDefinitionParser());
+		this.registerBeanDefinitionParser("service",new ServiceBeanDefinitionParser());
 	}
 }
