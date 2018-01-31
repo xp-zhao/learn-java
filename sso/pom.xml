@@ -5,19 +5,13 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.xp</groupId>
-    <artifactId>learn-java</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>sso</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>rabbitmq-demo</module>
-        <module>utils-demo</module>
-        <module>learn-shiro</module>
-        <module>ms-web</module>
-        <module>simple-sso</module>
-        <module>learn-spring</module>
-        <module>learn-cache</module>
-        <module>sso</module>
+        <module>sso-common</module>
+        <module>sso-core</module>
+        <module>sso-admin</module>
     </modules>
-
+    <packaging>pom</packaging>
 
 </project>

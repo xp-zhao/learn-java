@@ -11,6 +11,13 @@
     <name>sso-system2 Maven Webapp</name>
     <url>http://maven.apache.org</url>
     <dependencies>
+
+        <dependency>
+            <groupId>com.xp</groupId>
+            <artifactId>sso-cache</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
         <dependency>
             <groupId>com.xp</groupId>
             <artifactId>sso-client</artifactId>
