@@ -17,6 +17,7 @@
         <module>learn-spring</module>
         <module>learn-cache</module>
         <module>sso</module>
+        <module>learn-test</module>
     </modules>
 
 
