@@ -9,6 +9,7 @@ public class A
 	public static int j = method2();
 	public int k = 0;
 
+
 	public A()
 	{
 		System.out.println(1);
