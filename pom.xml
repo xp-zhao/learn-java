@@ -17,7 +17,11 @@
         <module>learn-spring</module>
         <module>learn-cache</module>
         <module>sso</module>
+<<<<<<< HEAD
+        <module>HeadFirst</module>
+=======
         <module>learn-test</module>
+>>>>>>> 691822b623e7f318beb3cd712a6efb4aefbc4186
     </modules>
 
 
