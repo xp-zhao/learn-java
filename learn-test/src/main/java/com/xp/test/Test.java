@@ -9,6 +9,8 @@ public class Test
 
 	public static void main(String[] args)
 	{
+//		JT();
+		System.out.println(reverse(56));
 //		System.out.println(reverse("xp"));
 //		String str = "param1=sdf";
 ////		String token = str.substring(str.indexOf("param1"), str.lastIndexOf("&"));
@@ -16,11 +18,11 @@ public class Test
 //		System.out.println("test");
 ////		System.out.println(token.substring(token.indexOf("=")+1));
 
-		int[] arr = {1,2,3,4};
-		String[] arr1 = {"111","222"};
-
-		System.out.println(arr.toString());
-		System.out.println(arr1.toString());
+//		int[] arr = {1,2,3,4};
+//		String[] arr1 = {"111","222"};
+//
+//		System.out.println(arr.toString());
+//		System.out.println(arr1.toString());
 	}
 
 	public static String reverse(String str)
@@ -38,5 +40,57 @@ public class Test
 	public void test()
 	{
 		String string = this.str;
+	}
+
+	public static void JT()
+	{
+		int a = 15;
+		int b = 40;
+		System.out.println(b/2 -a);
+		System.out.println(a - (b/2-a));
+
+		for(int i = 0; i < 50; i++)
+		{
+			for(int j = 0; j < 50; j++)
+			{
+				if(i + j == 15 && 4*i+2*j == 40)
+				{
+					System.out.println("tu:"+i+",ji:"+j);
+				}
+			}
+		}
+		int x = 1;
+		int y;
+		for(;x <= 15; x++)
+		{
+			y = 15-x;
+			if(2*x+4*y==40)
+			{
+				//输出x.y
+				System.out.println(x+":"+y);
+			}
+		}
+	}
+
+	public static int num(int i)
+	{
+		if(i <= 0)
+		{
+			return 0;
+		}
+		int numLength = 0;
+		int length = String.valueOf(i).length();
+		for(i = 0; i < length; i--)
+		{
+			Math.pow(10,i);
+		}
+		return numLength;
+	}
+
+	public static int reverse(int num)
+	{
+		String str = String.valueOf(num);
+		StringBuilder sb = new StringBuilder(str);
+		return Integer.parseInt(sb.reverse().toString());
 	}
 }
