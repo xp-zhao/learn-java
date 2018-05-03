@@ -20,6 +20,8 @@
         <module>HeadFirst</module>
         <module>learn-test</module>
         <module>learn-maven</module>
+        <module>learn-maven-web</module>
+        <module>learn-log</module>
     </modules>
 
 

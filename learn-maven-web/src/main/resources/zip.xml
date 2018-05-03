@@ -1,0 +1,14 @@
+<assembly>
+    <id>bin</id>
+    <formats>
+        <!-- zip,tar,tar.gz,tar.bz2,jar,dir,war -->
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>${zipDirectory}</directory>
+            <outputDirectory>${artifactId}/target/</outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>
