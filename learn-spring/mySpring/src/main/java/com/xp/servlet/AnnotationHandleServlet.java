@@ -1,11 +1,14 @@
 package com.xp.servlet;
+import com.xp.annotation.Controller;
 import com.xp.annotation.RequestMapping;
 import com.xp.utils.BeanUtils;
 import com.xp.utils.RequestMappingMap;
+import com.xp.utils.ScanClassUtil;
 import com.xp.utils.WebContext;
 import com.xp.view.DispatchActionConstant;
 import com.xp.view.View;
 
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
 
 /**
  * 自定义注解的核心处理器以及负责调用目标业务方法处理用户请求
@@ -27,6 +31,16 @@ public class AnnotationHandleServlet extends HttpServlet
 		String midUrl = requestUri.replaceFirst(path,"");
 		String lastUrl = midUrl.substring(0,midUrl.lastIndexOf("."));
 		return lastUrl;
+	}
+
+	public void doGet(HttpServletRequest request,HttpServletResponse response)
+	{
+		this.excute(request,response);
+	}
+
+	public void doPost(HttpServletRequest request,HttpServletResponse response)
+	{
+		this.excute(request,response);
 	}
 
 	private void excute(HttpServletRequest request,HttpServletResponse response)
@@ -98,6 +112,59 @@ public class AnnotationHandleServlet extends HttpServlet
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void init(ServletConfig config) throws ServletException
+	{
+		super.init(config);
+		System.out.println("初始化开始");
+		// 获取 web.xml 中配置的需要扫描的包
+		String basePackage = config.getInitParameter("basePackage");
+		if(basePackage.indexOf(",") > 0)
+		{
+			String[] packageNames = basePackage.split(",");
+			for(String packageName : packageNames)
+			{
+				initRequestMappingMap(packageName);
+			}
+		}
+		else
+		{
+			initRequestMappingMap(basePackage);
+		}
+
+	}
+
+	/**
+	 * 添加使用了 @Controller 注解的 class 到 RequestMappingMap 中
+	 * @param packageName
+	 */
+	private void initRequestMappingMap(String packageName)
+	{
+		Set<Class<?>> setClasses = ScanClassUtil.getClasses(packageName);
+		for(Class<?> clazz : setClasses)
+		{
+			if(clazz.isAnnotationPresent(Controller.class))
+			{
+				Method[] methods = BeanUtils.findDeclareMethods(clazz);
+				for(Method method : methods)
+				{
+					if(method.isAnnotationPresent(RequestMapping.class))
+					{
+						String path = method.getAnnotation(RequestMapping.class).value();
+						if(path != null && !"".equals(path.trim()))
+						{
+							if(RequestMappingMap.getRequestMap().containsKey(path))
+							{
+								throw new RuntimeException("RequestMapping映射的地址不允许重复！");
+							}
+							RequestMappingMap.put(path,clazz);
+						}
+					}
+				}
+			}
 		}
 	}
 }

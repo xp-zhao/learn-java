@@ -8,5 +8,7 @@ public class Test
 	public static void main(String[] args)
 	{
 		Date date = new Date();
+		String[] str = "/home/ftpadmin".split("/");
+		System.out.println(str.length);
 	}
 }
