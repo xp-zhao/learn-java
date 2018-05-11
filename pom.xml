@@ -23,6 +23,7 @@
         <module>learn-maven-web</module>
         <module>learn-log</module>
         <module>learn-ftp</module>
+        <module>learn-mq</module>
     </modules>
 
 
