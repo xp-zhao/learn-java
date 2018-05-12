@@ -19,10 +19,17 @@ public class PropertiesUtil
 	// 缓存时间
 	private static final Integer                        TIME_OUT       = 60 * 1000;
 
+	// 默认资源文件名称
+	private static final String NAME = "config";
+
 	// 私有构造方法，创建单例
 	private PropertiesUtil(String name) {
 		this.loadTime = new Date();
 		this.resourceBundle = ResourceBundle.getBundle(name);
+	}
+
+	public static synchronized PropertiesUtil getInstance() {
+		return getInstance(NAME);
 	}
 
 	public static synchronized PropertiesUtil getInstance(String name) {
