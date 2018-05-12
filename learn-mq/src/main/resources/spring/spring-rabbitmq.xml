@@ -14,10 +14,8 @@
 
 	<context:property-placeholder location="classpath:rabbitmq.properties" />
 
-	<!-- 连接配置 -->
-	<rabbit:connection-factory id="connectionFactory" host="${mq.host}" port="${mq.port}"  username="${mq.username}" password="${mq.password}" virtual-host="${mq.vhost}"/>
-
-	<rabbit:admin connection-factory="connectionFactory"/>
+	<!-- 定义 rabbitmq 的连接工厂 -->
+	<rabbit:connection-factory id="connectionFactory" host="${mq.host}" port="${mq.port}" username="${mq.username}" password="${mq.password}" virtual-host="${mq.vhost}"/>
 
 	<!-- spring template声明，定义 rabbit 模板，指定连接工厂以及定义 exchange -->
 	<rabbit:template id="amqpTemplate"  connection-factory="connectionFactory" exchange="manager.task" message-converter="jsonMessageConverter"/>
@@ -25,24 +23,24 @@
 	<!-- 消息对象json转换类 -->
 	<bean id="jsonMessageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter" />
 
+	<!-- mq 的管理，包括队列、交换器声明等 -->
+	<rabbit:admin connection-factory="connectionFactory"/>
+
 	<!-- 定义队列，自动声明 -->
-	<rabbit:queue name="task_execute_queue" auto-declare="true" durable="true"/>
+	<rabbit:queue name="task_report_queue" auto-declare="true" durable="true"/>
 
 	<!-- 定义交换器，自动声明 -->
 	<rabbit:topic-exchange name="manager.task" auto-declare="true" durable="true">
 		<rabbit:bindings>
-			<rabbit:binding pattern="task.execute.#" queue="task_execute_queue"></rabbit:binding>
+			<rabbit:binding pattern="task.report.#" queue="task_report_queue"></rabbit:binding>
 		</rabbit:bindings>
 	</rabbit:topic-exchange>
 
 	<!-- 消费者 -->
-	<bean id="queueListenter" class="listener.QueueListenter"/>
+	<bean id="queueListenter" class="rabbitmq.spring.listener.QueueListener"/>
 
 	<!-- 队列监听 -->
 	<rabbit:listener-container connection-factory="connectionFactory">
-		<rabbit:listener ref="queueListenter" queues="task_execute_queue"/>
+		<rabbit:listener ref="queueListenter" queues="task_report_queue"/>
 	</rabbit:listener-container>
-
-	<bean id="SpringUtils" class="utils.SpringUtils"/>
-
 </beans>

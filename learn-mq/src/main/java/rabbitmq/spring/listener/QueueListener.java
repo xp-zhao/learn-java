@@ -1,17 +1,16 @@
-package listener;
+package rabbitmq.spring.listener;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import model.User;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
-import utils.SpringUtils;
+import rabbitmq.model.User;
 
 /**
- * Created by xp-zhao on 2018/3/23.
+ * Created by xp-zhao on 2018/5/12.
  */
-public class QueueListenter implements MessageListener
+public class QueueListener implements MessageListener
 {
 	@Override
 	public void onMessage(Message message)
@@ -19,9 +18,6 @@ public class QueueListenter implements MessageListener
 		String messageBody = new String(message.getBody());
 		JSONObject object = JSON.parseObject(messageBody);
 		User user = JSONObject.toJavaObject(object,User.class);
-		System.out.println("recv : "+user);
-		RabbitTemplate template = SpringUtils.getBean(RabbitTemplate.class);
-		template.convertAndSend("task.report.groupCode.taskCode",new User("xp","145668","test.report.groupCode.taskCode"));
-		System.out.println("send : task.report.groupCode.taskCode");
+		System.out.println("recv : " + user );
 	}
 }
