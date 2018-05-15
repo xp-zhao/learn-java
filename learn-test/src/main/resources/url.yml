@@ -1,0 +1,15 @@
+system_id: 2
+#需要权限验证的 url(多个 url 用 ；分隔)
+authorization_urls:
+    - /task/addTask.do
+    - /group/groupIndex.do
+    - /group/groupIndex.do
+    - /taskLog/index.do
+#需要进行登录验证的 url
+authentication_urls:
+    - /task/addTask.do
+    - /group/groupIndex.do
+    - /taskLog/index.do
+#管理系统地址
+#ms_admin_address=10.25.245.165:8080
+ms_admin_address: localhost:8080
