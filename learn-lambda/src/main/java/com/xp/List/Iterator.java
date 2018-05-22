@@ -10,10 +10,12 @@ public class Iterator
 {
 	public static void main(String[] args)
 	{
-		List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
-//		for(String feature : features)
-//		{
-//
-//		}
+		List<String> features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
+		for(String feature : features)
+		{
+			System.out.println(feature);
+		}
+		System.out.println("***********************");
+		features.forEach(n -> System.out.println(n));
 	}
 }

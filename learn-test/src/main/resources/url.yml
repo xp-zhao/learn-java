@@ -1,10 +1,12 @@
 system_id: 2
 #需要权限验证的 url(多个 url 用 ；分隔)
 authorization_urls:
-    - /task/addTask.do
-    - /group/groupIndex.do
-    - /group/groupIndex.do
-    - /taskLog/index.do
+    group:
+        - /group/groupIndex.do
+        - /group/groupIndex.do
+    task:
+         - /task/addTask.do
+         - /taskLog/index.do
 #需要进行登录验证的 url
 authentication_urls:
     - /task/addTask.do
@@ -13,3 +15,19 @@ authentication_urls:
 #管理系统地址
 #ms_admin_address=10.25.245.165:8080
 ms_admin_address: localhost:8080
+
+# ms-admin 过滤器中不需要处理的 url 配置
+filter:
+        - /test #测试
+#   登录相关 login:
+        - /ms-admin/sso/login
+        - /ms-admin/sso/logout
+#   验证请求 verify:
+        - /ms-admin/sso/verify
+        - /ms-admin/sso/isLogin
+        - /ms-admin/manage/verify
+        - /ms-admin/manage/userPermission/verify
+#   查询请求 query:
+        - /ms-admin/sso/getLoginUserInfo
+        - /ms-admin/manage/user/getUserByUserId
+        - /ms-admin/manage/user/getUserByUserIds
