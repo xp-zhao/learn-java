@@ -1,5 +1,8 @@
 package com.xp.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by xp-zhao on 2018/2/12.
  */
@@ -9,8 +12,15 @@ public class Test
 
 	public static void main(String[] args)
 	{
+//		List<String> list = new ArrayList<>();
+//		list.add("1");
+//		list.add("2");
+//		list.add("3");
+//		list.add("4");
+//		list.add("5");
+//		System.out.println(list.subList(1,3));
 //		JT();
-		System.out.println(reverse(56));
+//		System.out.println(reverse(56));
 //		System.out.println(reverse("xp"));
 //		String str = "param1=sdf";
 ////		String token = str.substring(str.indexOf("param1"), str.lastIndexOf("&"));
@@ -42,6 +52,9 @@ public class Test
 		String string = this.str;
 	}
 
+	/**
+	 * 鸡兔同笼，数头15个，数腿40只，问鸡兔几何
+	 */
 	public static void JT()
 	{
 		int a = 15;

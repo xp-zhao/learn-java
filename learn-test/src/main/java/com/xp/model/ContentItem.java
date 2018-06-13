@@ -20,5 +20,7 @@ public class ContentItem
 	private String contentName; // 内容名名称
 	private String singerId;   // 内容归属人id
 	private String singerName; // 内容归属人名称
+	private Model1 model1;
+	private Model2 model2;
 	private String songId;      //歌曲id
 }
