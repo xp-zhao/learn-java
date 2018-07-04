@@ -40,7 +40,7 @@ public class QueueListenter implements MessageListener
 		taskReport.setDesc("执行成功");
 		RabbitTemplate template = SpringUtils.getBean(RabbitTemplate.class);
 		String routingKey = MessageFormat.format("task.report.{0}.{1}",taskNotice.getGroupCode(),taskNotice.getTaskCode());
-		template.convertAndSend(routingKey,taskReport);
+		template.convertAndSend("manager.task",routingKey,taskReport);
 		System.out.println("send : "+taskReport);
 	}
 }

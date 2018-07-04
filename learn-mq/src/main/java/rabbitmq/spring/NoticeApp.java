@@ -14,7 +14,7 @@ public class NoticeApp
 	{
 		ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring/spring-rabbitmq.xml");
 		RabbitTemplate template = context.getBean(RabbitTemplate.class);
-		template.convertAndSend("task.execute.groupCode.taskCode",new User("xp","145668","test.execute.groupCode.taskCode"));
+		template.convertAndSend("task.report.groupCode.taskCode",new User("xp","145668","test.execute.groupCode.taskCode"));
 		System.out.println("send : task.execute.groupCode.taskCode");
 	}
 }
