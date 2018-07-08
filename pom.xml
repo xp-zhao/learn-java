@@ -23,7 +23,6 @@
         <module>learn-ftp</module>
         <module>learn-lambda</module>
         <module>learn-mq</module>
-        <module>litespring</module>
         <module>learn-mybatis</module>
     </modules>
 
