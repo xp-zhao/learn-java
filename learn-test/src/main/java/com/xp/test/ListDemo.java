@@ -2,6 +2,7 @@ package com.xp.test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by xp-zhao on 2018/5/24.
@@ -10,16 +11,14 @@ public class ListDemo
 {
 	public static void main(String[] args)
 	{
-		List<String> all = new ArrayList<>();
-		all.add("1");
-		all.add("2");
-		all.add("3");
-		all.add("4");
-		List<String> test = new ArrayList<>();
-		test.add("1");
-		test.add("2");
-		test.add("3");
-		System.out.println(all.removeAll(test));
-		System.out.println(all);
+		System.out.println(String.valueOf((new Random().nextInt(8999) + 1000)));
+		List<String> list = new ArrayList<>();
+		list.add("test1");
+		list.add("test2");
+		list.add("test3");
+		list.add("test4");
+		list.add("test5");
+		System.out.println(list.size());
+		System.out.println(list.subList(6, list.size()));
 	}
 }
