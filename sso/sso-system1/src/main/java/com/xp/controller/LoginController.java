@@ -1,5 +1,6 @@
 package com.xp.controller;
 
+import com.xp.utils.RedisUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ public class LoginController
 	public String helloWorld(HttpServletRequest request,HttpServletResponse response,Model model) throws IOException
 	{
 		String sessionId = request.getSession().getId();
+		RedisUtil.set("system1-sessionId:" , sessionId);
 		System.out.println("sessionId: "+sessionId);
 		return "index";
 	}

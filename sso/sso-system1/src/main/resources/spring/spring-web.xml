@@ -21,4 +21,5 @@
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
+    <bean id="SpringUtils" class="com.xp.utils.SpringUtils"/>
 </beans>
