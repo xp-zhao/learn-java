@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xp.model.ContentItem;
 import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.StringUtils;
 import sun.misc.BASE64Encoder;
 
 import java.io.UnsupportedEncodingException;
@@ -19,7 +20,11 @@ public class StringDemo
 {
 	public static void main(String[] args)
 	{
-		demo("asdf\nasdfasdf\n");
+		String tos = "  1368839 ,  2342342 ";
+		System.out.println(tos);
+		System.out.println(StringUtils.deleteWhitespace(tos));
+
+//		demo("asdf\nasdfasdf\n");
 ////		String str = null;
 ////		JSONObject object = JSON.parseObject(str);
 ////		ContentItem item = JSONObject.toJavaObject(object , ContentItem.class);

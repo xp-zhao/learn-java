@@ -28,18 +28,19 @@ public class LoginController
 		JSONObject result = new JSONObject();
 		String sessionId = request.getSession().getId();
 		String sessionId1 = session.getId();
+		System.out.println("sessionId:"+sessionId);
 		if(StringUtils.isBlank(username) || StringUtils.isBlank(password)){
 			result.put("code" , 0);
 			result.put("msg" , "用户名密码不能为空");
 			return result;
 		}
 		String lognUser = (String) RedisUtil.get(sessionId);
-		if(StringUtils.isNoneBlank(lognUser)){
+		if(StringUtils.isNotBlank(lognUser)){
 			result.put("code" , 1);
 			result.put("msg" , "当前登录用户：" + username);
 			return result;
 		}
-		RedisUtil.set(sessionId , username);
+		RedisUtil.setEx(sessionId , username, (long) 60);
 		System.out.println("sessionId: "+sessionId);
 		result.put("code" , 1);
 		result.put("msg" , "登录成功");
