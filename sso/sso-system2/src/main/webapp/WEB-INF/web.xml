@@ -19,4 +19,13 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
+  <filter>
+    <filter-name>sessionFilter</filter-name>
+    <filter-class>com.xp.filter.SessionFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>sessionFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+  </filter-mapping>
+
 </web-app>

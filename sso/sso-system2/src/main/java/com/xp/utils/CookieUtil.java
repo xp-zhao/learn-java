@@ -11,7 +11,8 @@ import javax.servlet.http.HttpServletResponse;
  * Created by geely
  */
 @Slf4j
-public class CookieUtil {
+public class CookieUtil
+{
 
     private final static String COOKIE_DOMAIN = ".sso.com";
     private final static String COOKIE_NAME = "sso_login_token";
