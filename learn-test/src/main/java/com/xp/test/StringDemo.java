@@ -24,6 +24,11 @@ public class StringDemo
 		System.out.println(tos);
 		System.out.println(StringUtils.deleteWhitespace(tos));
 
+		String str = "xp-zhao|wsdf";
+		String[] users = str.split("\\|");
+		System.out.println(users[2]);
+		System.out.println(users[1]);
+
 //		demo("asdf\nasdfasdf\n");
 ////		String str = null;
 ////		JSONObject object = JSON.parseObject(str);

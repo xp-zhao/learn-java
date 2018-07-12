@@ -1,0 +1,18 @@
+# sso-server 过滤器中不需要处理的 url 配置
+filter:
+#   登录相关 login:
+        - /sso-server/sso/logout # 注销请求
+#   验证请求  verify:
+        - /sso-server/sso/verify # token 验证请求
+        - /sso-server/sso/verify/
+        - /sso-server/sso/isLogin # 验证用户是否登录请求
+        - /sso-server/manage/verify #权限验证
+        - /sso-server/manage/userPermission/verify #当前登录用户权限验证
+#   查询请求 query:
+        - /sso-server/sso/getLoginUserInfo # 获取当前登录用户信息
+login_urls:
+        - /sso-server/sso/login # 登录请求
+        - /sso-server/sso/login/
+
+
+

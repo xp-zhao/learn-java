@@ -8,6 +8,6 @@
 <body>
 sso-system1,你好，${requestScope.message}
 
-<a href="http://localhost:8081/taskLog/index.do">跳转</a>
+<%--<a href="http://localhost:8081/taskLog/index.do">跳转</a>--%>
 </body>
 </html>
