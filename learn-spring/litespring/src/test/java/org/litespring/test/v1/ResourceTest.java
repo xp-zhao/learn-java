@@ -35,7 +35,7 @@ public class ResourceTest
 	@Test
 	public void testFileSystemResource() throws Exception {
 
-		Resource r = new FileSystemResource("D:\\code\\github\\learn-java\\learn-spring\\litespring\\src\\test\\resources\\petstore-v1.xml");
+		Resource r = new FileSystemResource("D:\\Users\\github\\learn-java\\learn-spring\\litespring\\src\\test\\resources\\petstore-v1.xml");
 		InputStream is = null;
 		try {
 			is = r.getInputStream();

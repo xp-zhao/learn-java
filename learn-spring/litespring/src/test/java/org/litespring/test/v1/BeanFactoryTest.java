@@ -48,7 +48,7 @@ public class BeanFactoryTest{
 
 		PetStoreService petStore1 = (PetStoreService)factory.getBean("petStore");
 
-//		assertTrue(petStore.equals(petStore1));
+		assertTrue(petStore.equals(petStore1));
 	}
 
 	@Test

@@ -19,6 +19,13 @@ public class ListDemo
 		list.add("test4");
 		list.add("test5");
 		System.out.println(list.size());
-		System.out.println(list.subList(6, list.size()));
+//		System.out.println(list.subList(6, list.size()));
+		String[] liststr = new String[list.size()];
+		String[] test = list.toArray(liststr);
+		System.out.println(test.length);
+		for(String str : liststr)
+		{
+			System.out.println(str);
+		}
 	}
 }

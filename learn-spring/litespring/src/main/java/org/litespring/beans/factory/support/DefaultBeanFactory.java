@@ -3,6 +3,7 @@ package org.litespring.beans.factory.support;
 import org.litespring.beans.BeanDefinition;
 import org.litespring.beans.factory.BeanCreationException;
 import org.litespring.beans.factory.BeanFactory;
+import org.litespring.beans.factory.config.ConfigurableBeanFactory;
 import org.litespring.util.ClassUtils;
 
 import java.util.Map;
@@ -11,9 +12,12 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * Created by xp-zhao on 2018/7/8.
  */
-public class DefaultBeanFactory implements BeanFactory,BeanDefinitionRegistry
+public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
+	implements BeanDefinitionRegistry, ConfigurableBeanFactory
 {
-	public final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
+	private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
+
+	private ClassLoader beanClassLoader;
 
 	public DefaultBeanFactory()
 	{
@@ -37,16 +41,35 @@ public class DefaultBeanFactory implements BeanFactory,BeanDefinitionRegistry
 		{
 			throw new BeanCreationException("Bean Definiton does not exist");
 		}
-		ClassLoader cl = ClassUtils.getDefaultClassLoader();
+		if(bd.isSingleton()){
+			Object bean = this.getSingleton(beanId);
+			if(bean == null){
+				bean = createBean(bd);
+				this.registerSingleton(beanId, bean);
+			}
+			return bean;
+		}
+		return createBean(bd);
+	}
+
+	private Object createBean(BeanDefinition bd) {
+		ClassLoader cl = this.getBeanClassLoader();
 		String beanClassName = bd.getBeanClassName();
-		try
-		{
+		try {
 			Class<?> clz = cl.loadClass(beanClassName);
 			return clz.newInstance();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new BeanCreationException("create bean for "+ beanClassName +" failed",e);
 		}
+	}
+
+	public void setBeanClassLoader(ClassLoader beanClassLoader)
+	{
+		this.beanClassLoader = beanClassLoader;
+	}
+
+	public ClassLoader getBeanClassLoader()
+	{
+		return (this.beanClassLoader != null ? this.beanClassLoader : ClassUtils.getDefaultClassLoader());
 	}
 }
