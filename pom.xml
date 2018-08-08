@@ -24,6 +24,7 @@
         <module>learn-lambda</module>
         <module>learn-mq</module>
         <module>learn-mybatis</module>
+        <module>leetcode</module>
     </modules>
 
 
