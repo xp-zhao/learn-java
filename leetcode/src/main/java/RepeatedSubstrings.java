@@ -11,7 +11,7 @@ public class RepeatedSubstrings
 {
 	public static void main(String[] args)
 	{
-		String str = "bbb";
+		String str = "pwwde";
 		System.out.println(method1(str));
 		System.out.println(method2(str));
 		System.out.println(method3(str));
@@ -68,7 +68,7 @@ public class RepeatedSubstrings
 		Map<Character, Integer> map = new HashMap<>();
 		for(int j = 0,i = 0; j < size; j++){
 			if(map.containsKey(str.charAt(j))){
-				i = Math.max(map.get(str.charAt(j)) , i);
+				i = map.get(str.charAt(j));
 			}
 			max = Math.max(max,j - i + 1);
 			map.put(str.charAt(j),j + 1);
