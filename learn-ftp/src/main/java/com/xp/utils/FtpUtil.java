@@ -73,7 +73,7 @@ public class FtpUtil
 			//设置上传文件的类型为二进制类型
 			ftp.setFileType(FTP.BINARY_FILE_TYPE);
 			//上传文件
-//			ftp.enterLocalPassiveMode();
+			ftp.enterLocalPassiveMode();
 			ftp.setControlEncoding("UTF-8");
 			ftp.setFileTransferMode(FTP.BINARY_FILE_TYPE);
 			if(!ftp.storeFile(filename, input))
@@ -209,19 +209,19 @@ public class FtpUtil
 		String password = PropertiesUtil.getInstance("ftp").get("ftp.password");
 		String filepath = PropertiesUtil.getInstance("ftp").get("ftp.filepath");
 
-		downloadFile(address,port,username,password,filepath,"test",".");
+//		downloadFile(address,port,username,password,filepath,"test",".");
 
-//		try
-//		{
-//			FileInputStream in = new FileInputStream(new File(
-//				"D:\\migu-userGroup\\log\\index.css"));
-//			boolean flag = uploadFile(address, port, username, password, "/", "", "playlist_20170824.txt",
-//				in);
-//			System.out.println(flag);
-//		}
-//		catch (FileNotFoundException e)
-//		{
-//			e.printStackTrace();
-//		}
+		try
+		{
+			FileInputStream in = new FileInputStream(new File(
+				"D:\\migu-userGroup\\log\\index.css"));
+			boolean flag = uploadFile(address, port, username, password, "/", "", "playlist_20170824.txt",
+				in);
+			System.out.println(flag);
+		}
+		catch (FileNotFoundException e)
+		{
+			e.printStackTrace();
+		}
 	}
 }

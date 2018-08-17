@@ -1,7 +1,10 @@
 package com.xp;
 
+import com.xp.service.FileUpload;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import java.io.FileNotFoundException;
 
 /**
  * Created by xp-zhao on 2018/5/3.
@@ -28,6 +31,14 @@ public class APP
 			System.out.println("---------------");
 			e.printStackTrace();
 			return;
+		}
+		try
+		{
+			FileUpload.upload();
+		}
+		catch (FileNotFoundException e)
+		{
+			System.out.println("");
 		}
 	}
 }
