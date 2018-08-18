@@ -8,39 +8,37 @@ public class MedianSortedArrays
 {
 	public static void main(String[] args)
 	{
-		int[] nums1 = {1 , 2, 3, 4};
-		int[] nums2 = {3 , 4, 5};
-		System.out.println(method(nums1,nums2));
-	}
-
-	public static float method(int[] nums1,int[] nums2){
-		float result = 0;
-		int index = 0;
-//		int[] nums = Arrays.copyOf(nums1,nums1.length + nums2.length);
-		int[] nums = new int[nums1.length+nums2.length];
-		int i = 0, j = 0;
-		while(i < nums1.length && j < nums2.length){
-			if(nums1[i] > nums2[j]){
-				nums[index++] = nums2[j++];
-			}else {
-				nums[index++] = nums1[i++];
-			}
-		}
-		while(i < nums1.length){
-			nums[index++] = nums1[i++];
-		}
-		while(j < nums2.length){
-			nums[index++] = nums2[j++];
-		}
+		int[] nums1 = {};
+		int[] nums2 = {1};
+		int[] nums = merge(nums1 , nums2);
 		System.out.println(Arrays.toString(nums));
-		float k = (float) (nums.length / 2.0);
+		int size = nums.length / 2;
 		int flag = nums.length % 2;
 		if(flag == 0){
-			result = (float) (nums[(int) k] + nums[(int) k - 1]/ 2.0);
+			System.out.println((nums[size - 1] + nums[size]) / 2.0);
 		}else{
-			result = (float) (nums[(int) (k - 0.5)] / 2.0);
+			System.out.println(nums[size]);
 		}
-		System.out.println(nums.length);
-		return result;
+	}
+
+	public static int[] merge(int[] nums1,int[] nums2){
+		int size1 = nums1.length;
+		int size2 = nums2.length;
+		int[] nums = new int[size1 + size2];
+		int i = 0, j = 0, k = 0;
+		while(i < size1 && j < size2){
+			if(nums1[i] < nums2[j]){
+				nums[k++] = nums1[i++];
+			}else{
+				nums[k++] = nums2[j++];
+			}
+		}
+		while(i < size1){
+			nums[k++] = nums1[i++];
+		}
+		while(j < size2){
+			nums[k++] = nums2[j++];
+		}
+		return nums;
 	}
 }
