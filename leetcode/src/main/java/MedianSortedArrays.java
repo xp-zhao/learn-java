@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 /**
- *  两个排序数组的中位数
+ *  4. 两个排序数组的中位数
  * Created by xp-zhao on 2018/8/9.
  */
 public class MedianSortedArrays
