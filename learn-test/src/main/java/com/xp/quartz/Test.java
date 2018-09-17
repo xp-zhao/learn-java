@@ -26,7 +26,10 @@ public class Test
 		{
 			expression = new CronExpression(cron);
 			Date newDate = expression.getNextValidTimeAfter(curTime);
+			Date afterDate = expression.getNextValidTimeAfter(newDate);
 			System.out.println(newDate);
+			System.out.println(afterDate);
+			System.out.println((afterDate.getTime() - newDate.getTime()) / 1000);
 		} catch (ParseException e) {
 			System.out.println("fail to parse cron express");
 		} catch (Exception e) {
