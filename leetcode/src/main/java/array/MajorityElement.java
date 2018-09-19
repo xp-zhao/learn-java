@@ -15,18 +15,61 @@ public class MajorityElement
 {
 	public static void main(String[] args)
 	{
-		int[] nums = {3 , 2 , 3};
+		int[] nums = { 8,8,7,7,7 };
 		System.out.println(majorityElement(nums));
+		System.out.println(majorityElement2(nums));
 	}
 
+	/**
+	 * 自己的解法
+	 * @param nums
+	 * @return
+	 */
 	public static int majorityElement(int[] nums) {
+		long startTime = System.currentTimeMillis();
 		int count = nums.length / 2;
+		int size;
 		Map<Integer, Integer> map = new HashMap<>();
 		for(int i = 0; i < nums.length; i++){
 			if(map.containsKey(nums[i])){
+				size = map.get(nums[i]);
+				size++;
+				if(size > count){
+					return nums[i];
+				}
+				map.put(nums[i] , size);
+				continue;
+			}
+			map.put(nums[i] , 1);
+		}
+		long endTime = System.currentTimeMillis();
+		System.out.println(endTime - startTime);
+		return nums[0];
+	}
 
+	/**
+	 * 其它优秀解法
+	 * @param nums
+	 * @return
+	 */
+	public static int majorityElement2(int[] nums) {
+		long startTime = System.currentTimeMillis();
+		int result = nums[0];
+		int count = 0;
+		for(int num : nums){
+			if(count == 0){
+				result = num;
+				count++;
+			}else{
+				if(result == num){
+					count++;
+				}else{
+					count--;
+				}
 			}
 		}
-		return 0;
+		long endTime = System.currentTimeMillis();
+		System.out.println(endTime - startTime);
+		return result;
 	}
 }
