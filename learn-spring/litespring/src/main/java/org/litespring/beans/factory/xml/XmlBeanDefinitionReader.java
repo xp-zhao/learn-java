@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 /**
+ * 读取解析 xml 文件
  * Created by xp-zhao on 2018/7/9.
  */
 public class XmlBeanDefinitionReader

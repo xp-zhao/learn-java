@@ -7,7 +7,7 @@ import org.junit.runners.Suite;
  * Created by xp-zhao on 2018/7/23.
  */
 @RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite.SuiteClasses ({
 	ApplicationContextTest.class,
 	BeanFactoryTest.class,
 	ResourceTest.class})
