@@ -16,7 +16,10 @@ public class Singleton
 		if(null == instance){
 			synchronized (Singleton.class){
 				if(null == instance){
-					instance = new Singleton();
+					instance = new Singleton(); // 非原子操作
+					// 1. 开辟一个空间
+					// 2. 将空间赋值给变量
+					// 3. 对这个空间进行初始化
 				}
 			}
 		}
