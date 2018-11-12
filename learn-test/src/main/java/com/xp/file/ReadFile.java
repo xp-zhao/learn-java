@@ -37,6 +37,7 @@ public class ReadFile implements Runnable
 			fis = new FileInputStream(file);
 			BufferedInputStream bis = new BufferedInputStream(fis);
 			reader = new BufferedReader(new InputStreamReader(bis,"UTF-8"), 10 * 1024 * 1024);//10M缓存
+			System.out.println("读文件线程，使用内存="+(Runtime.getRuntime().totalMemory()-Runtime.getRuntime().freeMemory()) / 1024 / 1024+"M");
 			List<String> list = new ArrayList<>(500);
 //			while(it.hasNext())
 			while((line = reader.readLine()) != null)
