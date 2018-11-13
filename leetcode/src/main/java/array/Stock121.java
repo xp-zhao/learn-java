@@ -63,7 +63,7 @@ public class Stock121
 			{
 				min = prices[i];
 			}
-			if(prices[i] - min > max)
+			else if(prices[i] - min > max)
 			{
 				max = prices[i] - min;
 			}
