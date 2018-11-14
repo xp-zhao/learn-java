@@ -1,6 +1,9 @@
 package com.xp.test;
 
+import org.apache.commons.collections4.CollectionUtils;
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -12,27 +15,9 @@ public class Test
 
 	public static void main(String[] args)
 	{
-//		List<String> list = new ArrayList<>();
-//		list.add("1");
-//		list.add("2");
-//		list.add("3");
-//		list.add("4");
-//		list.add("5");
-//		System.out.println(list.subList(1,3));
-//		JT();
-//		System.out.println(reverse(56));
-//		System.out.println(reverse("xp"));
-//		String str = "param1=sdf";
-////		String token = str.substring(str.indexOf("param1"), str.lastIndexOf("&"));
-//		String[] test = str.split("param1=|&");
-//		System.out.println("test");
-////		System.out.println(token.substring(token.indexOf("=")+1));
-
-//		int[] arr = {1,2,3,4};
-//		String[] arr1 = {"111","222"};
-//
-//		System.out.println(arr.toString());
-//		System.out.println(arr1.toString());
+		List<Integer> list = new ArrayList<>(Collections.nCopies(3,0));
+		System.out.println(list);
+		list.add(1,2);
 	}
 
 	public static String reverse(String str)
