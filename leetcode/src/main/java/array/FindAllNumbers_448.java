@@ -3,6 +3,7 @@ package array;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,17 +25,24 @@ public class FindAllNumbers_448
 {
 	public static void main(String[] args)
 	{
-		int[] nums = {4 , 3 , 2 , 7 , 8 , 2 , 3 , 1};
+//		int[] nums = {4 , 3 , 2 , 7 , 8 , 2 , 3 , 1};
 //		int[] nums = {2,2};
 //		int[] nums = {5,4,6,7,9,3,10,9,5,6};
-//		int[] nums = {10,2,5,10,9,1,1,4,3,7};
+		int[] nums = {10,2,5,10,9,1,1,4,3,7};
 		System.out.println(findDisappearedNumbers(nums));
 	}
 
 	public static List<Integer> findDisappearedNumbers(int[] nums) {
 		List<Integer> result = new ArrayList<>();
+		int index;
 		for(int i = 0; i < nums.length; i++){
-			if(!ArrayUtils.contains(nums,i + 1)){
+			index = Math.abs(nums[i]) - 1;
+			if(nums[index] > 0){
+				nums[index] = -nums[index];
+			}
+		}
+		for(int i = 0; i < nums.length; i++){
+			if(nums[i] > 0){
 				result.add(i + 1);
 			}
 		}
