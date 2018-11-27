@@ -3,6 +3,8 @@ package com.xp.part1;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.util.stream.Collectors.toList;
+
 /**
  * Created by xp-zhao on 2018/11/26.
  */
@@ -25,6 +27,7 @@ public class Test
 		System.out.println(filterApples(apples,(Apple a) -> a.getWeight() > 10));
 		System.out.println(filterApples(apples,(Apple a) -> a.getWeight() > 20 && "green".equals(a.getColor())));
 		System.out.println("---------------------------------------");
+		System.out.println(apples.stream().filter((Apple a) -> a.getWeight() > 10).collect(toList()));
 	}
 
 	private static List<Apple> filterWeightApples(List<Apple> apples)

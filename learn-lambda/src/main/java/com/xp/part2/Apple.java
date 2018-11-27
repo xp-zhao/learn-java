@@ -1,4 +1,4 @@
-package com.xp.part1;
+package com.xp.part2;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
