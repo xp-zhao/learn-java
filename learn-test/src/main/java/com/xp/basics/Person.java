@@ -7,6 +7,8 @@ public class Person
 {
 	private String name;
 
+	public Person(){}
+
 	public Person(String name)
 	{
 		this.name = name;
@@ -20,5 +22,9 @@ public class Person
 	public void setName(String name)
 	{
 		this.name = name;
+	}
+
+	private String get(){
+		return name;
 	}
 }
