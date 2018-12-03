@@ -1,6 +1,7 @@
 package array;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -24,12 +25,16 @@ public class LeetCode_830_PositionsOfLargeGroups {
     public static void main(String[] args) {
         String str = "abbxxxxzzy";
         System.out.println(largeGroupPositions(str));
+        System.out.println(largeGroupPositions1(str));
         String str1 = "abc";
         System.out.println(largeGroupPositions(str1));
+        System.out.println(largeGroupPositions1(str1));
         String str2 = "abcdddeeeeaabbbcd";
         System.out.println(largeGroupPositions(str2));
+        System.out.println(largeGroupPositions1(str2));
         String str3 = "aaa";
         System.out.println(largeGroupPositions(str3));
+        System.out.println(largeGroupPositions1(str3));
     }
 
     public static List<List<Integer>> largeGroupPositions(String S) {
@@ -55,6 +60,34 @@ public class LeetCode_830_PositionsOfLargeGroups {
             temp.add(list.get(0));
             temp.add(list.get(list.size() - 1));
             result.add(temp);
+        }
+        return result;
+    }
+
+    /**
+     * 优化解法
+     * @param S
+     * @return
+     */
+    public static List<List<Integer>> largeGroupPositions1(String S) {
+        char[] ch = S.toCharArray();
+        List<List<Integer>> result = new ArrayList<>();
+        int count = 1;
+        int start = 0;
+        for(int i = 1; i < ch.length; i++)
+        {
+            if(ch[i] == ch[i - 1]){
+                count++;
+            }else{
+                if(count >= 3){
+                    result.add(Arrays.asList(start,i - 1));
+                }
+                count = 1;
+                start = i;
+            }
+        }
+        if(count >= 3){
+            result.add(Arrays.asList(start,ch.length - 1));
         }
         return result;
     }

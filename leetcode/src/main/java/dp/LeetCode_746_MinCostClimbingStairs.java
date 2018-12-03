@@ -17,7 +17,7 @@ package dp;
 	 解释: 最低花费方式是从cost[0]开始，逐个经过那些1，跳过cost[3]，一共花费6。
  * Created by xp-zhao on 2018/11/22.
  */
-public class LeetCode_764_MinCostClimbingStairs
+public class LeetCode_746_MinCostClimbingStairs
 {
 	public static void main(String[] args)
 	{
