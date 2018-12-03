@@ -23,6 +23,7 @@ package array;
  这是可能的最大距离，所以答案是 3 。
  * Created by xp-zhao on 2018/12/3.
  */
+// todo
 public class LeetCode_849_MaximizeDistanceToClosestPerson
 {
 	public static void main(String[] args) {
