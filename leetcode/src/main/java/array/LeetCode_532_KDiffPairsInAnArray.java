@@ -1,8 +1,8 @@
 package array;
 
 import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 532. 数组中的K-diff数对
@@ -36,19 +36,60 @@ public class LeetCode_532_KDiffPairsInAnArray
 		int[] nums1 = {3 , 1 , 4 , 1 , 5};
 		int k1 = 2;
 		System.out.println(findPairs(nums1,k1));
+		System.out.println(findPairs1(nums1,k1));
 		int[] nums2 = {1 , 2 , 3 , 4 , 5};
 		int k2 = 1;
 		System.out.println(findPairs(nums2,k2));
+		System.out.println(findPairs1(nums2,k2));
 		int[] nums3 = {1, 3, 1, 5, 4};
 		int k3 = 0;
 		System.out.println(findPairs(nums3,k3));
+		System.out.println(findPairs1(nums3,k3));
 	}
 
 	public static int findPairs(int[] nums, int k) {
 		Arrays.sort(nums);
-		Set<Integer> set = new HashSet<>();
 		int count = 0;
-		
+		int temp;
+		for(int i = 0; i < nums.length; i++)
+		{
+			if(i > 0 && nums[i] == nums[i - 1]){
+				continue;
+			}
+			temp = nums[i] + k;
+			for(int j = i + 1; j < nums.length; j++){
+				if(temp == nums[j]){
+					count++;
+					break;
+				}
+			}
+		}
+		return count;
+	}
+
+	/**
+	 * 其它解法
+	 * @param nums
+	 * @param k
+	 * @return
+	 */
+	public static int findPairs1(int[] nums, int k) {
+		if(k < 0){
+			return 0;
+		}
+		int count = 0;
+		Map<Integer, Integer> map = new HashMap<>();
+		for(int i = 0; i < nums.length; i++)
+		{
+			map.put(nums[i] , i);
+		}
+		for(int i = 0; i < nums.length; i++)
+		{
+			if(map.containsKey(nums[i] + k) && map.get(nums[i] + k) != i){
+				count++;
+				map.remove(nums[i] + k);
+			}
+		}
 		return count;
 	}
 }
