@@ -23,42 +23,35 @@ public class LeetCode_665_NonDecreasingArray
 	public static void main(String[] args) {
 		int[] nums1 = {2,2,3,4};
 //		Assert.assertTrue(checkPossibility(nums1));
-		int[] nums2 = {4 , 5 , 1};
-//		Assert.assertTrue(checkPossibility(nums2));
+		int[] nums2 = {3,4,2,3};
+		Assert.assertTrue(checkPossibility(nums2));
 		int[] nums3 = {1 , 2 , 3 , 4 , 4 , 5 , 6};
 //		Assert.assertTrue(checkPossibility(nums3));
-		int[] nums4 = {2,3,3,2,4};
-		Assert.assertFalse(checkPossibility(nums4));
+		int[] nums4 = {2,3,3,2,1,2,3};
+//		Assert.assertFalse(checkPossibility(nums4));
 	}
 
 	public static boolean checkPossibility(int[] nums) {
-		int left = 0;
-		int right = nums.length - 1;
-		boolean leftStop = false;
-		boolean rightStop = false;
-		while(left < right){
-			if(nums[left] <= nums[left + 1]){
-				left++;
-			}else{
-				leftStop = true;
-			}
-			if(nums[right] >= nums[right - 1]){
-				right--;
-			}else{
-				rightStop = true;
-			}
-			if(leftStop && rightStop){
-				break;
+		boolean flag = false;
+		for(int i = 0; i < nums.length - 1; i++)
+		{
+			if(nums[i] > nums[i + 1]){
+				if(!flag){
+					if(i >= 1){
+						if(nums[i + 1] >= nums[i - 1]){
+							nums[i] = nums[i + 1];
+						}else{
+							nums[i + 1] = nums[i];
+						}
+					}else{
+						nums[i] = nums[i + 1];
+					}
+					flag = true;
+				}else{
+					return false;
+				}
 			}
 		}
-		if(left >= right){
-			return true;
-		}else if( left == 0 && right == 1){
-			return true;
-		}else if(nums[right + 1] > nums[left]){
-			return true;
-		}
-
-		return false;
+		return true;
 	}
 }
