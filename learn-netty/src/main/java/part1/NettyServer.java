@@ -35,6 +35,13 @@ public class NettyServer
 						}
 					});
 				}
-			}).bind(8000);
+			});
+		serverBootstrap.bind(1000).addListener(future -> {
+			if(future.isSuccess()){
+				System.out.println("端口绑定成功");
+			}else{
+				System.out.println("端口绑定失败");
+			}
+		});
 	}
 }
