@@ -1,9 +1,8 @@
 package com.xp.part5_stream.example;
 
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static java.util.stream.Collectors.groupingBy;
 
 /**
  * Created by xp-zhao on 2018/12/7.
@@ -65,5 +64,12 @@ public class Answer
 		Optional<Transaction> smallestTransaction = transactions.stream()
 			.min(Comparator.comparing(Transaction::getValue));
 		System.out.println(smallestTransaction);
+		// 交易总额
+		int sum = transactions.stream().map(Transaction::getValue).reduce(0 , Integer::sum);
+		System.out.println(sum);
+		int sum1 = transactions.stream().mapToInt(Transaction::getValue).sum();
+		System.out.println(sum1);
+		// 按照交易时间分组
+		Map<Integer, List<Transaction>> map = transactions.stream().collect((groupingBy(Transaction::getYear)));
 	}
 }
