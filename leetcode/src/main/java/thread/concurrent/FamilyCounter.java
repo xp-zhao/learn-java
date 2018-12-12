@@ -26,9 +26,8 @@ public class FamilyCounter implements Counter
 		Counter counter = new FamilyCounter();
 		long startTime = System.currentTimeMillis();
 		long value = counter.count(riceArray);
-		System.out.println(value);
 		long endTime = System.currentTimeMillis();
-		System.out.println("消耗时间(毫秒)：" + (endTime - startTime));
+		System.out.println("八个人消耗时间(毫秒)：" + (endTime - startTime) + ", 数量" + value);
 	}
 
 	private static class CounterRiceTask implements Callable<Long>{
@@ -90,7 +89,7 @@ public class FamilyCounter implements Counter
 		return total;
 	}
 
-	private static int[] createArray(long length)
+	public static int[] createArray(long length)
 	{
 		int[] result = new int[(int) length];
 		for(int i = 0; i < length; i++)

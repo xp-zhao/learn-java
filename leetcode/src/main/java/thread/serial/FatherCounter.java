@@ -10,13 +10,17 @@ public class FatherCounter implements Counter
 {
 	public static void main(String[] args)
 	{
+		 int num = Integer.valueOf("29");
+		Integer.parseInt("29");
+		System.out.println(num);
+
 		long length = (long) 1.2e8;
 		int[] riceArray = createArray(length);
 		Counter counter = new FatherCounter();
 		long startTime = System.currentTimeMillis();
 		long value = counter.count(riceArray);
 		long endTime = System.currentTimeMillis();
-		System.out.println("消耗时间(毫秒)：" + (endTime - startTime));
+		System.out.println("一个人消耗时间(毫秒)：" + (endTime - startTime) + ",数量：" + value);
 	}
 
 	@Override
@@ -29,7 +33,7 @@ public class FatherCounter implements Counter
 			{
 				total += 1;
 			}
-			if(total > 1e8)
+			if(total >= 1e8)
 			{
 				break;
 			}
