@@ -1,6 +1,7 @@
 package org.litespring.beans.factory.support;
 
 import org.litespring.beans.BeanDefinition;
+import org.litespring.beans.ConstructorArgument;
 import org.litespring.beans.PropertyValue;
 
 import java.util.ArrayList;
@@ -19,19 +20,50 @@ public class GenericBeanDefinition implements BeanDefinition
 
 	List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
 
+	private ConstructorArgument constructorArgument = new ConstructorArgument();
+
 	public GenericBeanDefinition(String id, String beanClassName) {
 
 		this.id = id;
 		this.beanClassName = beanClassName;
 	}
+
+	public GenericBeanDefinition()
+	{
+
+	}
+
 	public String getBeanClassName() {
 
 		return this.beanClassName;
 	}
 
+	public void setBeanClassName(String className){
+		this.beanClassName = className;
+	}
+
 	public List<PropertyValue> getPropertyValues()
 	{
 		return this.propertyValues;
+	}
+
+	public ConstructorArgument getConstructorArgument()
+	{
+		return this.constructorArgument;
+	}
+
+	public String getID()
+	{
+		return this.id;
+	}
+
+	public void setId(String id){
+		this.id = id;
+	}
+
+	public boolean hasConstructorArgumentValues()
+	{
+		return !this.constructorArgument.isEmpty();
 	}
 
 	public boolean isSingleton() {
