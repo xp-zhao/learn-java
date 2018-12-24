@@ -26,6 +26,7 @@
         <module>learn-mybatis</module>
         <module>leetcode</module>
         <module>learn-netty</module>
+        <module>learn-algorithm</module>
     </modules>
 
 
