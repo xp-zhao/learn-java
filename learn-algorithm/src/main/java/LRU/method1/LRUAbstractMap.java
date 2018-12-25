@@ -54,6 +54,57 @@ public class LRUAbstractMap extends AbstractMap
 		return null;
 	}
 
+	@Override
+	public Object get(Object key){
+		int hash = hash(key);
+		int index = hash % arraySize;
+		Node currentNode = (Node) arrays[index];
+		if(currentNode == null){
+			return null;
+		}
+		if(currentNode.getNext() == null){
+			currentNode.setUpdateTime(System.currentTimeMillis());
+			return currentNode;
+		}
+		Node nNode = currentNode;
+		while(nNode.getNext() != null){
+			if(nNode.getKey().equals(key)){
+				currentNode.setUpdateTime(System.currentTimeMillis());
+				return nNode;
+			}
+			nNode = nNode.getNext();
+		}
+		return super.get(key);
+	}
+
+	@Override
+	public Object remove(Object key){
+		int hash = hash(key);
+		int index = hash % arraySize;
+		Node currentNode = (Node) arrays[index];
+		if(currentNode == null){
+			return null;
+		}
+		if(currentNode.getKey() == key){
+			sizeDown();
+			arrays[index] = null;
+			QUEUE.poll();
+			return currentNode;
+		}
+		Node nNode = currentNode;
+		while(nNode.getNext() != null){
+			if(nNode.getKey().equals(key)){
+				sizeDown();
+				nNode.getPre().setNext(nNode.getNext());
+				nNode = null;
+				QUEUE.poll();
+				return nNode;
+			}
+			nNode = nNode.getNext();
+		}
+		return super.remove(key);
+	}
+
 	/**
 	 * 增加 size
 	 */
@@ -93,5 +144,12 @@ public class LRUAbstractMap extends AbstractMap
 	public Set<Entry> entrySet()
 	{
 		return super.keySet();
+	}
+
+	public static void main(String[] args) {
+		LRUAbstractMap map = new LRUAbstractMap();
+		map.put("1" , 1);
+		map.put("2" , 2);
+		
 	}
 }

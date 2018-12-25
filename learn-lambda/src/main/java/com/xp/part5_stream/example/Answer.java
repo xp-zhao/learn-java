@@ -1,6 +1,7 @@
 package com.xp.part5_stream.example;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.groupingBy;
 
@@ -23,15 +24,14 @@ public class Answer
 			new Transaction(alan, 2012, 950)
 		);
 		// 找出2011年发生的所有交易，并按交易额排序（从低到高）.
-		transactions.stream()
-			.filter(t -> t.getYear() == 2011)
+		transactions.stream().filter(t -> t.getYear() == 2011)
 			.sorted(Comparator.comparing(Transaction::getValue))
 			.forEach(System.out::println);
 		// 交易员都在哪些不同的城市工作过?
-		transactions.stream()
+		List<String> citys = transactions.stream()
 			.map(transaction -> transaction.getTrader().getCity())
-			.distinct()
-			.forEach(System.out::println);
+			.distinct().collect(Collectors.toList());
+//			.forEach(System.out::println);
 		// 查找所有来自于剑桥的交易员，并按姓名排序。
 		transactions.stream()
 			.map(transaction -> transaction.getTrader())
