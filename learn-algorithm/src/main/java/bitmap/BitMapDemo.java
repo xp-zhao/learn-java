@@ -16,18 +16,18 @@ import java.util.Arrays;
 public class BitMapDemo
 {
 	public static void main(String[] args) {
-		int[] bitmap = new int[32];
+		byte[] bitmap = new byte[32];
 		int[] nums = {1 , 4 , 6 , 30 , 31 , 8 , 10};
 		for(int num : nums)
 		{
 			bitmap[num] = 1;
 		}
 		System.out.println(Arrays.toString(bitmap));
-		int num = 10;
+		int num = 5;
 		System.out.println(isExist(num,bitmap));
 	}
 
-	public static boolean isExist(int num,int[] bitmap){
+	public static boolean isExist(int num,byte[] bitmap){
 		if(bitmap[num] == 0){
 			return false;
 		}

@@ -1,6 +1,8 @@
 package BinarySearch;
 
 /**
+ * 二分查找算法（所查找的数组必须是有序的）
+ * 时间复杂度：O(logn)
  * Created by xp-zhao on 2018/12/25.
  */
 public class BinarySearch
