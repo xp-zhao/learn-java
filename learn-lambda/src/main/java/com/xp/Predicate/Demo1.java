@@ -24,6 +24,7 @@ public class Demo1
 		int count = collected.stream().reduce(0,(acc,element) -> acc + element);
 		System.out.println(collected);
 		System.out.println(count);
+
 	}
 
 }
