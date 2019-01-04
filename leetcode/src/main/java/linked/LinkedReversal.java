@@ -12,15 +12,15 @@ import java.util.List;
 public class LinkedReversal
 {
 	public static void main(String[] args) {
-		LinkedNode node = createLinked();
+		ListNode node = createLinked();
 		printLinked(node);
-		LinkedNode result = reverse(node);
+		ListNode result = reverse(node);
 		printLinked(result);
 	}
 
-	public static LinkedNode reverse(LinkedNode current){
-		LinkedNode previous = null;
-		LinkedNode next;
+	public static ListNode reverse(ListNode current){
+		ListNode previous = null;
+		ListNode next;
 		while(current != null){
 			next = current.getNext();
 			current.setNext(previous);
@@ -30,16 +30,16 @@ public class LinkedReversal
 		return previous;
 	}
 
-	public static LinkedNode createLinked(){
-		LinkedNode head = new LinkedNode(1);
-		LinkedNode next = new LinkedNode(2);
-		LinkedNode nextNext = new LinkedNode(3);
+	public static ListNode createLinked(){
+		ListNode head = new ListNode(1);
+		ListNode next = new ListNode(2);
+		ListNode nextNext = new ListNode(3);
 		head.setNext(next);
 		next.setNext(nextNext);
 		return head;
 	}
 
-	public static void printLinked(LinkedNode node){
+	public static void printLinked(ListNode node){
 		List<Integer> list = new ArrayList<>();
 		while(node != null){
 			list.add(node.getValue());
