@@ -97,4 +97,17 @@ public class LoopQueue<E> implements Queue<E>
 		sb.append("] tail");
 		return sb.toString();
 	}
+
+	public static void main(String[] args) {
+		LoopQueue<Integer> queue = new LoopQueue<>();
+		for(int i = 0; i < 10; i++)
+		{
+			queue.enQueue(i);
+			System.out.println(queue);
+			if(i % 3 == 2){
+				queue.deQueue();
+				System.out.println(queue);
+			}
+		}
+	}
 }

@@ -8,24 +8,18 @@ import java.util.Random;
 public class Main
 {
 	public static void main(String[] args) {
-//		ArrayQueue<Integer> queue = new ArrayQueue<>();
-//		LoopQueue<Integer> queue = new LoopQueue<>();
-//		for(int i = 0; i < 10; i++)
-//		{
-//			queue.enQueue(i);
-//			System.out.println(queue);
-//			if(i % 3 == 2){
-//				queue.deQueue();
-//				System.out.println(queue);
-//			}
-//		}
 		int oprCount = 100000;
 		ArrayQueue<Integer> arrayQueue = new ArrayQueue<>();
 		double time1 = testQueue(arrayQueue , oprCount);
 		System.out.println("ArrayQueue, time: " + time1 + " s");
+
 		LoopQueue<Integer> loopQueue = new LoopQueue<>();
 		double time2 = testQueue(loopQueue , oprCount);
 		System.out.println("LoopQueue, time: " + time2 + " s");
+
+		LinkedListQueue<Integer> linkedListQueue = new LinkedListQueue<>();
+		double time3 = testQueue(linkedListQueue , oprCount);
+		System.out.println("LinkedListQueue, time: " + time3 + " s");
 	}
 
 	private static double testQueue(Queue<Integer> queue,int oprCount){
