@@ -18,7 +18,8 @@ public class LeetCode_203_RemoveLinkedListElements
 		ListNode head = new ListNode(nums);
 		System.out.println(head);
 //		System.out.println(new LeetCode_203_RemoveLinkedListElements().removeElements(head , 6));
-		System.out.println(new LeetCode_203_RemoveLinkedListElements().removeElements1(head , 6));
+//		System.out.println(new LeetCode_203_RemoveLinkedListElements().removeElements1(head , 6));
+		System.out.println(new LeetCode_203_RemoveLinkedListElements().removeElements2(head , 6, 0));
 	}
 
 	public ListNode removeElements(ListNode head, int val) {
@@ -59,5 +60,45 @@ public class LeetCode_203_RemoveLinkedListElements
 			}
 		}
 		return dummyHead.next;
+	}
+
+	/**
+	 * 递归调用
+	 * @param head
+	 * @param val
+	 * @return
+	 */
+	public ListNode removeElements2(ListNode head, int val, int depth){
+		String depthString = generateDepthString(depth);
+		System.out.print(depthString);
+		System.out.println("Call: remove " + val + " in " + head);
+		if(head == null){
+			System.out.print(depthString);
+			System.out.println("Return: " + head);
+			return null;
+		}
+		ListNode temp = head.next = removeElements2(head.next , val, depth + 1);
+		System.out.print(depthString);
+		System.out.println("After remote " + val + ": " + temp);
+
+		ListNode ret;
+		if(head.value == val){
+			ret = temp;
+		}else{
+			head.next = temp;
+			ret = head;
+		}
+		System.out.print(depthString);
+		System.out.println("Return: " + ret);
+		return head.value == val ? head.next : head;
+	}
+
+	private String generateDepthString(int depth){
+		StringBuilder sb = new StringBuilder();
+		for(int i = 0; i < depth; i++)
+		{
+			sb.append("--");
+		}
+		return sb.toString();
 	}
 }
