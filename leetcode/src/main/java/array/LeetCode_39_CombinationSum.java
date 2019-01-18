@@ -1,6 +1,7 @@
 package array;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -45,11 +46,11 @@ public class LeetCode_39_CombinationSum
 		if(candidates.length == 0){
 			return result;
 		}
-		dfs(result,new ArrayList<>(),candidates,target,0);
+		dfs(result,new LinkedList<>(),candidates,target,0);
 		return result;
 	}
 
-	public static void dfs(List<List<Integer>> result, List<Integer> list, int[] candidates, int target, int index){
+	public static void dfs(List<List<Integer>> result, LinkedList<Integer> list, int[] candidates, int target, int index){
 		int sum = list.stream().reduce(0,Integer::sum);
 		if(sum >= target){
 			if(sum == target){
@@ -59,9 +60,9 @@ public class LeetCode_39_CombinationSum
 		}else{
 			for(int i = index; i < candidates.length; i++)
 			{
-				list.add(candidates[i]);
+				list.push(candidates[i]);
 				dfs(result, list, candidates, target, i);
-				list.remove(list.size() - 1);
+				list.pop();
 			}
 		}
 	}
