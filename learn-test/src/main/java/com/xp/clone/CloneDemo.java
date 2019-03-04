@@ -12,5 +12,28 @@ public class CloneDemo
 		Student student2 = (Student) student.clone(); // 复制对象（克隆），student、student2 指向不同的对象
 		String result = student.getName() == student2.getName() ? "clone 是浅拷贝的" : "clone 是深拷贝的";
 		System.out.println(result);
+		System.out.println(student);
+		change(student);
+		System.out.println(student);
+		char ch = '我';
+		System.out.println(ch);
+		System.out.println(getNum());
+	}
+
+	public static void change(Student student){
+		student.setName("hj");
+	}
+
+	public static int getNum(){
+		try
+		{
+			int a = 1 / 0;
+			return 1;
+		}catch (Exception e){
+			return 2;
+		}finally
+		{
+			return 3;
+		}
 	}
 }
