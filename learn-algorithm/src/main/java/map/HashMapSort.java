@@ -11,6 +11,9 @@ import java.util.*;
 public class HashMapSort
 {
 	public static void main(String[] args) {
+		User user = new User();
+		User user1 = new User1();
+		User user2 = new User2();
 		System.out.println(getNum(0.1));
 		HashMap<Integer, User> map = new HashMap<>();
 		map.put(1 , new User(25 , "张三"));
