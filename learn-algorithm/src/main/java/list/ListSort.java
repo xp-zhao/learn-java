@@ -2,8 +2,7 @@ package list;
 
 import map.User;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**

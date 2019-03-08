@@ -1,11 +1,5 @@
 package com.xp.test;
 
-import org.apache.commons.collections4.CollectionUtils;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 /**
  * Created by xp-zhao on 2018/2/12.
  */
@@ -15,9 +9,19 @@ public class Test
 
 	public static void main(String[] args)
 	{
-		List<Integer> list = new ArrayList<>(Collections.nCopies(3,0));
-		System.out.println(list);
-		list.add(1,2);
+//		List<Integer> list = new ArrayList<>(Collections.nCopies(3,0));
+//		System.out.println(list);
+//		list.add(1,2);
+		System.out.println(method(0));
+
+	}
+
+	public static int method(int n){
+		int m = n == 0 ? 0 : 1;
+		while(n == (n & (n - 1))){
+			m++;
+		}
+		return m;
 	}
 
 	public static String reverse(String str)
