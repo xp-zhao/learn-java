@@ -1,6 +1,4 @@
-package array;
-
-import java.io.FileReader;
+package linked;
 
 /**
  * 21. 合并两个有序链表
