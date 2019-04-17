@@ -11,7 +11,8 @@ public class VolatileDeadLock
 	public static volatile boolean flag = false;
 
 	static class AgeThread implements Runnable{
-		@Override public void run()
+		@Override
+		public void run()
 		{
 			System.out.println("AgeThread start");
 			try
@@ -28,7 +29,8 @@ public class VolatileDeadLock
 	}
 
 	static class GradeThread implements Runnable{
-		@Override public void run()
+		@Override
+		public void run()
 		{
 			System.out.println("GradeThread start");
 			while(!flag){
