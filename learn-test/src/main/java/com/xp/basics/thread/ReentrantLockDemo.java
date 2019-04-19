@@ -1,15 +1,26 @@
 package com.xp.basics.thread;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 /**
  * Created by xp-zhao on 2019/4/18.
  */
-class Phone{
+class Phone implements Runnable{
 	public synchronized void sendSMS(){
 		System.out.println(Thread.currentThread().getName()+"\t invoked sendSMS()");
 		sendEmail();
 	}
 	public synchronized void sendEmail(){
 		System.out.println(Thread.currentThread().getName()+"\t invoked sendEmail()");
+	}
+
+	Lock lock = new ReentrantLock();
+
+	@Override
+	public void run()
+	{
+
 	}
 }
 
