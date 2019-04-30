@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
+import java.time.format.DateTimeFormatter;
 
 /**
  * 同时表示时期和时间
@@ -11,6 +12,8 @@ import java.time.Month;
 public class LocalDateTimeDemo {
     public static void main(String[] args) {
         LocalDateTime dateTime = LocalDateTime.of(2019, Month.APRIL, 24, 11, 36, 40);
+        // 格式化显示
+        System.out.println(dateTime.format(DateTimeFormatter.ISO_LOCAL_DATE));
         LocalDate date = LocalDate.now();
         LocalTime time = LocalTime.now();
         LocalDateTime dateTime1 = LocalDateTime.of(date, time);
