@@ -9,7 +9,7 @@ import java.util.List;
  * 链表反转
  * Created by xp-zhao on 2018/12/11.
  */
-public class LinkedReversal
+public class LeetCode_206_LinkedReversal
 {
 	public static void main(String[] args) {
 		ListNode node = createLinked();
