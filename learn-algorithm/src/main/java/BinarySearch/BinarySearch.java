@@ -8,8 +8,8 @@ package BinarySearch;
 public class BinarySearch
 {
 	public static void main(String[] args) {
-		int[] sortedArrays = {1 , 2 , 3 , 4 , 5 , 6 , 7 , 8 , 9};
-		System.out.println(search(sortedArrays,10));
+		int[] sortedArrays = {1 , 2 , 3 , 3, 4 , 5 , 6 , 7 , 8 , 9};
+		System.out.println(search(sortedArrays,3));
 	}
 
 	public static int search(int[] arrays,int value){
