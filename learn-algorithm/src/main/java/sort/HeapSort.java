@@ -67,7 +67,7 @@ public class HeapSort {
     }
 
     /**
-     * 从下往上堆化
+     * 从下往上堆化，数组从下标 1 到 n
      * @param array
      * @param n
      */
