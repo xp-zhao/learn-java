@@ -23,6 +23,12 @@ public class Answer
 			new Transaction(mario, 2012, 700),
 			new Transaction(alan, 2012, 950)
 		);
+		// 找出 2010-2011 年之间的交易
+		transactions.stream()
+				.filter(item -> item.getYear() >= 2010)
+				.filter(item -> item.getYear() <= 2011)
+				.distinct()
+				.forEach(System.out::println);
 		// 找出2011年发生的所有交易，并按交易额排序（从低到高）.
 		transactions.stream().filter(t -> t.getYear() == 2011)
 			.sorted(Comparator.comparing(Transaction::getValue))
