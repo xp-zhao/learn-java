@@ -1,12 +1,11 @@
 package part1;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringEncoder;
-
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -16,6 +15,8 @@ import java.util.concurrent.TimeUnit;
 public class NettyClient {
 
   private static final Integer MAX_RETRY = 5;
+  private static final String HOST = "127.0.0.1";
+  private static final Integer PORT = 8000;
 
   public static void main(String[] args) {
     // 引导类
@@ -25,17 +26,21 @@ public class NettyClient {
     bootstrap
         .group(group) // 指定线程模型
         .channel(NioSocketChannel.class) // 指定 IO 类型为 NIO
-        .handler(new ChannelInitializer<Channel>() { // IO 处理逻辑
+        .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 500)
+        .option(ChannelOption.SO_KEEPALIVE, true)
+        .option(ChannelOption.TCP_NODELAY, true)
+        .handler(new ChannelInitializer<SocketChannel>() { // IO 处理逻辑
           @Override
-          protected void initChannel(Channel channel) {
-            channel.pipeline().addLast(new StringEncoder());
+          protected void initChannel(SocketChannel channel) {
+            // 指定连接数据读写逻辑
+            channel.pipeline().addLast(new FirstClientHandler());
           }
         });
-    connect(bootstrap, 8000, MAX_RETRY);
+    connect(bootstrap, HOST, PORT, MAX_RETRY);
   }
 
-  private static void connect(Bootstrap bootstrap, int port, int retry) {
-    bootstrap.connect("127.0.0.1", port).addListener(future -> {
+  private static void connect(Bootstrap bootstrap, String host, int port, int retry) {
+    bootstrap.connect(host, port).addListener(future -> {
       if (future.isSuccess()) {
         System.out.println("连接成功");
       } else if (retry == 0) {
@@ -47,7 +52,7 @@ public class NettyClient {
         int delay = 1 << order;
         System.err.println(new Date() + ": 连接失败，第" + order + "次重连……");
         bootstrap.config().group()
-            .schedule(() -> connect(bootstrap, 8000, retry - 1), delay, TimeUnit.SECONDS);
+            .schedule(() -> connect(bootstrap, host, port, retry - 1), delay, TimeUnit.SECONDS);
       }
     });
   }

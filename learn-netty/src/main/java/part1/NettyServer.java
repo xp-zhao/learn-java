@@ -1,13 +1,11 @@
 package part1;
 
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInitializer;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.string.StringDecoder;
 
 /**
  * Created by xp-zhao on 2018/11/26.
@@ -23,17 +21,13 @@ public class NettyServer {
     serverBootstrap
         .group(boss, worker)
         .channel(NioServerSocketChannel.class)
+        .option(ChannelOption.SO_BACKLOG, 1024)
+        .option(ChannelOption.SO_KEEPALIVE, true)
+        .option(ChannelOption.TCP_NODELAY, true)
         .childHandler(new ChannelInitializer<NioSocketChannel>() {
           @Override
           protected void initChannel(NioSocketChannel nioSocketChannel) {
-            nioSocketChannel.pipeline().addLast(new StringDecoder());
-            nioSocketChannel.pipeline().addLast(new SimpleChannelInboundHandler<String>() {
-              @Override
-              protected void channelRead0(
-                  ChannelHandlerContext channelHandlerContext, String s) {
-                System.out.println(s);
-              }
-            });
+            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
           }
         });
     serverBootstrap.handler(new ChannelInitializer<NioServerSocketChannel>() {
@@ -48,9 +42,9 @@ public class NettyServer {
     // 添加监听器，监听端口是否绑定成功
     serverBootstrap.bind(port).addListener(future -> {
       if (future.isSuccess()) {
-        System.out.println("端口绑定成功");
+        System.out.println("端口[" + port + "]绑定成功");
       } else {
-        System.out.println("端口绑定失败");
+        System.out.println("端口[" + port + "]绑定失败");
         bind(serverBootstrap, port + 1);
       }
     });
