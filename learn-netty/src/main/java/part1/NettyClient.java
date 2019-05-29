@@ -15,23 +15,40 @@ import java.util.concurrent.TimeUnit;
  */
 public class NettyClient {
 
-  public static void main(String[] args) throws InterruptedException {
+  private static final Integer MAX_RETRY = 5;
+
+  public static void main(String[] args) {
+    // 引导类
     Bootstrap bootstrap = new Bootstrap();
     NioEventLoopGroup group = new NioEventLoopGroup();
 
     bootstrap
-        .group(group)
-        .channel(NioSocketChannel.class)
-        .handler(new ChannelInitializer<Channel>() {
+        .group(group) // 指定线程模型
+        .channel(NioSocketChannel.class) // 指定 IO 类型为 NIO
+        .handler(new ChannelInitializer<Channel>() { // IO 处理逻辑
           @Override
           protected void initChannel(Channel channel) {
             channel.pipeline().addLast(new StringEncoder());
           }
         });
-    Channel channel = bootstrap.connect("127.0.0.1", 8000).channel();
-    while (true) {
-      channel.writeAndFlush(new Date() + ": hello world!");
-      TimeUnit.SECONDS.sleep(2);
-    }
+    connect(bootstrap, 8000, MAX_RETRY);
+  }
+
+  private static void connect(Bootstrap bootstrap, int port, int retry) {
+    bootstrap.connect("127.0.0.1", port).addListener(future -> {
+      if (future.isSuccess()) {
+        System.out.println("连接成功");
+      } else if (retry == 0) {
+        System.err.println("重试次数已用完，放弃连接！");
+      } else {
+        // 第几次重连
+        int order = MAX_RETRY - retry + 1;
+        // 本次重连的间隔
+        int delay = 1 << order;
+        System.err.println(new Date() + ": 连接失败，第" + order + "次重连……");
+        bootstrap.config().group()
+            .schedule(() -> connect(bootstrap, 8000, retry - 1), delay, TimeUnit.SECONDS);
+      }
+    });
   }
 }

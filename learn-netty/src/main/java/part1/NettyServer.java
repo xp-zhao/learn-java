@@ -41,7 +41,7 @@ public class NettyServer {
         System.out.println("服务端启动中");
       }
     });
-    bind(serverBootstrap, 1000);
+    bind(serverBootstrap, 8000);
   }
 
   private static void bind(ServerBootstrap serverBootstrap, int port) {
