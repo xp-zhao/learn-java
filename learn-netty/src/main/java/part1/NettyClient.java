@@ -13,28 +13,25 @@ import java.util.concurrent.TimeUnit;
 /**
  * Created by xp-zhao on 2018/11/26.
  */
-public class NettyClient
-{
-	public static void main(String[] args) throws InterruptedException
-	{
-		Bootstrap bootstrap = new Bootstrap();
-		NioEventLoopGroup group = new NioEventLoopGroup();
+public class NettyClient {
 
-		bootstrap
-			.group(group)
-			.channel(NioSocketChannel.class)
-			.handler(new ChannelInitializer<Channel>()
-			{
-				@Override
-				protected void initChannel(Channel channel) throws Exception
-				{
-					channel.pipeline().addLast(new StringEncoder());
-				}
-			});
-		Channel channel = bootstrap.connect("127.0.0.1",8000).channel();
-		while(true){
-			channel.writeAndFlush(new Date() + ": hello world!");
-			TimeUnit.SECONDS.sleep(2);
-		}
-	}
+  public static void main(String[] args) throws InterruptedException {
+    Bootstrap bootstrap = new Bootstrap();
+    NioEventLoopGroup group = new NioEventLoopGroup();
+
+    bootstrap
+        .group(group)
+        .channel(NioSocketChannel.class)
+        .handler(new ChannelInitializer<Channel>() {
+          @Override
+          protected void initChannel(Channel channel) {
+            channel.pipeline().addLast(new StringEncoder());
+          }
+        });
+    Channel channel = bootstrap.connect("127.0.0.1", 8000).channel();
+    while (true) {
+      channel.writeAndFlush(new Date() + ": hello world!");
+      TimeUnit.SECONDS.sleep(2);
+    }
+  }
 }

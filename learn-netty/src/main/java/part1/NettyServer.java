@@ -12,36 +12,47 @@ import io.netty.handler.codec.string.StringDecoder;
 /**
  * Created by xp-zhao on 2018/11/26.
  */
-public class NettyServer
-{
-	public static void main(String[] args)
-	{
-		ServerBootstrap serverBootstrap = new ServerBootstrap();
-		NioEventLoopGroup boss = new NioEventLoopGroup();
-		NioEventLoopGroup worker = new NioEventLoopGroup();
-		serverBootstrap.group(boss , worker).channel(NioServerSocketChannel.class)
-			.childHandler(new ChannelInitializer<NioSocketChannel>()
-			{
-				@Override protected void initChannel(NioSocketChannel nioSocketChannel) throws Exception
-				{
-					nioSocketChannel.pipeline().addLast(new StringDecoder());
-					nioSocketChannel.pipeline().addLast(new SimpleChannelInboundHandler<String>()
-					{
-						@Override protected void channelRead0(
-							ChannelHandlerContext channelHandlerContext , String s)
-							throws Exception
-						{
-							System.out.println(s);
-						}
-					});
-				}
-			});
-		serverBootstrap.bind(1000).addListener(future -> {
-			if(future.isSuccess()){
-				System.out.println("端口绑定成功");
-			}else{
-				System.out.println("端口绑定失败");
-			}
-		});
-	}
+public class NettyServer {
+
+  public static void main(String[] args) {
+    ServerBootstrap serverBootstrap = new ServerBootstrap();
+
+    NioEventLoopGroup boss = new NioEventLoopGroup(); // 监听端口，accept 新连接的线程组
+    NioEventLoopGroup worker = new NioEventLoopGroup(); // 处理每一条连接的数据读写的线程组
+
+    serverBootstrap
+        .group(boss, worker)
+        .channel(NioServerSocketChannel.class)
+        .childHandler(new ChannelInitializer<NioSocketChannel>() {
+          @Override
+          protected void initChannel(NioSocketChannel nioSocketChannel) {
+            nioSocketChannel.pipeline().addLast(new StringDecoder());
+            nioSocketChannel.pipeline().addLast(new SimpleChannelInboundHandler<String>() {
+              @Override
+              protected void channelRead0(
+                  ChannelHandlerContext channelHandlerContext, String s) {
+                System.out.println(s);
+              }
+            });
+          }
+        });
+    serverBootstrap.handler(new ChannelInitializer<NioServerSocketChannel>() {
+      protected void initChannel(NioServerSocketChannel ch) {
+        System.out.println("服务端启动中");
+      }
+    });
+    bind(serverBootstrap, 1000);
+  }
+
+  private static void bind(ServerBootstrap serverBootstrap, int port) {
+    // 添加监听器，监听端口是否绑定成功
+    serverBootstrap.bind(port).addListener(future -> {
+      if (future.isSuccess()) {
+        System.out.println("端口绑定成功");
+      } else {
+        System.out.println("端口绑定失败");
+        bind(serverBootstrap, port + 1);
+      }
+    });
+  }
 }
