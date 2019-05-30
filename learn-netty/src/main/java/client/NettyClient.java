@@ -33,7 +33,8 @@ public class NettyClient {
           @Override
           protected void initChannel(SocketChannel channel) {
             // 指定连接数据读写逻辑
-            channel.pipeline().addLast(new FirstClientHandler());
+//            channel.pipeline().addLast(new FirstClientHandler());
+            channel.pipeline().addLast(new ClientHandler());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
@@ -42,7 +43,7 @@ public class NettyClient {
   private static void connect(Bootstrap bootstrap, String host, int port, int retry) {
     bootstrap.connect(host, port).addListener(future -> {
       if (future.isSuccess()) {
-        System.out.println("连接成功");
+        System.out.println(new Date() + "连接成功");
       } else if (retry == 0) {
         System.err.println("重试次数已用完，放弃连接！");
       } else {

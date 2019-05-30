@@ -6,6 +6,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import java.util.Date;
 
 /**
  * Created by xp-zhao on 2018/11/26.
@@ -27,12 +28,13 @@ public class NettyServer {
         .childHandler(new ChannelInitializer<NioSocketChannel>() {
           @Override
           protected void initChannel(NioSocketChannel nioSocketChannel) {
-            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
+//            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
+            nioSocketChannel.pipeline().addLast(new ServerHandler());
           }
         });
     serverBootstrap.handler(new ChannelInitializer<NioServerSocketChannel>() {
       protected void initChannel(NioServerSocketChannel ch) {
-        System.out.println("服务端启动中");
+        System.out.println(new Date() + ": 服务端启动中");
       }
     });
     bind(serverBootstrap, 8000);
@@ -42,9 +44,9 @@ public class NettyServer {
     // 添加监听器，监听端口是否绑定成功
     serverBootstrap.bind(port).addListener(future -> {
       if (future.isSuccess()) {
-        System.out.println("端口[" + port + "]绑定成功");
+        System.out.println(new Date() + ": 端口[" + port + "]绑定成功");
       } else {
-        System.out.println("端口[" + port + "]绑定失败");
+        System.out.println(new Date() + ": 端口[" + port + "]绑定失败");
         bind(serverBootstrap, port + 1);
       }
     });

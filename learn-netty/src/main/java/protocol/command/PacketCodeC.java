@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import java.util.HashMap;
 import java.util.Map;
+import protocol.request.LoginRequestPacket;
+import protocol.response.LoginResponsePacket;
 import serialize.Serializer;
 import serialize.impl.JSONSerializer;
 
@@ -14,6 +16,7 @@ import serialize.impl.JSONSerializer;
  **/
 public class PacketCodeC {
 
+  public static final PacketCodeC INSTANCE = new PacketCodeC();
   private static final int MAGIC_NUMBER = 0x12345678;
   private static final Map<Byte, Class<? extends Packet>> packetTypeMap;
   private static final Map<Byte, Serializer> serializerMap;
@@ -21,6 +24,7 @@ public class PacketCodeC {
   static {
     packetTypeMap = new HashMap<>();
     packetTypeMap.put(Command.LOGIN_REQUEST, LoginRequestPacket.class);
+    packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();
@@ -30,9 +34,9 @@ public class PacketCodeC {
   /**
    * java 对象封装成二进制
    */
-  public ByteBuf encode(Packet packet) {
+  public ByteBuf encode(ByteBufAllocator byteBufAllocator, Packet packet) {
     // 创建 ByteBuf 对象
-    ByteBuf byteBuf = ByteBufAllocator.DEFAULT.ioBuffer();
+    ByteBuf byteBuf = byteBufAllocator.ioBuffer();
     // 序列化 java 对象
     byte[] bytes = Serializer.DEFAULT.serialize(packet);
 
@@ -58,7 +62,7 @@ public class PacketCodeC {
     byteBuf.skipBytes(1);
 
     // 序列化算法标识
-    byte serializeAlgorithm= byteBuf.readByte();
+    byte serializeAlgorithm = byteBuf.readByte();
 
     // 指令
     byte command = byteBuf.readByte();
@@ -72,17 +76,17 @@ public class PacketCodeC {
     Class<? extends Packet> requestType = getRequestType(command);
     Serializer serializer = getSerializer(serializeAlgorithm);
 
-    if(requestType != null && serializer != null){
+    if (requestType != null && serializer != null) {
       return serializer.deserialize(requestType, bytes);
     }
     return null;
   }
 
-  private Serializer getSerializer(byte serializeAlgorithm){
+  private Serializer getSerializer(byte serializeAlgorithm) {
     return serializerMap.get(serializeAlgorithm);
   }
 
-  private Class<? extends Packet> getRequestType(byte command){
+  private Class<? extends Packet> getRequestType(byte command) {
     return packetTypeMap.get(command);
   }
 }

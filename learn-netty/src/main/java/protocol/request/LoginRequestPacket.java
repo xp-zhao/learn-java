@@ -1,6 +1,8 @@
-package protocol.command;
+package protocol.request;
 
 import lombok.Data;
+import protocol.command.Command;
+import protocol.command.Packet;
 
 /**
  * @description: 登录请求数据包
@@ -10,7 +12,7 @@ import lombok.Data;
 @Data
 public class LoginRequestPacket extends Packet {
 
-  private Integer userId;
+  private String userId;
   private String username;
   private String password;
 
