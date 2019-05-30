@@ -6,9 +6,11 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import java.util.Date;
 import java.util.UUID;
 import protocol.command.Packet;
-import protocol.request.LoginRequestPacket;
 import protocol.command.PacketCodeC;
+import protocol.request.LoginRequestPacket;
 import protocol.response.LoginResponsePacket;
+import protocol.response.MessageResponsePacket;
+import util.LoginUtil;
 
 /**
  * @description: 客户端登录逻辑处理器
@@ -46,10 +48,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
       LoginResponsePacket loginResponsePacket = (LoginResponsePacket) packet;
 
       if (loginResponsePacket.isSuccess()) {
+        // 绑定登录成功的标志位
+        LoginUtil.markAsLogin(ctx.channel());
         System.out.println(new Date() + ": 客户端登录成功");
       } else {
         System.out.println(new Date() + ": 客户端登录失败，原因：" + loginResponsePacket.getReason());
       }
+    } else if (packet instanceof MessageResponsePacket) {
+      MessageResponsePacket messageResponsePacket = (MessageResponsePacket) packet;
+      System.out.println(new Date() + ": 收到服务端的消息: " + messageResponsePacket.getMessage());
     }
   }
 }

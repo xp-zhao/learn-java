@@ -7,7 +7,9 @@ import java.util.Date;
 import protocol.command.Packet;
 import protocol.command.PacketCodeC;
 import protocol.request.LoginRequestPacket;
+import protocol.request.MessageRequestPacket;
 import protocol.response.LoginResponsePacket;
+import protocol.response.MessageResponsePacket;
 
 /**
  * @description: 服务端登录逻辑处理器
@@ -18,7 +20,6 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) {
-    System.out.println(new Date() + ": 客户端开始登录。。。");
     ByteBuf byteBuf = (ByteBuf) msg;
 
     // 解码
@@ -26,6 +27,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
     // 判断是否是登录请求数据包
     if (packet instanceof LoginRequestPacket) {
+      System.out.println(new Date() + ": 收到客户端登录请求。。。");
       LoginRequestPacket loginRequestPacket = (LoginRequestPacket) packet;
       LoginResponsePacket loginResponsePacket = new LoginResponsePacket();
       loginRequestPacket.setVersion(packet.getVersion());
@@ -43,6 +45,15 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
 
       // 登录响应
       ByteBuf responseByteBuf = PacketCodeC.INSTANCE.encode(ctx.alloc(), loginResponsePacket);
+      ctx.channel().writeAndFlush(responseByteBuf);
+    } else if (packet instanceof MessageRequestPacket) {
+      // 处理消息
+      MessageRequestPacket messageRequestPacket = (MessageRequestPacket) packet;
+      System.out.println(new Date() + ": 收到客户端消息: " + messageRequestPacket.getMessage());
+
+      MessageResponsePacket messageResponsePacket = new MessageResponsePacket();
+      messageResponsePacket.setMessage("服务端回复【" + messageRequestPacket.getMessage() + "】");
+      ByteBuf responseByteBuf = PacketCodeC.INSTANCE.encode(ctx.alloc(), messageResponsePacket);
       ctx.channel().writeAndFlush(responseByteBuf);
     }
   }
