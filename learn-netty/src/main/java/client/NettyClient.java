@@ -1,4 +1,4 @@
-package part1;
+package client;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
