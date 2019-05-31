@@ -1,5 +1,9 @@
 package client;
 
+import client.handler.LoginResponseHandler;
+import client.handler.MessageResponseHandler;
+import codec.PacketDecoder;
+import codec.PacketEncoder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -41,7 +45,11 @@ public class NettyClient {
           protected void initChannel(SocketChannel channel) {
             // 指定连接数据读写逻辑
 //            channel.pipeline().addLast(new FirstClientHandler());
-            channel.pipeline().addLast(new ClientHandler());
+//            channel.pipeline().addLast(new ClientHandler());
+            channel.pipeline().addLast(new PacketDecoder());
+            channel.pipeline().addLast(new LoginResponseHandler());
+            channel.pipeline().addLast(new MessageResponseHandler());
+            channel.pipeline().addLast(new PacketEncoder());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
