@@ -4,6 +4,7 @@ import client.handler.LoginResponseHandler;
 import client.handler.MessageResponseHandler;
 import codec.PacketDecoder;
 import codec.PacketEncoder;
+import codec.Spliter;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
@@ -13,6 +14,7 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
@@ -44,12 +46,14 @@ public class NettyClient {
           @Override
           protected void initChannel(SocketChannel channel) {
             // 指定连接数据读写逻辑
-            channel.pipeline().addLast(new FirstClientHandler());
+//            channel.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
+            channel.pipeline().addLast(new Spliter());
+//            channel.pipeline().addLast(new FirstClientHandler());
 //            channel.pipeline().addLast(new ClientHandler());
-//            channel.pipeline().addLast(new PacketDecoder());
-//            channel.pipeline().addLast(new LoginResponseHandler());
-//            channel.pipeline().addLast(new MessageResponseHandler());
-//            channel.pipeline().addLast(new PacketEncoder());
+            channel.pipeline().addLast(new PacketDecoder());
+            channel.pipeline().addLast(new LoginResponseHandler());
+            channel.pipeline().addLast(new MessageResponseHandler());
+            channel.pipeline().addLast(new PacketEncoder());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
