@@ -38,7 +38,7 @@ public class NettyServer {
         .childHandler(new ChannelInitializer<NioSocketChannel>() {
           @Override
           protected void initChannel(NioSocketChannel nioSocketChannel) {
-//            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
+            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
 //            nioSocketChannel.pipeline().addLast(new ServerHandler());
             // inBound, 处理读数据的逻辑链
 //            nioSocketChannel.pipeline().addLast(new InBoundHandlerA());
@@ -49,10 +49,10 @@ public class NettyServer {
 //            nioSocketChannel.pipeline().addLast(new OutBoundHandlerA());
 //            nioSocketChannel.pipeline().addLast(new OutBoundHandlerB());
 //            nioSocketChannel.pipeline().addLast(new OutBoundHandlerC());
-            nioSocketChannel.pipeline().addLast(new PacketDecoder());
-            nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
-            nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
-            nioSocketChannel.pipeline().addLast(new PacketEncoder());
+//            nioSocketChannel.pipeline().addLast(new PacketDecoder());
+//            nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
+//            nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
+//            nioSocketChannel.pipeline().addLast(new PacketEncoder());
           }
         });
     serverBootstrap.handler(new ChannelInitializer<NioServerSocketChannel>() {

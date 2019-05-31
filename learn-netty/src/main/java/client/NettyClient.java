@@ -44,12 +44,12 @@ public class NettyClient {
           @Override
           protected void initChannel(SocketChannel channel) {
             // 指定连接数据读写逻辑
-//            channel.pipeline().addLast(new FirstClientHandler());
+            channel.pipeline().addLast(new FirstClientHandler());
 //            channel.pipeline().addLast(new ClientHandler());
-            channel.pipeline().addLast(new PacketDecoder());
-            channel.pipeline().addLast(new LoginResponseHandler());
-            channel.pipeline().addLast(new MessageResponseHandler());
-            channel.pipeline().addLast(new PacketEncoder());
+//            channel.pipeline().addLast(new PacketDecoder());
+//            channel.pipeline().addLast(new LoginResponseHandler());
+//            channel.pipeline().addLast(new MessageResponseHandler());
+//            channel.pipeline().addLast(new PacketEncoder());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
