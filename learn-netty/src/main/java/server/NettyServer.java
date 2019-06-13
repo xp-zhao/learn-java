@@ -11,6 +11,8 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.util.Date;
+import server.handler.AuthHandler;
+import server.handler.LifeCyCleTestHandler;
 import server.handler.LoginRequestHandler;
 import server.handler.MessageRequestHandler;
 import server.handler.inbound.InBoundHandlerA;
@@ -42,7 +44,7 @@ public class NettyServer {
           protected void initChannel(NioSocketChannel nioSocketChannel) {
 //            nioSocketChannel.pipeline()
 //                .addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
-            nioSocketChannel.pipeline().addLast(new Spliter());
+//            nioSocketChannel.pipeline().addLast(new Spliter());
 //            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
 //            nioSocketChannel.pipeline().addLast(new ServerHandler());
             // inBound, 处理读数据的逻辑链
@@ -54,8 +56,12 @@ public class NettyServer {
 //            nioSocketChannel.pipeline().addLast(new OutBoundHandlerA());
 //            nioSocketChannel.pipeline().addLast(new OutBoundHandlerB());
 //            nioSocketChannel.pipeline().addLast(new OutBoundHandlerC());
+            // channelHandler 生命周期
+//            nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
             nioSocketChannel.pipeline().addLast(new PacketDecoder());
             nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
+            // 新增用户认证 handler
+            nioSocketChannel.pipeline().addLast(new AuthHandler());
             nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
             nioSocketChannel.pipeline().addLast(new PacketEncoder());
           }

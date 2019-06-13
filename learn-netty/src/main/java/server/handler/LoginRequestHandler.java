@@ -5,6 +5,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import java.util.Date;
 import protocol.request.LoginRequestPacket;
 import protocol.response.LoginResponsePacket;
+import util.LoginUtil;
 
 /**
  * @description: 登录请求处理器
@@ -26,6 +27,8 @@ public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginReques
     if (valid(loginRequestPacket)) {
       loginResponsePacket.setSuccess(true);
       System.out.println(new Date() + ": 登录成功！");
+      // 标记这个 channel 已经成功登录
+      LoginUtil.markAsLogin(channelHandlerContext.channel());
     } else {
       loginResponsePacket.setReason("账号密码校验失败");
       loginResponsePacket.setSuccess(false);
