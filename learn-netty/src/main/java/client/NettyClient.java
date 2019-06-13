@@ -19,8 +19,10 @@ import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import protocol.command.PacketCodeC;
+import protocol.request.LoginRequestPacket;
 import protocol.request.MessageRequestPacket;
 import util.LoginUtil;
+import util.SessionUtil;
 
 /**
  * Created by xp-zhao on 2018/11/26.
@@ -81,19 +83,35 @@ public class NettyClient {
   }
 
   private static void startConsoleThread(Channel channel) {
+    Scanner sc = new Scanner(System.in);
+    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
+
     new Thread(() -> {
       while (!Thread.interrupted()) {
-//        if (LoginUtil.hasLogin(channel)) {
-          System.out.println("输入消息发送至服务端：");
-          Scanner sc = new Scanner(System.in);
-          String line = sc.nextLine();
+        if (!SessionUtil.hasLogin(channel)) {
+          System.out.println("输入用户名登录: ");
+          String username = sc.nextLine();
+          loginRequestPacket.setUsername(username);
 
-          MessageRequestPacket packet = new MessageRequestPacket();
-          packet.setMessage(line);
-          ByteBuf byteBuf = PacketCodeC.INSTANCE.encode(channel.alloc(), packet);
-          channel.writeAndFlush(byteBuf);
+          // 使用默认密码
+          loginRequestPacket.setPassword("pwd");
+
+          // 发送登录数据包
+          channel.writeAndFlush(loginRequestPacket);
+          waitForLoginResponse();
+        } else {
+          String toUserId = sc.next();
+          String message = sc.next();
+          channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
         }
-//      }
+      }
     }).start();
+  }
+
+  private static void waitForLoginResponse() {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException ignored) {
+    }
   }
 }

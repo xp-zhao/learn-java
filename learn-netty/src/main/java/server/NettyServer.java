@@ -44,7 +44,7 @@ public class NettyServer {
           protected void initChannel(NioSocketChannel nioSocketChannel) {
 //            nioSocketChannel.pipeline()
 //                .addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
-//            nioSocketChannel.pipeline().addLast(new Spliter());
+            nioSocketChannel.pipeline().addLast(new Spliter());
 //            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
 //            nioSocketChannel.pipeline().addLast(new ServerHandler());
             // inBound, 处理读数据的逻辑链
