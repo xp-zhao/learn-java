@@ -12,6 +12,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.util.Date;
 import server.handler.AuthHandler;
 import server.handler.CreateGroupRequestHandler;
+import server.handler.GroupMessageRequestHandler;
 import server.handler.JoinGroupRequestHandler;
 import server.handler.ListGroupMembersRequestHandler;
 import server.handler.LoginRequestHandler;
@@ -65,6 +66,7 @@ public class NettyServer {
             nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
             nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
             nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
+            nioSocketChannel.pipeline().addLast(new GroupMessageRequestHandler());
             nioSocketChannel.pipeline().addLast(new PacketEncoder());
           }
         });

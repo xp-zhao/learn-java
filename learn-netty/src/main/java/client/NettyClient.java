@@ -3,6 +3,8 @@ package client;
 import client.console.ConsoleCommandManager;
 import client.console.LoginConsoleCommand;
 import client.handler.CreateGroupResponseHandler;
+import client.handler.GroupMessageResponseHandler;
+import server.handler.GroupMessageRequestHandler;
 import client.handler.JoinGroupResponseHandler;
 import client.handler.ListGroupMembersResponseHandler;
 import client.handler.LoginResponseHandler;
@@ -13,7 +15,6 @@ import codec.PacketDecoder;
 import codec.PacketEncoder;
 import codec.Spliter;
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -21,14 +22,9 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import protocol.command.PacketCodeC;
-import protocol.request.LoginRequestPacket;
-import protocol.request.MessageRequestPacket;
-import util.LoginUtil;
 import util.SessionUtil;
 
 /**
@@ -67,6 +63,7 @@ public class NettyClient {
             channel.pipeline().addLast(new QuitGroupResponseHandler());
             channel.pipeline().addLast(new LogoutResponseHandler());
             channel.pipeline().addLast(new ListGroupMembersResponseHandler());
+            channel.pipeline().addLast(new GroupMessageResponseHandler());
             channel.pipeline().addLast(new PacketEncoder());
           }
         });
