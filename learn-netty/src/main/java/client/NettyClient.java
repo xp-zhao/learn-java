@@ -1,5 +1,8 @@
 package client;
 
+import client.console.ConsoleCommandManager;
+import client.console.LoginConsoleCommand;
+import client.handler.CreateGroupResponseHandler;
 import client.handler.LoginResponseHandler;
 import client.handler.MessageResponseHandler;
 import codec.PacketDecoder;
@@ -55,6 +58,7 @@ public class NettyClient {
             channel.pipeline().addLast(new PacketDecoder());
             channel.pipeline().addLast(new LoginResponseHandler());
             channel.pipeline().addLast(new MessageResponseHandler());
+            channel.pipeline().addLast(new CreateGroupResponseHandler());
             channel.pipeline().addLast(new PacketEncoder());
           }
         });
@@ -83,35 +87,18 @@ public class NettyClient {
   }
 
   private static void startConsoleThread(Channel channel) {
-    Scanner sc = new Scanner(System.in);
-    LoginRequestPacket loginRequestPacket = new LoginRequestPacket();
 
+    ConsoleCommandManager commandManager = new ConsoleCommandManager();
+    LoginConsoleCommand loginConsoleCommand = new LoginConsoleCommand();
+    Scanner sc = new Scanner(System.in);
     new Thread(() -> {
       while (!Thread.interrupted()) {
         if (!SessionUtil.hasLogin(channel)) {
-          System.out.println("输入用户名登录: ");
-          String username = sc.nextLine();
-          loginRequestPacket.setUsername(username);
-
-          // 使用默认密码
-          loginRequestPacket.setPassword("pwd");
-
-          // 发送登录数据包
-          channel.writeAndFlush(loginRequestPacket);
-          waitForLoginResponse();
+          loginConsoleCommand.exec(sc, channel);
         } else {
-          String toUserId = sc.next();
-          String message = sc.next();
-          channel.writeAndFlush(new MessageRequestPacket(toUserId, message));
+          commandManager.exec(sc, channel);
         }
       }
     }).start();
-  }
-
-  private static void waitForLoginResponse() {
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException ignored) {
-    }
   }
 }

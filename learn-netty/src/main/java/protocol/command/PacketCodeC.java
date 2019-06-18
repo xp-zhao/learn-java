@@ -4,9 +4,13 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import java.util.HashMap;
 import java.util.Map;
+import protocol.request.CreateGroupRequestPacket;
 import protocol.request.LoginRequestPacket;
+import protocol.request.LogoutRequestPacket;
 import protocol.request.MessageRequestPacket;
+import protocol.response.CreateGroupResponsePacket;
 import protocol.response.LoginResponsePacket;
+import protocol.response.LogoutResponsePacket;
 import protocol.response.MessageResponsePacket;
 import serialize.Serializer;
 import serialize.impl.JSONSerializer;
@@ -29,6 +33,10 @@ public class PacketCodeC {
     packetTypeMap.put(Command.LOGIN_RESPONSE, LoginResponsePacket.class);
     packetTypeMap.put(Command.MESSAGE_REQUEST, MessageRequestPacket.class);
     packetTypeMap.put(Command.MESSAGE_RESPONSE, MessageResponsePacket.class);
+    packetTypeMap.put(Command.LOGOUT_REQUEST, LogoutRequestPacket.class);
+    packetTypeMap.put(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class);
+    packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
+    packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();
@@ -54,6 +62,7 @@ public class PacketCodeC {
 
     return byteBuf;
   }
+
   /**
    * java 对象封装成二进制
    */

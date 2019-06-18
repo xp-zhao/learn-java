@@ -12,6 +12,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.util.Date;
 import server.handler.AuthHandler;
+import server.handler.CreateGroupRequestHandler;
 import server.handler.LifeCyCleTestHandler;
 import server.handler.LoginRequestHandler;
 import server.handler.MessageRequestHandler;
@@ -63,6 +64,7 @@ public class NettyServer {
             // 新增用户认证 handler
             nioSocketChannel.pipeline().addLast(new AuthHandler());
             nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
+            nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
             nioSocketChannel.pipeline().addLast(new PacketEncoder());
           }
         });
