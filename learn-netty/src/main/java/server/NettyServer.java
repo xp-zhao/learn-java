@@ -9,19 +9,15 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import java.util.Date;
 import server.handler.AuthHandler;
 import server.handler.CreateGroupRequestHandler;
-import server.handler.LifeCyCleTestHandler;
+import server.handler.JoinGroupRequestHandler;
+import server.handler.ListGroupMembersRequestHandler;
 import server.handler.LoginRequestHandler;
+import server.handler.LogoutRequestHandler;
 import server.handler.MessageRequestHandler;
-import server.handler.inbound.InBoundHandlerA;
-import server.handler.inbound.InBoundHandlerB;
-import server.handler.inbound.InBoundHandlerC;
-import server.handler.outbound.OutBoundHandlerA;
-import server.handler.outbound.OutBoundHandlerB;
-import server.handler.outbound.OutBoundHandlerC;
+import server.handler.QuitGroupRequestHandler;
 
 /**
  * Created by xp-zhao on 2018/11/26.
@@ -65,6 +61,10 @@ public class NettyServer {
             nioSocketChannel.pipeline().addLast(new AuthHandler());
             nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
             nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
+            nioSocketChannel.pipeline().addLast(new JoinGroupRequestHandler());
+            nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
+            nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
+            nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
             nioSocketChannel.pipeline().addLast(new PacketEncoder());
           }
         });

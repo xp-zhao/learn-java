@@ -3,8 +3,12 @@ package client;
 import client.console.ConsoleCommandManager;
 import client.console.LoginConsoleCommand;
 import client.handler.CreateGroupResponseHandler;
+import client.handler.JoinGroupResponseHandler;
+import client.handler.ListGroupMembersResponseHandler;
 import client.handler.LoginResponseHandler;
+import client.handler.LogoutResponseHandler;
 import client.handler.MessageResponseHandler;
+import client.handler.QuitGroupResponseHandler;
 import codec.PacketDecoder;
 import codec.PacketEncoder;
 import codec.Spliter;
@@ -59,6 +63,10 @@ public class NettyClient {
             channel.pipeline().addLast(new LoginResponseHandler());
             channel.pipeline().addLast(new MessageResponseHandler());
             channel.pipeline().addLast(new CreateGroupResponseHandler());
+            channel.pipeline().addLast(new JoinGroupResponseHandler());
+            channel.pipeline().addLast(new QuitGroupResponseHandler());
+            channel.pipeline().addLast(new LogoutResponseHandler());
+            channel.pipeline().addLast(new ListGroupMembersResponseHandler());
             channel.pipeline().addLast(new PacketEncoder());
           }
         });

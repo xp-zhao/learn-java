@@ -5,13 +5,19 @@ import io.netty.buffer.ByteBufAllocator;
 import java.util.HashMap;
 import java.util.Map;
 import protocol.request.CreateGroupRequestPacket;
+import protocol.request.JoinGroupRequestPacket;
+import protocol.request.ListGroupMembersRequestPacket;
 import protocol.request.LoginRequestPacket;
 import protocol.request.LogoutRequestPacket;
 import protocol.request.MessageRequestPacket;
+import protocol.request.QuitGroupRequestPacket;
 import protocol.response.CreateGroupResponsePacket;
+import protocol.response.JoinGroupResponsePacket;
+import protocol.response.ListGroupMembersResponsePacket;
 import protocol.response.LoginResponsePacket;
 import protocol.response.LogoutResponsePacket;
 import protocol.response.MessageResponsePacket;
+import protocol.response.QuitGroupResponsePacket;
 import serialize.Serializer;
 import serialize.impl.JSONSerializer;
 
@@ -37,6 +43,12 @@ public class PacketCodeC {
     packetTypeMap.put(Command.LOGOUT_RESPONSE, LogoutResponsePacket.class);
     packetTypeMap.put(Command.CREATE_GROUP_REQUEST, CreateGroupRequestPacket.class);
     packetTypeMap.put(Command.CREATE_GROUP_RESPONSE, CreateGroupResponsePacket.class);
+    packetTypeMap.put(Command.JOIN_GROUP_REQUEST, JoinGroupRequestPacket.class);
+    packetTypeMap.put(Command.JOIN_GROUP_RESPONSE, JoinGroupResponsePacket.class);
+    packetTypeMap.put(Command.QUIT_GROUP_REQUEST, QuitGroupRequestPacket.class);
+    packetTypeMap.put(Command.QUIT_GROUP_RESPONSE, QuitGroupResponsePacket.class);
+    packetTypeMap.put(Command.LIST_GROUP_MEMBERS_REQUEST, ListGroupMembersRequestPacket.class);
+    packetTypeMap.put(Command.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();
