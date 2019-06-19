@@ -1,6 +1,7 @@
 package server.handler;
 
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
@@ -13,7 +14,14 @@ import util.SessionUtil;
  * @author: zhaoxiaoping
  * @create: 2019/06/18
  **/
+@Sharable
 public class JoinGroupRequestHandler extends SimpleChannelInboundHandler<JoinGroupRequestPacket> {
+
+  public static final JoinGroupRequestHandler INSTANCE = new JoinGroupRequestHandler();
+
+  public JoinGroupRequestHandler(){
+    
+  }
 
   @Override
   protected void channelRead0(ChannelHandlerContext ctx,

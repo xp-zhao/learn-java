@@ -1,5 +1,6 @@
 package server.handler;
 
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import util.SessionUtil;
@@ -9,7 +10,14 @@ import util.SessionUtil;
  * @author: zhaoxiaoping
  * @create: 2019/06/13
  **/
+@Sharable
 public class AuthHandler extends ChannelInboundHandlerAdapter {
+
+  public static final AuthHandler INSTANCE = new AuthHandler();
+
+  protected AuthHandler() {
+
+  }
 
   @Override
   public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {

@@ -1,5 +1,6 @@
 package server;
 
+import codec.PacketCodecHandler;
 import codec.PacketDecoder;
 import codec.PacketEncoder;
 import codec.Spliter;
@@ -13,6 +14,7 @@ import java.util.Date;
 import server.handler.AuthHandler;
 import server.handler.CreateGroupRequestHandler;
 import server.handler.GroupMessageRequestHandler;
+import server.handler.IMHandler;
 import server.handler.JoinGroupRequestHandler;
 import server.handler.ListGroupMembersRequestHandler;
 import server.handler.LoginRequestHandler;
@@ -39,38 +41,18 @@ public class NettyServer {
         .option(ChannelOption.TCP_NODELAY, true)
         .childHandler(new ChannelInitializer<NioSocketChannel>() {
           @Override
-          protected void initChannel(NioSocketChannel nioSocketChannel) {
-//            nioSocketChannel.pipeline()
-//                .addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
-            nioSocketChannel.pipeline().addLast(new Spliter());
-//            nioSocketChannel.pipeline().addLast(new FirstServerHandler());
-//            nioSocketChannel.pipeline().addLast(new ServerHandler());
-            // inBound, 处理读数据的逻辑链
-//            nioSocketChannel.pipeline().addLast(new InBoundHandlerA());
-//            nioSocketChannel.pipeline().addLast(new InBoundHandlerB());
-//            nioSocketChannel.pipeline().addLast(new InBoundHandlerC());
-
-            // outBound，处理写数据的逻辑链
-//            nioSocketChannel.pipeline().addLast(new OutBoundHandlerA());
-//            nioSocketChannel.pipeline().addLast(new OutBoundHandlerB());
-//            nioSocketChannel.pipeline().addLast(new OutBoundHandlerC());
-            // channelHandler 生命周期
-//            nioSocketChannel.pipeline().addLast(new LifeCyCleTestHandler());
-            nioSocketChannel.pipeline().addLast(new PacketDecoder());
-            nioSocketChannel.pipeline().addLast(new LoginRequestHandler());
+          protected void initChannel(NioSocketChannel channel) {
+            channel.pipeline().addLast(new Spliter());
+            channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+            // 单例模式，多个 channel 公用一个 handler
+            channel.pipeline().addLast(LoginRequestHandler.INSTANCE);
             // 新增用户认证 handler
-            nioSocketChannel.pipeline().addLast(new AuthHandler());
-            nioSocketChannel.pipeline().addLast(new MessageRequestHandler());
-            nioSocketChannel.pipeline().addLast(new CreateGroupRequestHandler());
-            nioSocketChannel.pipeline().addLast(new JoinGroupRequestHandler());
-            nioSocketChannel.pipeline().addLast(new QuitGroupRequestHandler());
-            nioSocketChannel.pipeline().addLast(new LogoutRequestHandler());
-            nioSocketChannel.pipeline().addLast(new ListGroupMembersRequestHandler());
-            nioSocketChannel.pipeline().addLast(new GroupMessageRequestHandler());
-            nioSocketChannel.pipeline().addLast(new PacketEncoder());
+            channel.pipeline().addLast(AuthHandler.INSTANCE);
+            channel.pipeline().addLast(IMHandler.INSTANCE);
           }
         });
     serverBootstrap.handler(new ChannelInitializer<NioServerSocketChannel>() {
+      @Override
       protected void initChannel(NioServerSocketChannel ch) {
         System.out.println(new Date() + ": 服务端启动中");
       }

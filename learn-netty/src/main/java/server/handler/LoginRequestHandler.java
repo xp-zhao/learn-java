@@ -1,5 +1,6 @@
 package server.handler;
 
+import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import java.util.Date;
@@ -11,10 +12,18 @@ import util.SessionUtil;
 
 /**
  * @description: 登录请求处理器
+ * 加上注解标识，表明该 handler 是可以多个 channel 共享的
  * @author: zhaoxp
  * @create: 2019/05/31
  **/
+@Sharable
 public class LoginRequestHandler extends SimpleChannelInboundHandler<LoginRequestPacket> {
+
+  public static final LoginRequestHandler INSTANCE = new LoginRequestHandler();
+
+  protected LoginRequestHandler(){
+
+  }
 
   @Override
   protected void channelRead0(ChannelHandlerContext channelHandlerContext,

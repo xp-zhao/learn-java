@@ -4,6 +4,7 @@ import client.console.ConsoleCommandManager;
 import client.console.LoginConsoleCommand;
 import client.handler.CreateGroupResponseHandler;
 import client.handler.GroupMessageResponseHandler;
+import codec.PacketCodecHandler;
 import server.handler.GroupMessageRequestHandler;
 import client.handler.JoinGroupResponseHandler;
 import client.handler.ListGroupMembersResponseHandler;
@@ -51,20 +52,24 @@ public class NettyClient {
           @Override
           protected void initChannel(SocketChannel channel) {
             // 指定连接数据读写逻辑
-//            channel.pipeline().addLast(new LengthFieldBasedFrameDecoder(Integer.MAX_VALUE, 7, 4));
             channel.pipeline().addLast(new Spliter());
-//            channel.pipeline().addLast(new FirstClientHandler());
-//            channel.pipeline().addLast(new ClientHandler());
-            channel.pipeline().addLast(new PacketDecoder());
+            channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+            // 登录响应处理器
             channel.pipeline().addLast(new LoginResponseHandler());
+            // 收消息处理器
             channel.pipeline().addLast(new MessageResponseHandler());
+            // 创建群聊响应处理器
             channel.pipeline().addLast(new CreateGroupResponseHandler());
+            // 加群响应处理器
             channel.pipeline().addLast(new JoinGroupResponseHandler());
+            // 退群响应处理器
             channel.pipeline().addLast(new QuitGroupResponseHandler());
+            // 登出响应处理器
             channel.pipeline().addLast(new LogoutResponseHandler());
+            // 获取群成员响应处理器
             channel.pipeline().addLast(new ListGroupMembersResponseHandler());
+            // 群响应处理器
             channel.pipeline().addLast(new GroupMessageResponseHandler());
-            channel.pipeline().addLast(new PacketEncoder());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
