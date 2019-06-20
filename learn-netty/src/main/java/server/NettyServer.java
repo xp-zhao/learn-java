@@ -1,8 +1,6 @@
 package server;
 
 import codec.PacketCodecHandler;
-import codec.PacketDecoder;
-import codec.PacketEncoder;
 import codec.Spliter;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
@@ -12,15 +10,10 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import java.util.Date;
 import server.handler.AuthHandler;
-import server.handler.CreateGroupRequestHandler;
-import server.handler.GroupMessageRequestHandler;
+import server.handler.HeartBeatRequestHandler;
 import server.handler.IMHandler;
-import server.handler.JoinGroupRequestHandler;
-import server.handler.ListGroupMembersRequestHandler;
+import handler.IMIdleStateHandler;
 import server.handler.LoginRequestHandler;
-import server.handler.LogoutRequestHandler;
-import server.handler.MessageRequestHandler;
-import server.handler.QuitGroupRequestHandler;
 
 /**
  * Created by xp-zhao on 2018/11/26.
@@ -42,10 +35,13 @@ public class NettyServer {
         .childHandler(new ChannelInitializer<NioSocketChannel>() {
           @Override
           protected void initChannel(NioSocketChannel channel) {
+            // 空闲检测
+            channel.pipeline().addLast(new IMIdleStateHandler());
             channel.pipeline().addLast(new Spliter());
             channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
             // 单例模式，多个 channel 公用一个 handler
             channel.pipeline().addLast(LoginRequestHandler.INSTANCE);
+            channel.pipeline().addLast(HeartBeatRequestHandler.INSTANCE);
             // 新增用户认证 handler
             channel.pipeline().addLast(AuthHandler.INSTANCE);
             channel.pipeline().addLast(IMHandler.INSTANCE);

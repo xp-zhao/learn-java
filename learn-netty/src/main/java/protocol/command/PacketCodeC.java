@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import protocol.request.CreateGroupRequestPacket;
 import protocol.request.GroupMessageRequestPacket;
+import protocol.request.HeartBeatRequestPacket;
 import protocol.request.JoinGroupRequestPacket;
 import protocol.request.ListGroupMembersRequestPacket;
 import protocol.request.LoginRequestPacket;
@@ -14,6 +15,7 @@ import protocol.request.MessageRequestPacket;
 import protocol.request.QuitGroupRequestPacket;
 import protocol.response.CreateGroupResponsePacket;
 import protocol.response.GroupMessageResponsePacket;
+import protocol.response.HeartBeatResponsePacket;
 import protocol.response.JoinGroupResponsePacket;
 import protocol.response.ListGroupMembersResponsePacket;
 import protocol.response.LoginResponsePacket;
@@ -53,6 +55,8 @@ public class PacketCodeC {
     packetTypeMap.put(Command.LIST_GROUP_MEMBERS_RESPONSE, ListGroupMembersResponsePacket.class);
     packetTypeMap.put(Command.GROUP_MESSAGE_REQUEST, GroupMessageRequestPacket.class);
     packetTypeMap.put(Command.GROUP_MESSAGE_RESPONSE, GroupMessageResponsePacket.class);
+    packetTypeMap.put(Command.HEARTBEAT_REQUEST, HeartBeatRequestPacket.class);
+    packetTypeMap.put(Command.HEARTBEAT_RESPONSE, HeartBeatResponsePacket.class);
 
     serializerMap = new HashMap<>();
     Serializer serializer = new JSONSerializer();

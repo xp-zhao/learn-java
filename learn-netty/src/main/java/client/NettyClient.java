@@ -4,8 +4,8 @@ import client.console.ConsoleCommandManager;
 import client.console.LoginConsoleCommand;
 import client.handler.CreateGroupResponseHandler;
 import client.handler.GroupMessageResponseHandler;
+import client.handler.HeartBeatTimerHandler;
 import codec.PacketCodecHandler;
-import server.handler.GroupMessageRequestHandler;
 import client.handler.JoinGroupResponseHandler;
 import client.handler.ListGroupMembersResponseHandler;
 import client.handler.LoginResponseHandler;
@@ -26,6 +26,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
+import handler.IMIdleStateHandler;
 import util.SessionUtil;
 
 /**
@@ -35,7 +36,7 @@ public class NettyClient {
 
   private static final Integer MAX_RETRY = 5;
   private static final String HOST = "127.0.0.1";
-  private static final Integer PORT = 8000;
+  private static final Integer PORT = 8001;
 
   public static void main(String[] args) {
     // 引导类
@@ -51,9 +52,12 @@ public class NettyClient {
         .handler(new ChannelInitializer<SocketChannel>() { // IO 处理逻辑
           @Override
           protected void initChannel(SocketChannel channel) {
+            // 空闲检测
+            channel.pipeline().addLast(new IMIdleStateHandler());
             // 指定连接数据读写逻辑
             channel.pipeline().addLast(new Spliter());
-            channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+//            channel.pipeline().addLast(PacketCodecHandler.INSTANCE);
+            channel.pipeline().addLast(new PacketDecoder());
             // 登录响应处理器
             channel.pipeline().addLast(new LoginResponseHandler());
             // 收消息处理器
@@ -70,6 +74,9 @@ public class NettyClient {
             channel.pipeline().addLast(new ListGroupMembersResponseHandler());
             // 群响应处理器
             channel.pipeline().addLast(new GroupMessageResponseHandler());
+            channel.pipeline().addLast(new PacketEncoder());
+            // 心跳定时器
+            channel.pipeline().addLast(new HeartBeatTimerHandler());
           }
         });
     connect(bootstrap, HOST, PORT, MAX_RETRY);
