@@ -100,6 +100,7 @@ public class ExcelDemo {
     ExcelWriter writer = ExcelUtil.getWriter("D:\\user\\hutool\\excel\\writeTest.xlsx");
     // 跳过当前行（第一行）
     writer.passCurrentRow();
+    writer.autoSizeColumn(1);
     // 合并单元格后的标题行，使用默认标题样式
     writer.merge(row1.size() - 1, "测试标题");
     // 一次性写出内容，强制输出标题
