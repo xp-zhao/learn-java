@@ -12,6 +12,8 @@ public class ArrayListTest
 		List<Integer> list = new ArrayList<>();
 		System.out.println(list.size());
 		list.add(1);
+		list.add(1);
 		System.out.println(list.size());
+		System.out.println(list.lastIndexOf(1));
 	}
 }
