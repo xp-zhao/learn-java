@@ -10,5 +10,6 @@ import java.util.Optional;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Person {
+    private String name;
     private Optional<Car> car;
 }

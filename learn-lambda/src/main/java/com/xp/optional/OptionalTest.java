@@ -20,5 +20,21 @@ public class OptionalTest {
                 .map(Insurance::getName)
                 .orElse("Unknown");
         System.out.println(name);
+
+        System.out.println(getPersonName(person));
+        System.out.println(getInsuranceName(person));
+    }
+
+    public static String getPersonName(Person person){
+        return Optional.ofNullable(person)
+            .map(p -> p.getName())
+            .orElse("Unknown");
+    }
+
+    public static String getInsuranceName(Person person){
+        return Optional.ofNullable(person)
+            .flatMap(p -> p.getCar())
+            .flatMap(car -> car.getInsurance())
+            .map(insurance -> insurance.getName()).orElse("Unknown");
     }
 }
