@@ -1,5 +1,7 @@
 package com.xp.time;
 
+import static javafx.scene.input.KeyCode.L;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.ResolverStyle;
@@ -18,6 +20,8 @@ public class DateTimeFormat {
     formatter.parse("2019-02-28");
 //    formatter.parse("2019-02-30");
     System.out.println(LocalDate.parse("2019-02-28", formatter));
-    System.out.println(LocalDate.parse("2019-02-30", formatter));
+//    System.out.println(LocalDate.parse("2019-02-30", formatter));
+    float f = (float) 9.0;
+    System.out.printf("%f", f);
   }
 }
