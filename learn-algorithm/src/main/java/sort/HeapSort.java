@@ -13,7 +13,7 @@ public class HeapSort {
     int[] array = {7, 5, 19, 8, 4, 1, 20, 13, 16};
     System.out.println(Arrays.toString(array));
     // 建堆
-    Heap heap = new Heap(array.length);
+    Heap heap = new Heap(4);
     for (int i : array) {
       heap.insert(i);
     }

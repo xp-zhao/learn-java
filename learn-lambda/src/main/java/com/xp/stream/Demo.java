@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 public class Demo {
 
   public static void main(String[] args) {
+    Integer num = 1000000000;
     List<Integer> ids = Arrays.asList(1, 2, 3, 4);
     String str = ids.stream()
         .map(item -> String.valueOf(item))
