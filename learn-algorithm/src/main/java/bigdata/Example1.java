@@ -16,10 +16,13 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Example1.java 示例 有2个txt文件，每个文件包含2.5亿个随机的不重复正整数，每个整数占据一行，内存限制为4M，请编写程序实现如下功能：
+ * <pre>
+ * Example1.java 示例
+ * 有2个txt文件，每个文件包含2.5亿个随机的不重复正整数，每个整数占据一行，内存限制为4M，请编写程序实现如下功能：
  * 1.获取这两个文件中重复的正整数；
  * 2.将获取重复的数值里按从大到小排序的前100个数，确保不会出现内存溢出（有可能重复的正整数大小会超过4M）
  * 3.返回的数值形成字符串，用英文,隔开
+ * </pre>
  *
  * @author: zhaoxiaoping
  * @date: 2019/08/19
@@ -30,13 +33,13 @@ public class Example1 {
     // 初始化 1000000 的数据
 //    init(1000000);
     // 将各个大文件切割成小文件
-//    cutFile("D:\\user\\code\\file\\bigdata\\file1.txt", "D:\\user\\code\\file\\bigdata\\file1");
-//    cutFile("D:\\user\\code\\file\\bigdata\\file2.txt", "D:\\user\\code\\file\\bigdata\\file2");
+//    cutFile("D:\\user\\code\\file\\bigdata\\example1\\file1.txt", "D:\\user\\code\\file\\bigdata\\example1\\file1");
+//    cutFile("D:\\user\\code\\file\\bigdata\\example1\\file2.txt", "D:\\user\\code\\file\\bigdata\\example1\\file2");
     // 找到重复的数据，保存到 repeat.txt 中
-//    findRepeat("D:\\user\\code\\file\\bigdata\\repeat.txt");
+//    findRepeat("D:\\user\\code\\file\\bigdata\\example1\\repeat.txt");
     // 构造堆
     Heap heap = new Heap(100);
-    File file = new File("D:\\user\\code\\file\\bigdata\\repeat.txt");
+    File file = new File("D:\\user\\code\\file\\bigdata\\example1\\repeat.txt");
     try (BufferedReader reader = new BufferedReader(
         new InputStreamReader(new FileInputStream(file)))) {
       String line;
@@ -83,7 +86,7 @@ public class Example1 {
     int count = 0;
     for (int i = 0; i < 100; i++) {
       Set<String> set = new HashSet<>();
-      File file1 = new File("D:\\user\\code\\file\\bigdata\\file1\\a" + i + ".txt");
+      File file1 = new File("D:\\user\\code\\file\\bigdata\\file1\\example1\\a" + i + ".txt");
       try (BufferedReader reader = new BufferedReader(
           new InputStreamReader(new FileInputStream(file1)))) {
         String line;
