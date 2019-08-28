@@ -1,5 +1,6 @@
 package com.xp.html;
 
+import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +18,9 @@ public class JsoupDemo {
     String html = "<html><head><title>First parse</title></head>"
         + "<body><p>Parsed HTML into a doc.</p></body></html>";
     Document document = Jsoup.parse(html);
+    for (Element allElement : document.getAllElements()) {
+      System.out.println(allElement.tagName());
+    }
     Elements childs = document.children();
     for (Element child : childs) {
       System.out.println(child.tag().getName());
