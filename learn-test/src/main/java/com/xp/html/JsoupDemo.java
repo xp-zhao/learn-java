@@ -1,6 +1,8 @@
 package com.xp.html;
 
 import com.sun.scenario.effect.impl.sw.sse.SSEBlend_SRC_OUTPeer;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,6 +17,11 @@ import org.jsoup.select.Elements;
 public class JsoupDemo {
 
   public static void main(String[] args) {
+    String str = "<p>Parsed HTML into a doc.</p>";
+    Document doc = Jsoup.parse(str);
+    List<String> tags = doc.ownerDocument().getAllElements().stream()
+        .map(item -> item.tagName())
+        .collect(Collectors.toList());
     String html = "<html><head><title>First parse</title></head>"
         + "<body><p>Parsed HTML into a doc.</p></body></html>";
     Document document = Jsoup.parse(html);
