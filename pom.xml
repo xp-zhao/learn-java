@@ -27,6 +27,7 @@
         <module>leetcode</module>
         <module>learn-netty</module>
         <module>learn-algorithm</module>
+      <module>learn-concurrent</module>
     </modules>
 
 
