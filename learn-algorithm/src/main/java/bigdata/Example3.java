@@ -4,7 +4,14 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
+import javafx.beans.binding.IntegerBinding;
 
 /**
  * <pre>
@@ -43,19 +50,64 @@ public class Example3 {
     List<Integer> B = new ArrayList<>();
     // 能被 3 整除的数
     List<Integer> C = new ArrayList<>();
-    while (iterator.hasNext()){
+    while (iterator.hasNext()) {
       Integer num = (Integer) iterator.next();
-      if(num % 2 == 0){
+      if (num % 2 == 0) {
         B.add(num);
         iterator.remove();
-      } else if(num % 3 == 0){
+      } else if (num % 3 == 0) {
         C.add(num);
         iterator.remove();
       }
     }
-    System.out.println(A.stream().sorted().collect(Collectors.toList()));
-    System.out.println(B.stream().sorted().collect(Collectors.toList()));
-    System.out.println(C.stream().sorted().collect(Collectors.toList()));
-    return null;
+    // 排序
+    final List<Integer> finalA = A.stream().sorted().collect(Collectors.toList());
+    final List<Integer> finalB = B.stream().sorted().collect(Collectors.toList());
+    final List<Integer> finalC = C.stream().sorted().collect(Collectors.toList());
+
+    /**
+     * 开启三个线程
+     */
+    Callable<List<Integer>> taskA = () -> getChild(finalA);
+    Callable<List<Integer>> taskB = () -> getChild(finalB);
+    Callable<List<Integer>> taskC = () -> getChild(finalC);
+    ThreadPoolExecutor executor = new ThreadPoolExecutor(
+        3,
+        3,
+        60,
+        TimeUnit.SECONDS,
+        new ArrayBlockingQueue<>(2),
+        r -> new Thread(r, "ThreadName"),
+        new ThreadPoolExecutor.AbortPolicy());
+    Future<List<Integer>> futureA = executor.submit(taskA);
+    Future<List<Integer>> futureB = executor.submit(taskB);
+    Future<List<Integer>> futureC = executor.submit(taskC);
+    List<Integer> resultA = futureA.get();
+    List<Integer> resultB = futureB.get();
+    List<Integer> resultC = futureC.get();
+    executor.shutdown();
+    resultA.addAll(resultB);
+    resultA.addAll(resultC);
+    List<Integer> result = resultA.stream().distinct().sorted().collect(Collectors.toList());
+    return result;
+  }
+
+  /**
+   * 计算总和小于2000的最多个数的整数子集
+   *
+   * @param list 整数集合
+   * @return 总和小于 2000 的最大子集
+   */
+  public static List<Integer> getChild(List<Integer> list) {
+    int sum = 0;
+    List<Integer> result = new ArrayList<>();
+    for (Integer integer : list) {
+      sum += integer;
+      if (sum >= 2000) {
+        break;
+      }
+      result.add(integer);
+    }
+    return result;
   }
 }
