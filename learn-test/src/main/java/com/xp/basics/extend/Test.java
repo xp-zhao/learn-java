@@ -2,6 +2,7 @@ package com.xp.basics.extend;
 
 /**
  * A.java 多态示例
+ * 优先级 this.show(o) > super.show(o) > this.show(super(o)) > super.show(super(0))
  *
  * @author: zhaoxiaoping
  * @date: 2019/07/31
