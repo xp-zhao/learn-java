@@ -3,7 +3,7 @@ package concurrent;
 import java.util.concurrent.atomic.LongAdder;
 
 /**
- * VolatileNotAtomic.java valotile关键字示例
+ * VolatileNotAtomic.java volatile关键字示例
  *
  * @author: zhaoxiaoping
  * @date: 2019/09/10
