@@ -10,7 +10,6 @@
     <version>1.0-SNAPSHOT</version>
     <modules>
         <module>rabbitmq-demo</module>
-        <module>utils-demo</module>
         <module>learn-shiro</module>
         <module>learn-spring</module>
         <module>learn-cache</module>
@@ -23,7 +22,6 @@
         <module>learn-ftp</module>
         <module>learn-lambda</module>
         <module>learn-mq</module>
-        <module>learn-mybatis</module>
         <module>leetcode</module>
         <module>learn-netty</module>
         <module>learn-algorithm</module>

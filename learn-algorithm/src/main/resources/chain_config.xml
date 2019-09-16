@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<chains>
+    <chain name="chapterChain">
+        <processor name="livelihood" class="" sequence="1"></processor>
+        <processor name="fear" class="" sequence="2"></processor>
+    </chain>
+</chains>
