@@ -1,6 +1,7 @@
 package com.xp.lambda.compared.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 /**
@@ -8,6 +9,7 @@ import lombok.Data;
  * @author: zhaoxp
  * @create: 2019/04/28
  **/
+@Builder
 @Data
 @AllArgsConstructor
 public class Person {
