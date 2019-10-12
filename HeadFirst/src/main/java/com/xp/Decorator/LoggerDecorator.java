@@ -2,20 +2,22 @@ package com.xp.Decorator;
 
 /**
  * 用于日志记录的装饰器
- * Created by xp-zhao on 2018/12/13.
+ *
+ * @author xp-zhao
+ * @date 2018/12/13
  */
-public class LoggerDecorator implements Command
-{
-	Command cmd;
+public class LoggerDecorator implements Command {
 
-	public LoggerDecorator(Command cmd){
-		this.cmd = cmd;
-	}
+  Command cmd;
 
-	public void execute()
-	{
-		System.out.println("记录日志开始");
-		this.cmd.execute();
-		System.out.println("记录日志结束");
-	}
+  public LoggerDecorator(Command cmd) {
+    this.cmd = cmd;
+  }
+
+  @Override
+  public void execute() {
+    System.out.println("记录日志开始");
+    this.cmd.execute();
+    System.out.println("记录日志结束");
+  }
 }
