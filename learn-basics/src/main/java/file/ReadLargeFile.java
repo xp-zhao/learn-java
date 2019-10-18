@@ -23,6 +23,11 @@ public class ReadLargeFile {
     commonsIoRead(path);
   }
 
+  /**
+   * Scanner 读取大文件
+   *
+   * @param path 文件路径
+   */
   public static void scannerRead(String path) {
     try (FileInputStream inputStream = new FileInputStream(path);
         Scanner sc = new Scanner(inputStream, "UTF-8")) {
@@ -37,6 +42,11 @@ public class ReadLargeFile {
     }
   }
 
+  /**
+   * Apache Common IO 读取大文件
+   *
+   * @param path 文件路径
+   */
   public static void commonsIoRead(String path) {
     File file = new File(path);
     try (LineIterator iterator = FileUtils.lineIterator(file, "UTF-8")) {
@@ -51,6 +61,12 @@ public class ReadLargeFile {
     }
   }
 
+  /**
+   * 构造测试文件
+   *
+   * @return 文件路径
+   * @throws IOException IO 异常
+   */
   public static String buildFile() throws IOException {
     File file = new File("largeFile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
