@@ -26,6 +26,7 @@
         <module>learn-netty</module>
         <module>learn-algorithm</module>
       <module>learn-concurrent</module>
+      <module>learn-basics</module>
     </modules>
 
 
