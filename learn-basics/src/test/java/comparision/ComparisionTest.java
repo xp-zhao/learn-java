@@ -1,5 +1,6 @@
 package comparision;
 
+import core.comparision.Human;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
