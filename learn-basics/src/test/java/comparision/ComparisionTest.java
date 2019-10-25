@@ -3,6 +3,7 @@ package comparision;
 import core.comparision.Human;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.assertj.core.api.Assertions;
@@ -60,9 +61,18 @@ public class ComparisionTest {
         new Human("Sarah", 10),
         new Human("Zack", 12)
     );
-//    humans.sort(Human::compareByNameThenAge);
+    humans.sort(Human::compareByNameThenAge);
     humans.sort(Comparator.comparing(Human::getName).thenComparing(Human::getAge));
     Assertions.assertThat(humans.get(0)).isEqualTo(new Human("Sarah", 10));
+//    System.out.println(humans);
+//    Iterator<Human> iterator = humans.iterator();
+//    while (iterator.hasNext()){
+//      Human item = iterator.next();
+//      if(item.getAge() == 10){
+//        iterator.remove();
+//      }
+//    }
+//    System.out.println(humans);
   }
 
   @Test
