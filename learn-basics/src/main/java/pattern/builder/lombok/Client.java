@@ -17,5 +17,13 @@ public class Client {
 //        .file(new File(""))
         .build();
     System.out.println(message);
+
+    Child child = Child.builder()
+        .parentName("parent")
+        .parentAge(50)
+        .childName("child")
+        .childAge(20)
+        .build();
+    System.out.println(child);
   }
 }
