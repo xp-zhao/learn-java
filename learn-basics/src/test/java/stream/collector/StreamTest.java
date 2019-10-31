@@ -1,6 +1,7 @@
 package stream.collector;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -59,5 +61,12 @@ public class StreamTest {
         .collect(
             Collectors.toMap(Book::getName, Function.identity(), (o1, o2) -> o1, TreeMap::new));
     System.out.println(map.firstKey());
+  }
+
+  @Test
+  public void testStreamOf() {
+    int[] array = new int[]{1, 2, 3, 4};
+    Arrays.stream(array).forEach(i -> System.out.println(i));
+    Stream.of(array).flatMapToInt(Arrays::stream).forEach(System.out::println);
   }
 }
