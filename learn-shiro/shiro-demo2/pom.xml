@@ -14,12 +14,6 @@
     <dependencies>
         <dependency>
             <groupId>com.xp</groupId>
-            <artifactId>utils-demo</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.xp</groupId>
             <artifactId>shiro-common</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
