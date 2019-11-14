@@ -43,17 +43,26 @@ public class LifeCycleTest {
   }
 
   @Test
-  public void testWaitingState() throws InterruptedException {
+  public void testTimedWaitingState() throws InterruptedException {
     Runnable r = () -> {
       try {
-        TimeUnit.SECONDS.sleep(1);
+        TimeUnit.SECONDS.sleep(5);
       } catch (InterruptedException e) {
         e.printStackTrace();
       }
     };
     Thread thread = new Thread(r);
     thread.start();
-    thread.join();
-    System.out.println(Thread.currentThread().getState());
+    TimeUnit.SECONDS.sleep(1);
+    Assert.assertEquals(thread.getState(), State.TIMED_WAITING);
+  }
+
+  @Test
+  public void testTerminatedState() throws InterruptedException {
+    Thread thread = new Thread(() -> {
+    });
+    thread.start();
+    TimeUnit.SECONDS.sleep(1L);
+    Assert.assertEquals(thread.getState(), State.TERMINATED);
   }
 }
