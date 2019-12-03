@@ -5,31 +5,32 @@ import org.litespring.beans.factory.config.RuntimeBeanReference;
 import org.litespring.beans.factory.config.TypedStringValue;
 
 /**
- * Created by xp-zhao on 2018/7/25.
+ * @author xp-zhao
+ * @date 2018/7/25
  */
-public class BeanDefinitionValueResolver
-{
-	private final BeanFactory beanFactory;
+public class BeanDefinitionValueResolver {
 
-	public BeanDefinitionValueResolver(
-		BeanFactory beanFactory) {
+  private final BeanFactory beanFactory;
 
-		this.beanFactory = beanFactory;
-	}
+  public BeanDefinitionValueResolver(
+      BeanFactory beanFactory) {
 
-	public Object resolveValueIfNecessary(Object value) {
+    this.beanFactory = beanFactory;
+  }
 
-		if (value instanceof RuntimeBeanReference) {
-			RuntimeBeanReference ref = (RuntimeBeanReference) value;
-			String refName = ref.getBeanName();
-			Object bean = this.beanFactory.getBean(refName);
-			return bean;
+  public Object resolveValueIfNecessary(Object value) {
 
-		}else if (value instanceof TypedStringValue) {
-			return ((TypedStringValue) value).getValue();
-		} else{
-			//TODO
-			throw new RuntimeException("the value " + value +" has not implemented");
-		}
-	}
+    if (value instanceof RuntimeBeanReference) {
+      RuntimeBeanReference ref = (RuntimeBeanReference) value;
+      String refName = ref.getBeanName();
+      Object bean = this.beanFactory.getBean(refName);
+      return bean;
+
+    } else if (value instanceof TypedStringValue) {
+      return ((TypedStringValue) value).getValue();
+    } else {
+      //TODO
+      throw new RuntimeException("the value " + value + " has not implemented");
+    }
+  }
 }

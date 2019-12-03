@@ -7,36 +7,34 @@ import org.litespring.beans.propertyeditors.CustomBooleanEditor;
 /**
  * Created by xp-zhao on 2018/10/3.
  */
-public class CustomBooleanEditorTest
-{
-	@Test
-	public void testConvertStringToBoolean(){
-		CustomBooleanEditor editor = new CustomBooleanEditor(true);
+public class CustomBooleanEditorTest {
 
-		editor.setAsText("true");
-		Assert.assertEquals(true, ((Boolean)editor.getValue()).booleanValue());
-		editor.setAsText("false");
-		Assert.assertEquals(false, ((Boolean)editor.getValue()).booleanValue());
+  @Test
+  public void testConvertStringToBoolean() {
+    CustomBooleanEditor editor = new CustomBooleanEditor(true);
 
-		editor.setAsText("on");
-		Assert.assertEquals(true, ((Boolean)editor.getValue()).booleanValue());
-		editor.setAsText("off");
-		Assert.assertEquals(false, ((Boolean)editor.getValue()).booleanValue());
+    editor.setAsText("true");
+    Assert.assertEquals(true, ((Boolean) editor.getValue()).booleanValue());
+    editor.setAsText("false");
+    Assert.assertEquals(false, ((Boolean) editor.getValue()).booleanValue());
 
+    editor.setAsText("on");
+    Assert.assertEquals(true, ((Boolean) editor.getValue()).booleanValue());
+    editor.setAsText("off");
+    Assert.assertEquals(false, ((Boolean) editor.getValue()).booleanValue());
 
-		editor.setAsText("yes");
-		Assert.assertEquals(true, ((Boolean)editor.getValue()).booleanValue());
-		editor.setAsText("no");
-		Assert.assertEquals(false, ((Boolean)editor.getValue()).booleanValue());
+    editor.setAsText("yes");
+    Assert.assertEquals(true, ((Boolean) editor.getValue()).booleanValue());
+    editor.setAsText("no");
+    Assert.assertEquals(false, ((Boolean) editor.getValue()).booleanValue());
 
-
-		try{
-			editor.setAsText("aabbcc");
-		}catch(IllegalArgumentException e){
-			return;
-		}
-		Assert.fail();
+    try {
+      editor.setAsText("aabbcc");
+    } catch (IllegalArgumentException e) {
+      return;
+    }
+    Assert.fail();
 
 
-	}
+  }
 }

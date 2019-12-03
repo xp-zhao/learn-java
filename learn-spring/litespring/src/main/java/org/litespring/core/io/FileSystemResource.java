@@ -28,7 +28,8 @@ public class FileSystemResource implements Resource
 		this.path = path;
 	}
 
-	public InputStream getInputStream() throws IOException
+	@Override
+  public InputStream getInputStream() throws IOException
 	{
 		return new FileInputStream(this.file);
 	}

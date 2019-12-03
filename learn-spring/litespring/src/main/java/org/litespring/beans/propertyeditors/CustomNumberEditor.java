@@ -7,7 +7,9 @@ import java.beans.PropertyEditorSupport;
 import java.text.NumberFormat;
 
 /**
- * Created by xp-zhao on 2018/10/3.
+ *
+ * @author xp-zhao
+ * @date 2018/10/3
  */
 public class CustomNumberEditor extends PropertyEditorSupport
 {

@@ -7,27 +7,27 @@ import org.litespring.beans.propertyeditors.CustomNumberEditor;
 /**
  * Created by xp-zhao on 2018/10/3.
  */
-public class CustomNumberEditorTest
-{
-	@Test
-	public void testConvertString() {
-		CustomNumberEditor editor = new CustomNumberEditor(Integer.class,true);
+public class CustomNumberEditorTest {
 
-		editor.setAsText("3");
-		Object value = editor.getValue();
-		Assert.assertTrue(value instanceof Integer);
-		Assert.assertEquals(3, ((Integer)editor.getValue()).intValue());
+  @Test
+  public void testConvertString() {
+    CustomNumberEditor editor = new CustomNumberEditor(Integer.class, true);
 
-		editor.setAsText("");
-		Assert.assertTrue(editor.getValue() == null);
+    editor.setAsText("3");
+    Object value = editor.getValue();
+    Assert.assertTrue(value instanceof Integer);
+    Assert.assertEquals(3, ((Integer) editor.getValue()).intValue());
 
-		try{
-			editor.setAsText("3.1");
+    editor.setAsText("");
+    Assert.assertTrue(editor.getValue() == null);
 
-		}catch(IllegalArgumentException e){
-			return ;
-		}
-		Assert.fail();
+    try {
+      editor.setAsText("3.1");
 
-	}
+    } catch (IllegalArgumentException e) {
+      return;
+    }
+    Assert.fail();
+
+  }
 }
