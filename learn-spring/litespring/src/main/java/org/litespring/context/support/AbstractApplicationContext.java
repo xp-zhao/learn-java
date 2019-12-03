@@ -1,5 +1,7 @@
 package org.litespring.context.support;
 
+import org.litespring.beans.factory.annotation.AutowiredAnnotationProcessor;
+import org.litespring.beans.factory.config.ConfigurableBeanFactory;
 import org.litespring.beans.factory.support.DefaultBeanFactory;
 import org.litespring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.litespring.context.ApplicationContext;
@@ -12,38 +14,45 @@ import org.litespring.util.ClassUtils;
  */
 public abstract class AbstractApplicationContext implements ApplicationContext {
 
-  private DefaultBeanFactory factory;
-  private ClassLoader beanClassLoader;
+    private DefaultBeanFactory factory;
+    private ClassLoader beanClassLoader;
 
-  public AbstractApplicationContext(String configFile) {
-    factory = new DefaultBeanFactory();
-    XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
-    Resource resource = this.getResourceByPath(configFile);
-    reader.loadBeanDefinitions(resource);
-    factory.setBeanClassLoader(this.getBeanClassLoader());
-  }
+    public AbstractApplicationContext(String configFile) {
+        factory = new DefaultBeanFactory();
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+        Resource resource = this.getResourceByPath(configFile);
+        reader.loadBeanDefinitions(resource);
+        factory.setBeanClassLoader(this.getBeanClassLoader());
+        registerBeanPostProcessors(factory);
+    }
 
-  /**
-   * 通过路径读取资源
-   *
-   * @param path 资源路径
-   * @return 资源
-   */
-  protected abstract Resource getResourceByPath(String path);
+    /**
+     * 通过路径读取资源
+     *
+     * @param path 资源路径
+     * @return 资源
+     */
+    protected abstract Resource getResourceByPath(String path);
 
-  @Override
-  public Object getBean(String beanId) {
-    return factory.getBean(beanId);
-  }
+    @Override
+    public Object getBean(String beanId) {
+        return factory.getBean(beanId);
+    }
 
-  @Override
-  public void setBeanClassLoader(ClassLoader beanClassLoader) {
-    this.beanClassLoader = beanClassLoader;
-  }
+    public void setBeanClassLoader(ClassLoader beanClassLoader) {
+        this.beanClassLoader = beanClassLoader;
+    }
 
-  @Override
-  public ClassLoader getBeanClassLoader() {
-    return (this.beanClassLoader != null ? this.beanClassLoader
-        : ClassUtils.getDefaultClassLoader());
-  }
+    public ClassLoader getBeanClassLoader() {
+        return (this.beanClassLoader != null ? this.beanClassLoader
+                : ClassUtils.getDefaultClassLoader());
+    }
+
+    protected void registerBeanPostProcessors(ConfigurableBeanFactory beanFactory) {
+
+        AutowiredAnnotationProcessor postProcessor = new AutowiredAnnotationProcessor();
+        postProcessor.setBeanFactory(beanFactory);
+        beanFactory.addBeanPostProcessor(postProcessor);
+
+    }
 }

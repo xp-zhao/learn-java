@@ -76,4 +76,25 @@ public interface BeanDefinition {
    * @return true/false
    */
   boolean hasConstructorArgumentValues();
+
+  /**
+   * 解析 bean class
+   * @param classLoader 类加载器
+   * @return class 对象
+   * @throws ClassNotFoundException 异常
+   */
+  Class<?> resolveBeanClass(ClassLoader classLoader) throws ClassNotFoundException;
+
+  /**
+   * 获取 bean class
+   * @return class 对象
+   * @throws IllegalStateException 异常
+   */
+  Class<?> getBeanClass() throws IllegalStateException ;
+
+  /**
+   * 判断是否有 bean class
+   * @return true/false
+   */
+  boolean hasBeanClass();
 }

@@ -1,6 +1,6 @@
 package org.litespring.beans.factory.config;
 
-import org.litespring.beans.factory.BeanFactory;
+import java.util.List;
 
 /**
  * 提供设置 classloader 的能力
@@ -8,7 +8,7 @@ import org.litespring.beans.factory.BeanFactory;
  * @author xp-zhao
  * @date 2018/7/24
  */
-public interface ConfigurableBeanFactory extends BeanFactory {
+public interface ConfigurableBeanFactory extends AutowireCapableBeanFactory {
 
   /**
    * 为 bean 设置 classloader
@@ -23,4 +23,6 @@ public interface ConfigurableBeanFactory extends BeanFactory {
    * @return 当前使用的类加载器
    */
   ClassLoader getBeanClassLoader();
+  void addBeanPostProcessor(BeanPostProcessor postProcessor);
+  List<BeanPostProcessor> getBeanPostProcessors();
 }
