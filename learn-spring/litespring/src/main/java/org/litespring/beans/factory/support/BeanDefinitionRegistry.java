@@ -3,11 +3,24 @@ package org.litespring.beans.factory.support;
 import org.litespring.beans.BeanDefinition;
 
 /**
- * Created by xp-zhao on 2018/7/9.
+ * @author xp-zhao
+ * @date 2018/7/9
  */
-public interface BeanDefinitionRegistry
-{
-	BeanDefinition getBeanDefinition(String beanID);
+public interface BeanDefinitionRegistry {
 
-	void registerBeanDefinition(String beanID, BeanDefinition bd);
+  /**
+   * 通过 beanId 获取 BeanDefinition
+   *
+   * @param beanId beanId
+   * @return BeanDefinition
+   */
+  BeanDefinition getBeanDefinition(String beanId);
+
+  /**
+   * 注册 BeanDefinition
+   *
+   * @param beanId beanId
+   * @param bd BeanDefinition
+   */
+  void registerBeanDefinition(String beanId, BeanDefinition bd);
 }

@@ -1,84 +1,82 @@
 package org.litespring.beans.factory.support;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.litespring.beans.BeanDefinition;
 import org.litespring.beans.ConstructorArgument;
 import org.litespring.beans.PropertyValue;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by xp-zhao on 2018/7/8.
+ * @author xp-zhao
+ * @date 2018/7/8
  */
-public class GenericBeanDefinition implements BeanDefinition
-{
-	private String id;
-	private String beanClassName;
-	private boolean singleton = true;
-	private boolean prototype = false;
-	private String scope = SCOPE_DEFAULT;
+public class GenericBeanDefinition implements BeanDefinition {
 
-	List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
+  private String id;
+  private String beanClassName;
+  private boolean singleton = true;
+  private boolean prototype = false;
+  private String scope = SCOPE_DEFAULT;
 
-	private ConstructorArgument constructorArgument = new ConstructorArgument();
+  List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
 
-	public GenericBeanDefinition(String id, String beanClassName) {
+  private ConstructorArgument constructorArgument = new ConstructorArgument();
 
-		this.id = id;
-		this.beanClassName = beanClassName;
-	}
+  public GenericBeanDefinition(String id, String beanClassName) {
 
-	public GenericBeanDefinition()
-	{
+    this.id = id;
+    this.beanClassName = beanClassName;
+  }
 
-	}
+  public GenericBeanDefinition() {
 
-	public String getBeanClassName() {
+  }
 
-		return this.beanClassName;
-	}
+  public String getBeanClassName() {
 
-	public void setBeanClassName(String className){
-		this.beanClassName = className;
-	}
+    return this.beanClassName;
+  }
 
-	public List<PropertyValue> getPropertyValues()
-	{
-		return this.propertyValues;
-	}
+  public void setBeanClassName(String className) {
+    this.beanClassName = className;
+  }
 
-	public ConstructorArgument getConstructorArgument()
-	{
-		return this.constructorArgument;
-	}
+  public List<PropertyValue> getPropertyValues() {
+    return this.propertyValues;
+  }
 
-	public String getID()
-	{
-		return this.id;
-	}
+  public ConstructorArgument getConstructorArgument() {
+    return this.constructorArgument;
+  }
 
-	public void setId(String id){
-		this.id = id;
-	}
+  public String getId() {
+    return this.id;
+  }
 
-	public boolean hasConstructorArgumentValues()
-	{
-		return !this.constructorArgument.isEmpty();
-	}
+  public void setId(String id) {
+    this.id = id;
+  }
 
-	public boolean isSingleton() {
-		return this.singleton;
-	}
-	public boolean isPrototype() {
-		return this.prototype;
-	}
-	public String getScope() {
-		return this.scope;
-	}
-	public void setScope(String scope) {
-		this.scope = scope;
-		this.singleton = SCOPE_SINGLETON.equals(scope) || SCOPE_DEFAULT.equals(scope);
-		this.prototype = SCOPE_PROTOTYPE.equals(scope);
+  public boolean hasConstructorArgumentValues() {
+    return !this.constructorArgument.isEmpty();
+  }
 
-	}
+  public boolean isSingleton() {
+    return this.singleton;
+  }
+
+  public boolean isPrototype() {
+    return this.prototype;
+  }
+
+  public String getScope() {
+    return this.scope;
+  }
+
+  public void setScope(String scope) {
+    this.scope = scope;
+    this.singleton = SCOPE_SINGLETON.equals(scope) || SCOPE_DEFAULT.equals(scope);
+    this.prototype = SCOPE_PROTOTYPE.equals(scope);
+
+  }
 }

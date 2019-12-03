@@ -7,7 +7,9 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Created by xp-zhao on 2018/7/24.
+ *
+ * @author xp-zhao
+ * @date 2018/7/24
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry
 {

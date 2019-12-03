@@ -4,7 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Created by xp-zhao on 2018/7/8.
+ *
+ * @author xp-zhao
+ * @date 2018/7/8
  */
 public abstract class ClassUtils {
 

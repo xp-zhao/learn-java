@@ -38,7 +38,7 @@ public class ConstructorResolver
 			beanClass = this.beanFactory.getBeanClassLoader().loadClass(bd.getBeanClassName());
 
 		} catch (ClassNotFoundException e) {
-			throw new BeanCreationException( bd.getID(), "Instantiation of bean failed, can't resolve class", e);
+			throw new BeanCreationException( bd.getId(), "Instantiation of bean failed, can't resolve class", e);
 		}
 
 
@@ -75,14 +75,14 @@ public class ConstructorResolver
 
 		//找不到一个合适的构造函数
 		if(constructorToUse == null){
-			throw new BeanCreationException( bd.getID(), "can't find a apporiate constructor");
+			throw new BeanCreationException( bd.getId(), "can't find a apporiate constructor");
 		}
 
 
 		try {
 			return constructorToUse.newInstance(argsToUse);
 		} catch (Exception e) {
-			throw new BeanCreationException( bd.getID(), "can't find a create instance using "+constructorToUse);
+			throw new BeanCreationException( bd.getId(), "can't find a create instance using "+constructorToUse);
 		}
 
 

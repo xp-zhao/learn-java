@@ -1,5 +1,8 @@
 package org.litespring.context.annotation;
 
+import java.io.IOException;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.litespring.beans.BeanDefinition;
@@ -13,73 +16,68 @@ import org.litespring.core.type.classreading.SimpleMetadataReader;
 import org.litespring.stereotype.Component;
 import org.litespring.util.StringUtils;
 
-import java.io.IOException;
-import java.util.LinkedHashSet;
-import java.util.Set;
-
 /**
- * Created by xp-zhao on 2018/12/23.
+ * @author xp-zhao
+ * @date 2018/12/23
  */
-public class ClassPathBeanDefinitionScanner
-{
-	private final BeanDefinitionRegistry registry;
+public class ClassPathBeanDefinitionScanner {
 
-	private         PackageResourceLoader resourceLoader    = new PackageResourceLoader();
+  private final BeanDefinitionRegistry registry;
 
-	protected final Log                   logger            = LogFactory.getLog(getClass());
+  private PackageResourceLoader resourceLoader = new PackageResourceLoader();
 
-	private         BeanNameGenerator     beanNameGenerator = new AnnotationBeanNameGenerator();
+  protected final Log logger = LogFactory.getLog(getClass());
 
-	public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
-		this.registry = registry;
-	}
+  private BeanNameGenerator beanNameGenerator = new AnnotationBeanNameGenerator();
 
-	public Set<BeanDefinition> doScan(String packagesToScan) {
+  public ClassPathBeanDefinitionScanner(BeanDefinitionRegistry registry) {
+    this.registry = registry;
+  }
 
-		String[] basePackages = StringUtils.tokenizeToStringArray(packagesToScan,",");
+  public Set<BeanDefinition> doScan(String packagesToScan) {
 
-		Set<BeanDefinition> beanDefinitions = new LinkedHashSet<BeanDefinition>();
-		for (String basePackage : basePackages) {
-			Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
-			for (BeanDefinition candidate : candidates) {
-				beanDefinitions.add(candidate);
-				registry.registerBeanDefinition(candidate.getID(),candidate);
+    String[] basePackages = StringUtils.tokenizeToStringArray(packagesToScan, ",");
 
-			}
-		}
-		return beanDefinitions;
-	}
+    Set<BeanDefinition> beanDefinitions = new LinkedHashSet<BeanDefinition>();
+    for (String basePackage : basePackages) {
+      Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
+      for (BeanDefinition candidate : candidates) {
+        beanDefinitions.add(candidate);
+        registry.registerBeanDefinition(candidate.getId(), candidate);
+
+      }
+    }
+    return beanDefinitions;
+  }
 
 
+  public Set<BeanDefinition> findCandidateComponents(String basePackage) {
+    Set<BeanDefinition> candidates = new LinkedHashSet<BeanDefinition>();
+    try {
 
-	public Set<BeanDefinition> findCandidateComponents(String basePackage) {
-		Set<BeanDefinition> candidates = new LinkedHashSet<BeanDefinition>();
-		try {
+      Resource[] resources = this.resourceLoader.getResources(basePackage);
 
-			Resource[] resources = this.resourceLoader.getResources(basePackage);
+      for (Resource resource : resources) {
+        try {
 
-			for (Resource resource : resources) {
-				try {
+          MetadataReader metadataReader = new SimpleMetadataReader(resource);
 
-					MetadataReader metadataReader = new SimpleMetadataReader(resource);
+          if (metadataReader.getAnnotationMetadata().hasAnnotation(Component.class.getName())) {
+            ScannedGenericBeanDefinition sbd = new ScannedGenericBeanDefinition(
+                metadataReader.getAnnotationMetadata());
+            String beanName = this.beanNameGenerator.generateBeanName(sbd, this.registry);
+            sbd.setId(beanName);
+            candidates.add(sbd);
+          }
+        } catch (Throwable ex) {
+          throw new BeanDefinitionStoreException(
+              "Failed to read candidate component class: " + resource, ex);
+        }
 
-					if(metadataReader.getAnnotationMetadata().hasAnnotation(Component.class.getName())){
-						ScannedGenericBeanDefinition sbd = new ScannedGenericBeanDefinition(metadataReader.getAnnotationMetadata());
-						String beanName = this.beanNameGenerator.generateBeanName(sbd, this.registry);
-						sbd.setId(beanName);
-						candidates.add(sbd);
-					}
-				}
-				catch (Throwable ex) {
-					throw new BeanDefinitionStoreException(
-						"Failed to read candidate component class: " + resource, ex);
-				}
-
-			}
-		}
-		catch (IOException ex) {
-			throw new BeanDefinitionStoreException("I/O failure during classpath scanning", ex);
-		}
-		return candidates;
-	}
+      }
+    } catch (IOException ex) {
+      throw new BeanDefinitionStoreException("I/O failure during classpath scanning", ex);
+    }
+    return candidates;
+  }
 }

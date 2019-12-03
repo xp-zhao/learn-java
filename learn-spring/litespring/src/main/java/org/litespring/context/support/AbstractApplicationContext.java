@@ -7,34 +7,40 @@ import org.litespring.core.io.Resource;
 import org.litespring.util.ClassUtils;
 
 /**
- * Created by xp-zhao on 2018/7/23.
+ * @author xp-zhao
+ * @date 2018/7/23
  */
-public abstract class AbstractApplicationContext implements ApplicationContext
-{
-	private DefaultBeanFactory factory = null;
-	private ClassLoader beanClassLoader;
+public abstract class AbstractApplicationContext implements ApplicationContext {
 
-	public AbstractApplicationContext(String configFile)
-	{
-		factory = new DefaultBeanFactory();
-		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
-		Resource resource = this.getResourceByPath(configFile);
-		reader.loadBeanDefinitions(resource);
-		factory.setBeanClassLoader(this.getBeanClassLoader());
-	}
+  private DefaultBeanFactory factory;
+  private ClassLoader beanClassLoader;
 
-	protected abstract Resource getResourceByPath(String path);
+  public AbstractApplicationContext(String configFile) {
+    factory = new DefaultBeanFactory();
+    XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+    Resource resource = this.getResourceByPath(configFile);
+    reader.loadBeanDefinitions(resource);
+    factory.setBeanClassLoader(this.getBeanClassLoader());
+  }
 
-	public Object getBean(String beanId)
-	{
-		return factory.getBean(beanId);
-	}
+  /**
+   * 通过路径读取资源
+   *
+   * @param path 资源路径
+   * @return 资源
+   */
+  protected abstract Resource getResourceByPath(String path);
 
-	public void setBeanClassLoader(ClassLoader beanClassLoader) {
-		this.beanClassLoader = beanClassLoader;
-	}
+  public Object getBean(String beanId) {
+    return factory.getBean(beanId);
+  }
 
-	public ClassLoader getBeanClassLoader() {
-		return (this.beanClassLoader != null ? this.beanClassLoader : ClassUtils.getDefaultClassLoader());
-	}
+  public void setBeanClassLoader(ClassLoader beanClassLoader) {
+    this.beanClassLoader = beanClassLoader;
+  }
+
+  public ClassLoader getBeanClassLoader() {
+    return (this.beanClassLoader != null ? this.beanClassLoader
+        : ClassUtils.getDefaultClassLoader());
+  }
 }

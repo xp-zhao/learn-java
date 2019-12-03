@@ -5,14 +5,31 @@ import org.litespring.core.annotation.AnnotationAttributes;
 import java.util.Set;
 
 /**
- * Created by xp-zhao on 2018/12/23.
+ * @author xp-zhao
+ * @date 2018/12/23
  */
-public interface AnnotationMetadata extends ClassMetadata{
+public interface AnnotationMetadata extends ClassMetadata {
 
-	Set<String> getAnnotationTypes();
+  /**
+   * 获取注解类型
+   *
+   * @return 注解类型
+   */
+  Set<String> getAnnotationTypes();
 
+  /**
+   * 是否有注解
+   *
+   * @param annotationType 注解类型
+   * @return true/false
+   */
+  boolean hasAnnotation(String annotationType);
 
-	boolean hasAnnotation(String annotationType);
-
-	public AnnotationAttributes getAnnotationAttributes(String annotationType);
+  /**
+   * 获取注解属性
+   *
+   * @param annotationType 注解类型
+   * @return 注解属性
+   */
+  AnnotationAttributes getAnnotationAttributes(String annotationType);
 }

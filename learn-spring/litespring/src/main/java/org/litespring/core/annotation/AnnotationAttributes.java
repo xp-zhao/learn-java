@@ -6,7 +6,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * Created by xp-zhao on 2018/12/23.
+ *
+ * @author xp-zhao
+ * @date 2018/12/23
  */
 @SuppressWarnings("serial")
 public class AnnotationAttributes extends LinkedHashMap<String, Object>

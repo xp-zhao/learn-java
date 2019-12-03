@@ -1,7 +1,9 @@
 package org.litespring.beans;
 
 /**
- * Created by xp-zhao on 2018/7/25.
+ *
+ * @author xp-zhao
+ * @date 2018/7/25
  */
 public class PropertyValue
 {

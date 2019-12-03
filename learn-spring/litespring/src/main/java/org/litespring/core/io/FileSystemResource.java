@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by xp-zhao on 2018/7/23.
+ *
+ * @author xp-zhao
+ * @date 2018/7/23
  */
 public class FileSystemResource implements Resource
 {

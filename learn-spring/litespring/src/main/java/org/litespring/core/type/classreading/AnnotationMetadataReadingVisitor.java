@@ -11,7 +11,9 @@ import java.util.Map;
 import java.util.Set;
 
 /**
- * Created by xp-zhao on 2018/12/23.
+ *
+ * @author xp-zhao
+ * @date 2018/12/23
  */
 public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisitor implements AnnotationMetadata
 {

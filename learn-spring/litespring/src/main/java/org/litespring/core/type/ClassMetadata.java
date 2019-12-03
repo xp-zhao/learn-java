@@ -1,48 +1,61 @@
 package org.litespring.core.type;
 
 /**
- * Created by xp-zhao on 2018/12/23.
+ * @author xp-zhao
+ * @date 2018/12/23
  */
-public interface ClassMetadata
-{
-	/**
-	 * Return the name of the underlying class.
-	 */
-	String getClassName();
+public interface ClassMetadata {
 
-	/**
-	 * Return whether the underlying class represents an interface.
-	 */
-	boolean isInterface();
+  /**
+   * Return the name of the underlying class.
+   *
+   * @return className
+   */
+  String getClassName();
 
-	/**
-	 * Return whether the underlying class is marked as abstract.
-	 */
-	boolean isAbstract();
+  /**
+   * Return whether the underlying class represents an interface.
+   *
+   * @return true/false
+   */
+  boolean isInterface();
 
-
-
-	/**
-	 * Return whether the underlying class is marked as 'final'.
-	 */
-	boolean isFinal();
-
+  /**
+   * Return whether the underlying class is marked as abstract.
+   *
+   * @return true/false
+   */
+  boolean isAbstract();
 
 
-	/**
-	 * Return whether the underlying class has a super class.
-	 */
-	boolean hasSuperClass();
+  /**
+   * Return whether the underlying class is marked as 'final'.
+   *
+   * @return true/false
+   */
+  boolean isFinal();
 
-	/**
-	 * Return the name of the super class of the underlying class,
-	 * or {@code null} if there is no super class defined.
-	 */
-	String getSuperClassName();
 
-	/**
-	 * Return the names of all interfaces that the underlying class
-	 * implements, or an empty array if there are none.
-	 */
-	String[] getInterfaceNames();
+  /**
+   * Return whether the underlying class has a super class.
+   *
+   * @return true/false
+   */
+  boolean hasSuperClass();
+
+  /**
+   * Return the name of the super class of the underlying class,
+   * or {@code null} if there is no super class defined.
+   *
+   * @return superClassName
+   */
+  String getSuperClassName();
+
+  /**
+   * Return the names of all interfaces that the underlying class
+   * implements, or an empty array if there are none.
+   *
+   * @return interfaceNames
+   */
+  String[] getInterfaceNames();
 }

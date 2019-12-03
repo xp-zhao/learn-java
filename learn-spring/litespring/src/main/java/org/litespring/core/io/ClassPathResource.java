@@ -1,38 +1,39 @@
 package org.litespring.core.io;
 
-import org.litespring.util.ClassUtils;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import org.litespring.util.ClassUtils;
 
 /**
- * Created by xp-zhao on 2018/7/23.
+ * @author xp-zhao
+ * @date 2018/7/23
  */
-public class ClassPathResource implements Resource
-{
-	private String path;
-	private ClassLoader classLoader;
+public class ClassPathResource implements Resource {
 
-	public ClassPathResource(String path) {
-		this(path, (ClassLoader) null);
-	}
-	public ClassPathResource(String path, ClassLoader classLoader) {
-		this.path = path;
-		this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
-	}
+  private String path;
+  private ClassLoader classLoader;
 
-	public InputStream getInputStream() throws IOException
-	{
-		InputStream is = this.classLoader.getResourceAsStream(this.path);
+  public ClassPathResource(String path) {
+    this(path, null);
+  }
 
-		if (is == null) {
-			throw new FileNotFoundException(path + " cannot be opened");
-		}
-		return is;
+  public ClassPathResource(String path, ClassLoader classLoader) {
+    this.path = path;
+    this.classLoader = (classLoader != null ? classLoader : ClassUtils.getDefaultClassLoader());
+  }
 
-	}
-	public String getDescription(){
-		return this.path;
-	}
+  public InputStream getInputStream() throws IOException {
+    InputStream is = this.classLoader.getResourceAsStream(this.path);
+
+    if (is == null) {
+      throw new FileNotFoundException(path + " cannot be opened");
+    }
+    return is;
+
+  }
+
+  public String getDescription() {
+    return this.path;
+  }
 }
