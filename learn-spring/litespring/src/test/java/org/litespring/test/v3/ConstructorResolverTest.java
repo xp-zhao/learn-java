@@ -13,27 +13,27 @@ import org.litespring.service.v3.PetStoreService;
 /**
  * Created by xp-zhao on 2018/12/15.
  */
-public class ConstructorResolverTest
-{
-	@Test
-	public void testAutowireConstructor() {
+public class ConstructorResolverTest {
 
-		DefaultBeanFactory factory = new DefaultBeanFactory();
-		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
-		Resource resource = new ClassPathResource("petstore-v3.xml");
-		reader.loadBeanDefinitions(resource);
+  @Test
+  public void testAutowireConstructor() {
 
-		BeanDefinition bd = factory.getBeanDefinition("petStore");
+    DefaultBeanFactory factory = new DefaultBeanFactory();
+    XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+    Resource resource = new ClassPathResource("petstore-v3.xml");
+    reader.loadBeanDefinitions(resource);
 
-		ConstructorResolver resolver = new ConstructorResolver(factory);
+    BeanDefinition bd = factory.getBeanDefinition("petStore");
 
-		PetStoreService petStore = (PetStoreService)resolver.autowireConstructor(bd);
+    ConstructorResolver resolver = new ConstructorResolver(factory);
 
-		// 验证参数version 正确地通过此构造函数做了初始化
-		// PetStoreService(AccountDao accountDao, ItemDao itemDao,int version)
-		Assert.assertEquals(1, petStore.getVersion());
+    PetStoreService petStore = (PetStoreService) resolver.autowireConstructor(bd);
 
-		Assert.assertNotNull(petStore.getAccountDao());
-		Assert.assertNotNull(petStore.getItemDao());
-	}
+    // 验证参数version 正确地通过此构造函数做了初始化
+    // PetStoreService(AccountDao accountDao, ItemDao itemDao,int version)
+    Assert.assertEquals(1, petStore.getVersion());
+
+    Assert.assertNotNull(petStore.getAccountDao());
+    Assert.assertNotNull(petStore.getItemDao());
+  }
 }

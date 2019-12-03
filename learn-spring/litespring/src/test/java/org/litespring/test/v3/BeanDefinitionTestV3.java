@@ -1,5 +1,6 @@
 package org.litespring.test.v3;
 
+import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 import org.litespring.beans.BeanDefinition;
@@ -11,35 +12,33 @@ import org.litespring.beans.factory.xml.XmlBeanDefinitionReader;
 import org.litespring.core.io.ClassPathResource;
 import org.litespring.core.io.Resource;
 
-import java.util.List;
-
 /**
  * Created by xp-zhao on 2018/12/15.
  */
-public class BeanDefinitionTestV3
-{
-	@Test
-	public void testConstructorArgument() {
+public class BeanDefinitionTestV3 {
 
-		DefaultBeanFactory factory = new DefaultBeanFactory();
-		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
-		Resource resource = new ClassPathResource("petstore-v3.xml");
-		reader.loadBeanDefinitions(resource);
+  @Test
+  public void testConstructorArgument() {
 
-		BeanDefinition bd = factory.getBeanDefinition("petStore");
-		Assert.assertEquals("org.litespring.service.v3.PetStoreService", bd.getBeanClassName());
+    DefaultBeanFactory factory = new DefaultBeanFactory();
+    XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+    Resource resource = new ClassPathResource("petstore-v3.xml");
+    reader.loadBeanDefinitions(resource);
 
-		ConstructorArgument args = bd.getConstructorArgument();
-		List<ConstructorArgument.ValueHolder> valueHolders = args.getArgumentValues();
+    BeanDefinition bd = factory.getBeanDefinition("petStore");
+    Assert.assertEquals("org.litespring.service.v3.PetStoreService", bd.getBeanClassName());
 
-		Assert.assertEquals(3, valueHolders.size());
+    ConstructorArgument args = bd.getConstructorArgument();
+    List<ConstructorArgument.ValueHolder> valueHolders = args.getArgumentValues();
 
-		RuntimeBeanReference ref1 = (RuntimeBeanReference)valueHolders.get(0).getValue();
-		Assert.assertEquals("accountDao", ref1.getBeanName());
-		RuntimeBeanReference ref2 = (RuntimeBeanReference)valueHolders.get(1).getValue();
-		Assert.assertEquals("itemDao", ref2.getBeanName());
+    Assert.assertEquals(3, valueHolders.size());
 
-		TypedStringValue strValue = (TypedStringValue)valueHolders.get(2).getValue();
-		Assert.assertEquals( "1", strValue.getValue());
-	}
+    RuntimeBeanReference ref1 = (RuntimeBeanReference) valueHolders.get(0).getValue();
+    Assert.assertEquals("accountDao", ref1.getBeanName());
+    RuntimeBeanReference ref2 = (RuntimeBeanReference) valueHolders.get(1).getValue();
+    Assert.assertEquals("itemDao", ref2.getBeanName());
+
+    TypedStringValue strValue = (TypedStringValue) valueHolders.get(2).getValue();
+    Assert.assertEquals("1", strValue.getValue());
+  }
 }
