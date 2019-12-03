@@ -9,17 +9,18 @@ import org.litespring.stereotype.Component;
  * Created by xp-zhao on 2018/12/23.
  */
 @Component(value = "petStore")
-public class PetStoreService
-{
-	@Autowired
-	private AccountDao accountDao;
-	@Autowired
-	private ItemDao itemDao;
+public class PetStoreService {
 
-	public AccountDao getAccountDao() {
-		return accountDao;
-	}
-	public ItemDao getItemDao() {
-		return itemDao;
-	}
+  @Autowired
+  private AccountDao accountDao;
+  @Autowired
+  private ItemDao itemDao;
+
+  public AccountDao getAccountDao() {
+    return accountDao;
+  }
+
+  public ItemDao getItemDao() {
+    return itemDao;
+  }
 }

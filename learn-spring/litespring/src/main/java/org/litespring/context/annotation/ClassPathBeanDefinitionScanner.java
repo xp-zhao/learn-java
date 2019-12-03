@@ -38,7 +38,7 @@ public class ClassPathBeanDefinitionScanner {
 
     String[] basePackages = StringUtils.tokenizeToStringArray(packagesToScan, ",");
 
-    Set<BeanDefinition> beanDefinitions = new LinkedHashSet<BeanDefinition>();
+    Set<BeanDefinition> beanDefinitions = new LinkedHashSet<>();
     for (String basePackage : basePackages) {
       Set<BeanDefinition> candidates = findCandidateComponents(basePackage);
       for (BeanDefinition candidate : candidates) {
@@ -52,7 +52,7 @@ public class ClassPathBeanDefinitionScanner {
 
 
   public Set<BeanDefinition> findCandidateComponents(String basePackage) {
-    Set<BeanDefinition> candidates = new LinkedHashSet<BeanDefinition>();
+    Set<BeanDefinition> candidates = new LinkedHashSet<>();
     try {
 
       Resource[] resources = this.resourceLoader.getResources(basePackage);

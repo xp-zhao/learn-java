@@ -19,7 +19,8 @@ public class AnnotationBeanNameGenerator implements BeanNameGenerator
 {
 
 
-	public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
+	@Override
+  public String generateBeanName(BeanDefinition definition, BeanDefinitionRegistry registry) {
 		if (definition instanceof AnnotatedBeanDefinition) {
 			String beanName = determineBeanNameFromAnnotation((AnnotatedBeanDefinition) definition);
 			if (StringUtils.hasText(beanName)) {

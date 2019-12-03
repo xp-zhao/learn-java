@@ -9,14 +9,14 @@ import org.litespring.service.v4.PetStoreService;
 /**
  * Created by xp-zhao on 2018/12/15.
  */
-public class ApplicationContextTestV4
-{
-	@Test
-	public void testGetBeanProperty() {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v4.xml");
-		PetStoreService petStore = (PetStoreService)ctx.getBean("petStore");
+public class ApplicationContextTestV4 {
 
-		Assert.assertNotNull(petStore.getAccountDao());
-		Assert.assertNotNull(petStore.getItemDao());
-	}
+  @Test
+  public void testGetBeanProperty() {
+    ApplicationContext ctx = new ClassPathXmlApplicationContext("petstore-v4.xml");
+    PetStoreService petStore = (PetStoreService) ctx.getBean("petStore");
+
+    Assert.assertNotNull(petStore.getAccountDao());
+    Assert.assertNotNull(petStore.getItemDao());
+  }
 }
