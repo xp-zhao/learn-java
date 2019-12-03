@@ -20,7 +20,7 @@ import org.litespring.util.ClassUtils;
 public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     implements BeanDefinitionRegistry, ConfigurableBeanFactory {
 
-  private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<String, BeanDefinition>();
+  private final Map<String, BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
   private ClassLoader beanClassLoader;
 
@@ -28,14 +28,17 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
   }
 
 
+  @Override
   public BeanDefinition getBeanDefinition(String beanId) {
     return this.beanDefinitionMap.get(beanId);
   }
 
+  @Override
   public void registerBeanDefinition(String beanId, BeanDefinition bd) {
     this.beanDefinitionMap.put(beanId, bd);
   }
 
+  @Override
   public Object getBean(String beanId) {
     BeanDefinition bd = this.getBeanDefinition(beanId);
     if (bd == null) {
@@ -109,10 +112,12 @@ public class DefaultBeanFactory extends DefaultSingletonBeanRegistry
     }
   }
 
+  @Override
   public void setBeanClassLoader(ClassLoader beanClassLoader) {
     this.beanClassLoader = beanClassLoader;
   }
 
+  @Override
   public ClassLoader getBeanClassLoader() {
     return (this.beanClassLoader != null ? this.beanClassLoader
         : ClassUtils.getDefaultClassLoader());

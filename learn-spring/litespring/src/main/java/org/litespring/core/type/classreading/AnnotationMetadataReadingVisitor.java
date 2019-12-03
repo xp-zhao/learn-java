@@ -1,45 +1,48 @@
 package org.litespring.core.type.classreading;
 
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.Map;
+import java.util.Set;
 import org.litespring.core.annotation.AnnotationAttributes;
 import org.litespring.core.type.AnnotationMetadata;
 import org.springframework.asm.AnnotationVisitor;
 import org.springframework.asm.Type;
 
-import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
-import java.util.Map;
-import java.util.Set;
-
 /**
- *
  * @author xp-zhao
  * @date 2018/12/23
  */
-public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisitor implements AnnotationMetadata
-{
+public class AnnotationMetadataReadingVisitor extends ClassMetadataReadingVisitor implements
+    AnnotationMetadata {
 
-	private final Set<String>                       annotationSet = new LinkedHashSet<String>(4);
-	private final Map<String, AnnotationAttributes> attributeMap  = new LinkedHashMap<String, AnnotationAttributes>(4);
+  private final Set<String> annotationSet = new LinkedHashSet<String>(4);
+  private final Map<String, AnnotationAttributes> attributeMap = new LinkedHashMap<>(4);
 
-	public AnnotationMetadataReadingVisitor() {
+  public AnnotationMetadataReadingVisitor() {
 
-	}
-	@Override
-	public AnnotationVisitor visitAnnotation(final String desc, boolean visible) {
+  }
 
-		String className = Type.getType(desc).getClassName();
-		this.annotationSet.add(className);
-		return new AnnotationAttributesReadingVisitor(className, this.attributeMap);
-	}
-	public Set<String> getAnnotationTypes() {
-		return this.annotationSet;
-	}
+  @Override
+  public AnnotationVisitor visitAnnotation(final String desc, boolean visible) {
 
-	public boolean hasAnnotation(String annotationType) {
-		return this.annotationSet.contains(annotationType);
-	}
+    String className = Type.getType(desc).getClassName();
+    this.annotationSet.add(className);
+    return new AnnotationAttributesReadingVisitor(className, this.attributeMap);
+  }
 
-	public AnnotationAttributes getAnnotationAttributes(String annotationType) {
-		return this.attributeMap.get(annotationType);
-	}
+  @Override
+  public Set<String> getAnnotationTypes() {
+    return this.annotationSet;
+  }
+
+  @Override
+  public boolean hasAnnotation(String annotationType) {
+    return this.annotationSet.contains(annotationType);
+  }
+
+  @Override
+  public AnnotationAttributes getAnnotationAttributes(String annotationType) {
+    return this.attributeMap.get(annotationType);
+  }
 }
