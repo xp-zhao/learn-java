@@ -1,4 +1,4 @@
-package core.file;
+package io.file;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -71,7 +71,7 @@ public class ReadLargeFile {
     File file = new File("largeFile.txt");
     BufferedWriter writer = new BufferedWriter(new FileWriter(file));
     for (int i = 0; i < 10; i++) {
-      writer.write("core/file" + i + "\n");
+      writer.write("io/file" + i + "\n");
     }
     writer.close();
     return file.getAbsolutePath();

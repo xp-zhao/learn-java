@@ -13,7 +13,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>custom-tag</module>
-        <module>mySpring</module>
         <module>litespring</module>
     </modules>
 
