@@ -9,19 +9,21 @@ import java.util.List;
  * 链表反转
  * Created by xp-zhao on 2018/12/11.
  */
-public class LeetCode_206_LinkedReversal
-{
+public class LeetCode_206_LinkedReversal {
+
 	public static void main(String[] args) {
 		ListNode node = createLinked();
 		printLinked(node);
 		ListNode result = reverse(node);
 		printLinked(result);
+		ListNode result1 = reverse1(result);
+		printLinked(result1);
 	}
 
-	public static ListNode reverse(ListNode current){
+	public static ListNode reverse(ListNode current) {
 		ListNode previous = null;
 		ListNode next;
-		while(current != null){
+		while (current != null) {
 			next = current.getNext();
 			current.setNext(previous);
 			previous = current;
@@ -30,7 +32,19 @@ public class LeetCode_206_LinkedReversal
 		return previous;
 	}
 
-	public static ListNode createLinked(){
+	public static ListNode reverse1(ListNode head) {
+		ListNode pre = null;
+		ListNode current;
+		while (head != null) {
+			current = head;
+			head = head.next;
+			current.next = pre;
+			pre = current;
+		}
+		return pre;
+	}
+
+	public static ListNode createLinked() {
 		ListNode head = new ListNode(1);
 		ListNode next = new ListNode(2);
 		ListNode nextNext = new ListNode(3);
@@ -39,12 +53,13 @@ public class LeetCode_206_LinkedReversal
 		return head;
 	}
 
-	public static void printLinked(ListNode node){
+
+	public static void printLinked(ListNode node) {
 		List<Integer> list = new ArrayList<>();
-		while(node != null){
+		while (node != null) {
 			list.add(node.getValue());
 			node = node.getNext();
 		}
-		System.out.println(StringUtils.join(list.toArray(),"->"));
+		System.out.println(StringUtils.join(list.toArray(), "->"));
 	}
 }
