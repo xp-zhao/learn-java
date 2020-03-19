@@ -22,7 +22,7 @@ public class LeetCode_19_RemoveNthFromEnd {
     int[] array = {1, 2, 3, 4, 5};
     ListNode node = new ListNode(array);
     System.out.println(node.toString());
-    System.out.println(removeNthFromEnd(node, 1));
+    System.out.println(removeNthFromEnd(node, 2));
   }
 
   public static ListNode removeNthFromEnd(ListNode head, int n) {
