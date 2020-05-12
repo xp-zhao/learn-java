@@ -27,6 +27,7 @@
         <module>learn-algorithm</module>
         <module>learn-concurrent</module>
         <module>learn-basics</module>
+      <module>learn-file/learn-poi</module>
     </modules>
 
 
