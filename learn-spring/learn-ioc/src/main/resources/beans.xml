@@ -10,4 +10,9 @@
     <property name="age" value="10"/>
   </bean>
 
+  <bean id="user2" class="com.ioc.entity.User">
+    <constructor-arg name="age" value="10"/>
+    <constructor-arg name="name" value="xp"/>
+  </bean>
+
 </beans>
