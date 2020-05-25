@@ -7,6 +7,12 @@ package com.xp.alert.v1;
  **/
 public class Notification {
 
+  private MessageSender messageSender;
+
+  public Notification(MessageSender messageSender) {
+    this.messageSender = messageSender;
+  }
+
   public void notice(NotificationEmergencyLevel level, String content) {
     System.out.println("通知");
   }

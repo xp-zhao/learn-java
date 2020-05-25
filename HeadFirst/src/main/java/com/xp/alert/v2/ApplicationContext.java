@@ -1,5 +1,6 @@
 package com.xp.alert.v2;
 
+import com.xp.alert.SmsSender;
 import com.xp.alert.v1.AlertRule;
 import com.xp.alert.v1.Notification;
 
@@ -16,7 +17,7 @@ public class ApplicationContext {
 
   public void initializeBeans() {
     rule = new AlertRule();
-    notification = new Notification();
+    notification = new Notification(new SmsSender());
     alert = new Alert();
     alert.addAlertHandler(new TpsAlertHandler(rule, notification));
     alert.addAlertHandler(new ErrorAlertHandler(rule, notification));
