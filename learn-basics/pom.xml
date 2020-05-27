@@ -14,6 +14,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <java.home>D:\Program Files\Java\jdk1.8.0_20</java.home>
     <jackson.version>2.11.0</jackson.version>
+    <jave-version>2.7.3</jave-version>
   </properties>
   <build>
     <plugins>
@@ -133,6 +134,24 @@
       <version>${jackson.version}</version>
     </dependency>
 
+    <!-- start ffmpeg -->
+    <dependency>
+      <groupId>ws.schild</groupId>
+      <artifactId>jave-core</artifactId>
+      <version>${jave-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ws.schild</groupId>
+      <artifactId>jave-nativebin-linux64</artifactId>
+      <version>${jave-version}</version>
+    </dependency>
+    <dependency>
+      <groupId>ws.schild</groupId>
+      <artifactId>jave-nativebin-win64</artifactId>
+      <version>${jave-version}</version>
+    </dependency>
+    <!-- end -->
+    
   </dependencies>
 
 
