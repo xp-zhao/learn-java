@@ -4,3 +4,4 @@ target
 out
 *.log
 *.py
+.DS_Store
