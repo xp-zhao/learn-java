@@ -3,8 +3,10 @@ package stream.collector;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
@@ -66,7 +68,24 @@ public class StreamTest {
   @Test
   public void testStreamOf() {
     int[] array = new int[]{1, 2, 3, 4};
+    System.out.println(Arrays.toString(array));
     Arrays.stream(array).forEach(i -> System.out.println(i));
     Stream.of(array).flatMapToInt(Arrays::stream).forEach(System.out::println);
+  }
+
+  @Test
+  public void testFilterAndMap() {
+    List<Integer> list = Arrays.asList(1, 2, 2, 2, 3, 4, 5, 6, 7, 8, 9);
+    Set<Integer> set = new HashSet<>();
+    List<String> strList = list.stream()
+        .filter(item -> !set.contains(item))
+        .map(item -> {
+          if (item.equals(2)) {
+            set.add(item);
+          }
+          return String.valueOf(item);
+        })
+        .collect(Collectors.toList());
+    System.out.println(strList);
   }
 }

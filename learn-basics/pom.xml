@@ -15,6 +15,7 @@
     <java.home>D:\Program Files\Java\jdk1.8.0_20</java.home>
     <jackson.version>2.11.0</jackson.version>
     <jave-version>2.7.3</jave-version>
+    <mapstruct.version>1.3.1.Final</mapstruct.version>
   </properties>
   <build>
     <plugins>
@@ -29,6 +30,23 @@
           <compilerArguments>
             <bootclasspath>${java.home}/jre/lib/rt.jar;${java.home}/jre/lib/jce.jar</bootclasspath>
           </compilerArguments>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <version>3.8.1</version>
+        <configuration>
+          <source>1.8</source> <!-- depending on your project -->
+          <target>1.8</target> <!-- depending on your project -->
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${mapstruct.version}</version>
+            </path>
+            <!-- other annotation processors -->
+          </annotationProcessorPaths>
         </configuration>
       </plugin>
     </plugins>
@@ -163,7 +181,19 @@
       <artifactId>poi-scratchpad</artifactId>
       <version>3.8</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
+    </dependency>
+
+    <!-- 引入 processor -->
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>${mapstruct.version}</version>
+      <scope>provided</scope>
+    </dependency>
   </dependencies>
-
-
 </project>
