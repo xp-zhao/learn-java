@@ -1,12 +1,14 @@
 package com.xp.file;
 
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.io.LineIterator;
-
-import java.io.*;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+import org.apache.commons.collections4.CollectionUtils;
 
 /**
  * Created by xp-zhao on 2018/11/1.

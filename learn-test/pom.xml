@@ -155,7 +155,7 @@
         <dependency>
             <groupId>net.arnx</groupId>
             <artifactId>wmf2svg</artifactId>
-            <version>0.9.0</version>
+            <version>0.9.8</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
