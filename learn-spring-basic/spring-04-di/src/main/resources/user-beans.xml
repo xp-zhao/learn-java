@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:c="http://www.springframework.org/schema/c"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <!-- p 命名空间注入，可以直接注入属性的值：property -->
+  <bean id="user" class="com.xp.pojo.User" p:name="p标签测试" p:age="18"/>
+
+  <!-- c 命名空间注入，可以通过构造器注入： construct -->
+  <bean id="user2" class="com.xp.pojo.User" c:name="xxx" c:age="18" scope="prototype"/>
+</beans>

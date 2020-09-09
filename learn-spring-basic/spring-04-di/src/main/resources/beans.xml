@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="address" class="com.xp.pojo.Address">
+    <property name="address" value="成都"/>
+  </bean>
+
+  <bean id="student" class="com.xp.pojo.Student">
+    <!--  第一种：普通值注入，value  -->
+    <property name="name" value="xp"/>
+    <!--  第二种： Bean 注入，ref  -->
+    <property name="address" ref="address"/>
+    <!--  第三种：数组 -->
+    <property name="books">
+      <array>
+        <value>西游记</value>
+        <value>红楼梦</value>
+        <value>水浒传</value>
+        <value>三国演义</value>
+      </array>
+    </property>
+    <!--  第四种：list  -->
+    <property name="hobby">
+      <list>
+        <value>敲代码</value>
+        <value>打游戏</value>
+      </list>
+    </property>
+    <!--  第五种：map  -->
+    <property name="card">
+      <map>
+        <entry key="idCard" value="1231231"/>
+        <entry key="mapKey" value="1231"/>
+      </map>
+    </property>
+    <!--  第六种：set  -->
+    <property name="games">
+      <set>
+        <value>lol</value>
+      </set>
+    </property>
+    <!--  第七种：null  -->
+    <property name="wife">
+      <null/>
+    </property>
+    <!--  第八种：properties  -->
+    <property name="info">
+      <props>
+        <prop key="学号">123456</prop>
+        <prop key="email">111@qq.com</prop>
+      </props>
+    </property>
+  </bean>
+</beans>

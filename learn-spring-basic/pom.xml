@@ -10,6 +10,7 @@
   <modules>
     <module>spring-01-ioc1</module>
     <module>spring-02-hellospring</module>
+    <module>spring-04-di</module>
   </modules>
 
   <dependencies>
@@ -17,6 +18,12 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
       <version>5.2.0.RELEASE</version>
+    </dependency>
+
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.12</version>
     </dependency>
   </dependencies>
 </project>
