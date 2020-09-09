@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+  <!-- 开启注解支持 -->
+  <context:annotation-config/>
+
+  <bean id="cat" class="com.xp.pojo.Cat"/>
+  <bean id="dog1212" class="com.xp.pojo.Dog"/>
+  <bean id="people" class="com.xp.pojo.People"/>
+  <!-- 
+    byName: 会自动在容器上下文中查找，和自己对象 set 方法后面的值对应的 beanId 
+    byType: 会自动在容器上下文中查找，和自己对象属性类型相同的 bean 
+  -->
+  <!--  <bean id="people" class="com.xp.pojo.People" autowire="byName">-->
+  <!--    <property name="name" value="xp"/>-->
+  <!--  </bean>-->
+</beans>
