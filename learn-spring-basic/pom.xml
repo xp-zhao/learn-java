@@ -13,6 +13,7 @@
     <module>spring-04-di</module>
     <module>spring-05-autowired</module>
     <module>spring-06-annotation</module>
+    <module>spring-07-config</module>
   </modules>
 
   <dependencies>
