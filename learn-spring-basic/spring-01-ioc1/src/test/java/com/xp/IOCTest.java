@@ -1,7 +1,8 @@
 package com.xp;
 
-import com.xp.dao.UserDaoImpl;
-import com.xp.service.UserServiceImpl;
+import com.xp.service.UserService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 /**
  * @author zhaoxiaoping
@@ -11,8 +12,8 @@ import com.xp.service.UserServiceImpl;
 public class IOCTest {
 
   public static void main(String[] args) {
-    UserServiceImpl userService = new UserServiceImpl();
-    userService.setUserDao(new UserDaoImpl());
+    ApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+    UserService userService = (UserService) context.getBean("userServiceImpl");
     userService.getUser();
   }
 }

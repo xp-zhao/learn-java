@@ -28,6 +28,7 @@
         <module>learn-concurrent</module>
         <module>learn-basics</module>
       <module>learn-file/learn-poi</module>
+        <module>learn-spring-basic/spring-03-ioc2</module>
     </modules>
 
 
