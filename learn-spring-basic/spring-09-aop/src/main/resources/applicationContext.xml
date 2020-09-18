@@ -24,14 +24,18 @@
 
     <!--  方式二：自定义类  -->
     <bean id="myPointCut" class="com.xp.define.MyPointCut"/>
-    <aop:config>
-        <!--    自定义切面：ref 要引用的类    -->
-        <aop:aspect ref="myPointCut">
-            <!--       切入点     -->
-            <aop:pointcut id="pointCut" expression="execution(* com.xp.service.UserServiceImpl.*(..))"/>
-            <!--      通知      -->
-            <aop:before method="before" pointcut-ref="pointCut"/>
-            <aop:after method="after" pointcut-ref="pointCut"/>
-        </aop:aspect>
-    </aop:config>
+    <!--    <aop:config>-->
+    <!--        &lt;!&ndash;    自定义切面：ref 要引用的类    &ndash;&gt;-->
+    <!--        <aop:aspect ref="myPointCut">-->
+    <!--            &lt;!&ndash;       切入点     &ndash;&gt;-->
+    <!--            <aop:pointcut id="pointCut" expression="execution(* com.xp.service.UserServiceImpl.*(..))"/>-->
+    <!--            &lt;!&ndash;      通知      &ndash;&gt;-->
+    <!--            <aop:before method="before" pointcut-ref="pointCut"/>-->
+    <!--            <aop:after method="after" pointcut-ref="pointCut"/>-->
+    <!--        </aop:aspect>-->
+    <!--    </aop:config>-->
+    <!--  方式三  -->
+    <bean id="annotationPointCut" class="com.xp.define.AnnotationPointCut"/>
+    <!--  开启注解支持  -->
+    <aop:aspectj-autoproxy/>
 </beans>
