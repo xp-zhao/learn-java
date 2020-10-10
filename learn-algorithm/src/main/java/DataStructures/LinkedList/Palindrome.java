@@ -24,10 +24,12 @@ public class Palindrome {
     ListNode fast = head;
     // 记录慢指针的上一个节点
     ListNode prev = null;
+    // 记录慢指针的下一个节点
+    ListNode next;
     // 找到中间节点，快指针一次前进两步，慢指针一次前进一步。同时将链表前半部分逆序
     while (fast != null && fast.next != null) {
       fast = fast.next.next;
-      ListNode next = slow.next;
+      next = slow.next;
       slow.next = prev;
       prev = slow;
       slow = next;
