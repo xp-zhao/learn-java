@@ -1,4 +1,4 @@
-package concurrent;
+package concurrent.forkjoin;
 
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
@@ -40,7 +40,9 @@ public class ForkJoinDemo {
       // 创建子任务
       f1.fork();
       Fibonacci f2 = new Fibonacci(n - 2);
+//      invokeAll(f1,f2);
       // 等待子任务结果，并合并结果
+//      return f2.join() + f1.join();
       return f2.compute() + f1.join();
     }
   }
