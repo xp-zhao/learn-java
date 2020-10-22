@@ -16,7 +16,7 @@ public class RandomIdGenerator implements IdGenerator {
     return null;
   }
 
-  private String getLastfieldOfHostName() {
+  private String getLastFieldOfHostName() {
     String substrOfHostName = null;
     try {
       String hostName = InetAddress.getLocalHost().getHostName();
