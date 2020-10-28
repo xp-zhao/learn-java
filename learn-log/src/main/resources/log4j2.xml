@@ -1,47 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- status 属性表示 log4j2 本身的日志信息打印级别 -->
 <!-- monitorInterval 属性表示每隔 300s 重新读取配置文件 -->
-<Configuration status="WARN" monitorInterval="300">
+<Configuration status="INFO" monitorInterval="300">
     <!-- 定义常量，方便复用 -->
     <properties>
-        <property name="LOG_HOME">D:/logs</property>
-        <property name="FILE_NAME">mylog</property>
+    <!--   定义日志打印格式     -->
+        <property name="log.pattern">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} %msg%n%n</property>
+        <property name="file.err.filename">logs/err.log</property>
+        <property name="file.err.pattern">logs/err.%i.log.gz</property>
     </properties>
 
     <!-- appenders 日志的输出目的地 -->
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+<!--            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />-->
+            <PatternLayout pattern="${log.pattern}" />
         </Console>
-        <File name="myFile" fileName="d:/logs/learn.log">
-            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
-        </File>
         <!-- fileName 指定当前日志文件的位置 -->
         <!-- filePattern 指定当发生 rolling 时，文件的转移和重命名规则 -->
-        <RollingRandomAccessFile name="MyRollingFile"
-                                 fileName="${LOG_HOME}/${FILE_NAME}.log"
-                                 filePattern="${LOG_HOME}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i.log">
-            <PatternLayout
-                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        <RollingFile name="err" fileName="${file.err.filename}" filePattern="${file.err.pattern}">
+            <PatternLayout pattern="${log.pattern}" />
             <Policies>
                 <!-- SizeBasedTriggeringPolicy 指定当文件体积大于size指定的值时，触发Rolling  -->
                 <!-- TimeBasedTriggeringPolicy  这个配置需要和filePattern结合使用，
                      注意filePattern中配置的文件重命名规则是${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i，最小的时间粒度是mm，即分钟，
                      TimeBasedTriggeringPolicy指定的size是1，结合起来就是每1分钟生成一个新文件。如果改成%d{yyyy-MM-dd HH}，
                      最小粒度为小时，则每一个小时生成一个文件 -->
-                <TimeBasedTriggeringPolicy interval="1" />
+<!--                <TimeBasedTriggeringPolicy interval="1" />-->
                 <SizeBasedTriggeringPolicy size="10 MB" />
             </Policies>
             <!-- DefaultRolloverStrategy  指定最多保存的文件个数 -->
             <DefaultRolloverStrategy max="20" />
-        </RollingRandomAccessFile>
+        </RollingFile>
     </Appenders>
     <Loggers>
-        <Logger name="mylog" level="trace" additivity="false">
-            <AppenderRef ref="MyRollingFile"/>
-        </Logger>
-        <Root level="error">
-            <AppenderRef ref="Console" />
+        <Root level="info">
+            <!--     对于 info 级别的日志，输出到 console       -->
+            <AppenderRef ref="Console" level="info" />
+            <!--  对error级别的日志，输出到err，即上面定义的RollingFile -->
+            <AppenderRef ref="err" level="error" />
         </Root>
     </Loggers>
 </Configuration>
