@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.poi.POIXMLDocument;
 import org.apache.poi.POIXMLTextExtractor;
-import org.apache.poi.hwpf.extractor.WordExtractor;
 import org.apache.poi.openxml4j.opc.OPCPackage;
 import org.apache.poi.openxml4j.opc.PackagePart;
 import org.apache.poi.xwpf.extractor.XWPFWordExtractor;
@@ -33,7 +32,7 @@ public class WordPoi {
     try {
       if (path.endsWith(".doc")) {
         FileInputStream is = new FileInputStream(path);
-        WordExtractor ex = new WordExtractor(is);
+        XWPFWordExtractor ex = new XWPFWordExtractor(new XWPFDocument(is));
         buffer = ex.getText();
         is.close();
       } else if (path.endsWith("docx")) {
@@ -52,10 +51,7 @@ public class WordPoi {
   }
 
   /**
-   * 读取word文档内容包含图片
-   * docxReadPath 文档地址
-   * uploadPic 图片上传地址
-   * picFile 图片保存后地址
+   * 读取word文档内容包含图片 docxReadPath 文档地址 uploadPic 图片上传地址 picFile 图片保存后地址
    *
    * @param document
    * @return XWPFDocument
@@ -140,7 +136,6 @@ public class WordPoi {
   }
 
   /**
-   *
    * @param run
    * @param runNode
    * @return
@@ -201,9 +196,10 @@ public class WordPoi {
   }
 
   /**
-   *获取文件流
+   * 获取文件流
+   *
    * @param document 整个文档
-   * @param runNode 节点
+   * @param runNode  节点
    * @return
    */
   private static String getImage(XWPFDocument document, Node runNode) {
@@ -211,7 +207,7 @@ public class WordPoi {
     if (drawingNode == null) {
       return "";
     }
-    try{
+    try {
       // 绘画图片的宽和高
       Node extentNode = getChildNode(drawingNode, "wp:extent");
       NamedNodeMap extentAttrs = extentNode.getAttributes();
@@ -224,14 +220,14 @@ public class WordPoi {
       String rid = blipAttrs.getNamedItem("r:embed").getNodeValue();
       System.out.println("word中图片ID：".concat(rid));
 
-    // 获取图片信息
+      // 获取图片信息
       PackagePart part = document.getPartById(rid);
       System.out.println(part.getContentType());
       System.out.println(part.getPartName().getName());
-      InputStream inputStream=  part.getInputStream();
+      InputStream inputStream = part.getInputStream();
       System.out.println(part.getInputStream());
       System.out.println("------ run ------");
-    }catch (Exception e){
+    } catch (Exception e) {
       e.printStackTrace();
     }
     return "";
@@ -239,6 +235,7 @@ public class WordPoi {
 
   /**
    * 获取子节点
+   *
    * @param node
    * @param nodeName
    * @return
@@ -263,6 +260,7 @@ public class WordPoi {
 
   /**
    * 根据url获取文档内容不包含图片
+   *
    * @param url
    */
   public static void test4(String url) {
