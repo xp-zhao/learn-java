@@ -12,8 +12,10 @@ import lombok.Data;
 @Data
 public class ExcelData {
 
+  @ExcelProperty(value = "字符串格式")
   private String string;
-  @ExcelProperty(converter = LocalDateTimeStringConverter.class)
+  @ExcelProperty(value = "时间格式", converter = LocalDateTimeStringConverter.class)
   private LocalDateTime date;
+  @ExcelProperty(value = "数字格式")
   private Integer doubleData;
 }
