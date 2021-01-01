@@ -10,6 +10,8 @@ import java.util.List;
  */
 public class LeetCode_206_LinkedReversal {
 
+    public static ListNode successor = null;
+
     public static void main(String[] args) {
         ListNode node = createLinked();
         printLinked(node);
@@ -17,7 +19,9 @@ public class LeetCode_206_LinkedReversal {
         printLinked(result);
         ListNode result1 = reverse3(result);
         printLinked(result1);
-        printLinked(reverse4(result1));
+        ListNode result2 = reverse4(result1);
+        printLinked(result2);
+        printLinked(reverseN(result2, 2));
     }
 
     public static ListNode reverse4(ListNode head) {
@@ -27,6 +31,17 @@ public class LeetCode_206_LinkedReversal {
         ListNode last = reverse4(head.next);
         head.next.next = head;
         head.next = null;
+        return last;
+    }
+
+    public static ListNode reverseN(ListNode head, int n) {
+        if (n == 1) {
+            successor = head.next;
+            return head;
+        }
+        ListNode last = reverseN(head.next, n - 1);
+        head.next.next = head;
+        head.next = successor;
         return last;
     }
 
