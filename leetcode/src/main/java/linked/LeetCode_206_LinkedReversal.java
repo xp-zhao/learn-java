@@ -1,9 +1,5 @@
 package linked;
 
-import java.util.ArrayList;
-import java.util.List;
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * 链表反转 Created by xp-zhao on 2018/12/11.
  */
@@ -12,18 +8,9 @@ public class LeetCode_206_LinkedReversal {
   public static ListNode successor = null;
 
   public static void main(String[] args) {
-    ListNode node = createLinked();
-    printLinked(node);
-//    ListNode result = reverse3(node);
-//    printLinked(result);
-//    ListNode result1 = reverse3(result);
-//    printLinked(result1);
-//    ListNode result2 = reverse4(result1);
-//    printLinked(result2);
-//    ListNode result3 = reverseN(result2, 2);
-//    printLinked(result3);
-//    printLinked(reverseBetween(result3, 2, 3));
-    printLinked(reverseKGroup(node, 4));
+    ListNode node = new ListNode(new int[]{1, 2, 3, 4, 5, 6});
+    System.out.println(node);
+    System.out.println(node.reverse());
   }
 
   public static ListNode reverse4(ListNode head) {
@@ -34,6 +21,15 @@ public class LeetCode_206_LinkedReversal {
     head.next.next = head;
     head.next = null;
     return last;
+  }
+
+  public static void traverse(ListNode head) {
+    // 链表后序遍历
+    if (head == null) {
+      return;
+    }
+    traverse(head.next);
+    System.out.println(head.value);
   }
 
   public static ListNode reverseN(ListNode head, int n) {
@@ -126,30 +122,5 @@ public class LeetCode_206_LinkedReversal {
     ListNode newHead = reverse(a, b);
     a.next = reverseKGroup(b, k);
     return newHead;
-  }
-
-  public static ListNode createLinked() {
-    ListNode head = new ListNode(1);
-    ListNode next = new ListNode(2);
-    ListNode nextNext = new ListNode(3);
-    ListNode node1 = new ListNode(4);
-    ListNode node2 = new ListNode(5);
-    ListNode node3 = new ListNode(6);
-    head.setNext(next);
-    next.setNext(nextNext);
-    nextNext.setNext(node1);
-    node1.setNext(node2);
-    node2.setNext(node3);
-    return head;
-  }
-
-
-  public static void printLinked(ListNode node) {
-    List<Integer> list = new ArrayList<>();
-    while (node != null) {
-      list.add(node.getValue());
-      node = node.getNext();
-    }
-    System.out.println(StringUtils.join(list.toArray(), "->"));
   }
 }
