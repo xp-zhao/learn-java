@@ -14,15 +14,16 @@ public class LeetCode_206_LinkedReversal {
   public static void main(String[] args) {
     ListNode node = createLinked();
     printLinked(node);
-    ListNode result = reverse3(node);
-    printLinked(result);
-    ListNode result1 = reverse3(result);
-    printLinked(result1);
-    ListNode result2 = reverse4(result1);
-    printLinked(result2);
-    ListNode result3 = reverseN(result2, 2);
-    printLinked(result3);
-    printLinked(reverseBetween(result3, 2, 3));
+//    ListNode result = reverse3(node);
+//    printLinked(result);
+//    ListNode result1 = reverse3(result);
+//    printLinked(result1);
+//    ListNode result2 = reverse4(result1);
+//    printLinked(result2);
+//    ListNode result3 = reverseN(result2, 2);
+//    printLinked(result3);
+//    printLinked(reverseBetween(result3, 2, 3));
+    printLinked(reverseKGroup(node, 4));
   }
 
   public static ListNode reverse4(ListNode head) {
@@ -58,12 +59,25 @@ public class LeetCode_206_LinkedReversal {
     ListNode previous = null;
     ListNode next;
     while (current != null) {
-      next = current.getNext();
-      current.setNext(previous);
+      next = current.next;
+      current.next = previous;
       previous = current;
       current = next;
     }
     return previous;
+  }
+
+  public static ListNode reverse(ListNode a, ListNode b) {
+    ListNode pre = null;
+    ListNode current = a;
+    ListNode next;
+    while (current != b) {
+      next = current.next;
+      current.next = pre;
+      pre = current;
+      current = next;
+    }
+    return pre;
   }
 
   public static ListNode reverse1(ListNode head) {
@@ -97,12 +111,35 @@ public class LeetCode_206_LinkedReversal {
     return prev;
   }
 
+  public static ListNode reverseKGroup(ListNode head, int k) {
+    if (head == null) {
+      return null;
+    }
+    ListNode a, b;
+    a = b = head;
+    for (int i = 0; i < k; i++) {
+      if (b == null) {
+        return head;
+      }
+      b = b.next;
+    }
+    ListNode newHead = reverse(a, b);
+    a.next = reverseKGroup(b, k);
+    return newHead;
+  }
+
   public static ListNode createLinked() {
     ListNode head = new ListNode(1);
     ListNode next = new ListNode(2);
     ListNode nextNext = new ListNode(3);
+    ListNode node1 = new ListNode(4);
+    ListNode node2 = new ListNode(5);
+    ListNode node3 = new ListNode(6);
     head.setNext(next);
     next.setNext(nextNext);
+    nextNext.setNext(node1);
+    node1.setNext(node2);
+    node2.setNext(node3);
     return head;
   }
 
