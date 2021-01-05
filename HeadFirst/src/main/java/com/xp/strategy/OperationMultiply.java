@@ -1,4 +1,4 @@
-package com.xp.Strategy;
+package com.xp.strategy;
 
 /**
  * Created by xp-zhao on 2019/3/21.

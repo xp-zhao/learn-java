@@ -1,4 +1,4 @@
-package com.xp.Strategy;
+package com.xp.strategy;
 
 /**
  *

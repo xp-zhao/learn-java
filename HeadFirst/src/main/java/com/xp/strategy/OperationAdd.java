@@ -1,13 +1,13 @@
-package com.xp.Strategy;
+package com.xp.strategy;
 
 /**
  * Created by xp-zhao on 2019/3/21.
  */
-public class OperationSubstract implements Strategy
+public class OperationAdd implements Strategy
 {
 	@Override
 	public int doOperation(int num1 , int num2)
 	{
-		return num1 - num2;
+		return num1 + num2;
 	}
 }
