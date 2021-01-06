@@ -32,19 +32,22 @@ public class LeetCode_226_InvertBinaryTree {
     TreeNode left = root.left;
     root.left = root.right;
     root.right = left;
-    if (root.left != null) {
-      invertTree(root.left);
-    }
-    if (root.right != null) {
-      invertTree(root.right);
-    }
+    invertTree(root.left);
+    invertTree(root.right);
     return root;
   }
 
-  public static int count(TreeNode root){
-    if(root == null){
+  /**
+   * 计算二叉树节点个数
+   *
+   * @param root
+   * @return
+   */
+  public static int count(TreeNode root) {
+    if (root == null) {
       return 0;
     }
+    // 当前节点+子树节点个数
     return 1 + count(root.left) + count(root.right);
   }
 }
