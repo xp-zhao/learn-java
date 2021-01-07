@@ -25,6 +25,18 @@ public class LeetCode_226_InvertBinaryTree {
     System.out.println(invertTree(root));
   }
 
+  public static boolean isSameTree(TreeNode node1, TreeNode node2) {
+    if (node1 == null && node2 == null) {
+      return true;
+    } else if (node1 == null || node2 == null) {
+      return false;
+    } else if (node1.val != node2.val) {
+      return false;
+    }else {
+      return isSameTree(node1.left, node2.left) && isSameTree(node1.right, node2.right);
+    }
+  }
+
   public static TreeNode invertTree(TreeNode root) {
     if (root == null) {
       return null;
