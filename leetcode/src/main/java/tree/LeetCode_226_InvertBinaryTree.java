@@ -25,6 +25,23 @@ public class LeetCode_226_InvertBinaryTree {
     System.out.println(invertTree(root));
   }
 
+  public static boolean isBalanced(TreeNode root) {
+    if (root == null) {
+      return true;
+    }
+
+    return Math.abs(maxDeep(root.left) - maxDeep(root.right)) <= 1
+        && isBalanced(root.left)
+        && isBalanced(root.right);
+  }
+
+  public static int maxDeep(TreeNode root) {
+    if (root == null) {
+      return 0;
+    }
+    return 1 + Math.max(maxDeep(root.left), maxDeep(root.right));
+  }
+
   public static boolean isSameTree(TreeNode node1, TreeNode node2) {
     if (node1 == null && node2 == null) {
       return true;
@@ -32,7 +49,7 @@ public class LeetCode_226_InvertBinaryTree {
       return false;
     } else if (node1.val != node2.val) {
       return false;
-    }else {
+    } else {
       return isSameTree(node1.left, node2.left) && isSameTree(node1.right, node2.right);
     }
   }
