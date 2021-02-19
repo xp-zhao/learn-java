@@ -6,6 +6,7 @@ package tree;
  * <p>Created by xp-zhao on 2019/1/10.
  */
 public class LeetCode_226_InvertBinaryTree {
+
   public static void main(String[] args) {
     TreeNode root = new TreeNode(4);
     TreeNode rootLeft = new TreeNode(2);
