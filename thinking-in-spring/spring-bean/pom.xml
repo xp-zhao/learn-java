@@ -12,11 +12,6 @@
   <artifactId>spring-bean</artifactId>
 
   <dependencies>
-    <!--  Spring IOC 核心依赖  -->
-    <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-context</artifactId>
-    </dependency>
     <!-- 复用 ioc-container-overview -->
     <dependency>
       <groupId>${groupId}</groupId>
