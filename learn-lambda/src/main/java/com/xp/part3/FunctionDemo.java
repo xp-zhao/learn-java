@@ -12,7 +12,7 @@ public class FunctionDemo
 {
 	public static void main(String[] args) {
 		List<String> list = Arrays.asList("lambdas" , "in" , "action");
-		System.out.println(map(list,(String s) -> s.length()));
+		System.out.println(map(list, String::length));
 	}
 
 	public static <T,R> List<R> map(List<T> list,Function<T,R> f){
