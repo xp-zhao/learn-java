@@ -10,5 +10,5 @@ public interface Rent {
   /**
    * 出租
    */
-  void rent();
+  String rent(String address);
 }

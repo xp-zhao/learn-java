@@ -3,6 +3,7 @@ package com.xp.dynamic;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Arrays;
 
 /**
  * @author zhaoxiaoping
@@ -42,6 +43,8 @@ public class ProxyInvocationHandler implements InvocationHandler {
   public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
     // 动态代理的本质，就是使用反射机制实现
     Object result = method.invoke(rent, args);
+    System.out.println("args: " + Arrays.toString(args));
+    System.out.println("result: " + result);
     return result;
   }
 }

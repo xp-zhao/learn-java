@@ -7,7 +7,8 @@ package com.xp.dynamic;
  **/
 public class Host implements Rent {
 
-  public void rent() {
-    System.out.println("房东出租房子");
+  public String rent(String address) {
+    System.out.println("房东出租房子: " + address);
+    return "success";
   }
 }
