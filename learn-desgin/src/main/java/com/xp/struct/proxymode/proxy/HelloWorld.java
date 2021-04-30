@@ -1,4 +1,4 @@
-package com.xp.ProxyMode.proxy;
+package com.xp.struct.proxymode.proxy;
 
 /**
  * HelloWorld.java

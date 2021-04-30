@@ -1,4 +1,4 @@
-package com.xp.Decorator;
+package com.xp.struct.decorator;
 
 /**
  *  装饰者模式简单示例

@@ -1,4 +1,4 @@
-package com.xp.composite.v2;
+package com.xp.struct.composite.v2;
 
 /** @Author: xp-zhao @Description: 文件系统节点对象 @DateTime: 2021/4/23 10:05 下午 */
 public abstract class FileSystemNode {

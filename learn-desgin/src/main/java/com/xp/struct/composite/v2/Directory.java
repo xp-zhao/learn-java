@@ -1,4 +1,4 @@
-package com.xp.composite.v2;
+package com.xp.struct.composite.v2;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.xp.composite.v2;
+package com.xp.struct.composite.v2;
 
 /** @Author: xp-zhao @Description: TODO @DateTime: 2021/4/23 10:07 下午 */
 public class File extends FileSystemNode {

@@ -1,4 +1,4 @@
-package com.xp.Decorator;
+package com.xp.struct.decorator;
 
 /**
  * Created by xp-zhao on 2018/12/13.

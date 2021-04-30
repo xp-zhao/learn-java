@@ -1,4 +1,4 @@
-package com.xp.adapter;
+package com.xp.struct.adapter;
 
 /**
  * @author zhaoxiaoping

@@ -1,4 +1,4 @@
-package com.xp.Decorator;
+package com.xp.struct.decorator;
 
 /**
  * 用于日志记录的装饰器

@@ -1,4 +1,4 @@
-package com.xp.composite.v1;
+package com.xp.struct.composite.v1;
 
 import lombok.Data;
 

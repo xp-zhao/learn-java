@@ -1,4 +1,4 @@
-package com.xp.Decorator;
+package com.xp.struct.decorator;
 
 /**
  * 用于性能统计的装饰器 Created by xp-zhao on 2018/12/13.
