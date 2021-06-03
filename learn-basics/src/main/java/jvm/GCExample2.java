@@ -21,17 +21,20 @@ public class GCExample2 {
     array1 = new byte[2 * 1024 * 1024];
     // 3. Eden 区放入一个 2M 的对象 (前一个对象变为垃圾对象)
     array1 = new byte[2 * 1024 * 1024];
-    // 4. 前三个对象变为垃圾对象
+    // 4. 前三个对象变为垃圾对象(占用 6M 空间)
     array1 = null;
     // 5. 分配一个 128k 的对象
     byte[] array2 = new byte[128 * 1024];
     // 6. 分配一个 2M 的对象, 尝试放入 Eden 区 (此时 Eden 区已经有 6M+ 的对象, 所以会触发 Young GC)
     byte[] array3 = new byte[2 * 1024 * 1024];
-
+    // 7. Eden 区放入一个 2M 的对象
     array3 = new byte[2 * 1024 * 1024];
+    // 8. Eden 区放入一个 2M 的对象
     array3 = new byte[2 * 1024 * 1024];
+    // 8. Eden 区放入一个 2M 的对象
     array3 = new byte[128 * 1024];
     array3 = null;
+    // 9. 分配一个 2M 的对象, 尝试放入 Eden 区
     byte[] array4 = new byte[2 * 1024 * 1024];
 
   }
