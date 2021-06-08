@@ -4,12 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author zhaoxiaoping
  * @Description: ThreadLocal 使用示例
  * @Date 2021-6-8
  **/
+@Slf4j
 public class ThreadLocalExample {
 
   private static ThreadLocal<String> currentUser = ThreadLocal.withInitial(() -> null);
@@ -33,7 +35,7 @@ public class ThreadLocalExample {
       Map<String, String> result = new HashMap<>(2);
       result.put("before", before);
       result.put("after", after);
-      System.out.println(result);
+      log.info("ThreadLocal: {}", result);
     } finally {
       // 在使用结束之后删除 ThreadLocal 中的数据, 防止线程重用导致 ThreadLocal 信息错乱
       currentUser.remove();
