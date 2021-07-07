@@ -12,6 +12,7 @@
         <module>custom-tag</module>
         <module>litespring</module>
         <module>learn-ioc</module>
+        <module>small-spring</module>
     </modules>
 
 
