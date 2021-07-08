@@ -1,5 +1,7 @@
 package org.smallspring;
 
+import org.smallspring.beans.factory.config.BeanDefinition;
+
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
