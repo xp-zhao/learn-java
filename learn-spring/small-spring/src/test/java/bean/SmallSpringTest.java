@@ -1,20 +1,25 @@
 package bean;
 
 import org.junit.Test;
-
 import org.smallspring.beans.factory.config.BeanDefinition;
-import org.smallspring.BeanFactory;
+import org.smallspring.beans.factory.supprot.DefaultListableBeanFactory;
 
-/** @Author: xp-zhao @Description: TODO @DateTime: 2021/7/7 11:21 下午 */
+/**
+ * @Author: xp-zhao @Description: TODO @DateTime: 2021/7/7 11:21 下午
+ */
 public class SmallSpringTest {
+
   @Test
   public void testBeanFactory() {
-    BeanFactory beanFactory = new BeanFactory();
-
-    BeanDefinition beanDefinition = new BeanDefinition(new UserService());
+    // 1. 初始化 BeanFactory
+    DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+    // 2. 注册 bean
+    BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
     beanFactory.registerBeanDefinition("userService", beanDefinition);
-
-    UserService userService = (UserService) beanFactory.getBean("userService");
-    userService.queryUserInfo();
+    UserService userService1 = (UserService) beanFactory.getBean("userService");
+    userService1.queryUserInfo();
+    UserService userService2 = (UserService) beanFactory.getBean("userService");
+    userService2.queryUserInfo();
+    assert userService1 == userService2;
   }
 }
