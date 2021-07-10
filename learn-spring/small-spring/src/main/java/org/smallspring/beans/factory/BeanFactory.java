@@ -17,4 +17,14 @@ public interface BeanFactory {
    * @throws BeansException 无法获取 bean 时抛出异常
    */
   Object getBean(String name) throws BeansException;
+
+  /**
+   * 通过 bean 名称和构造参数获取 bean 对象
+   *
+   * @param name bean 名称
+   * @param args 构造参数
+   * @return bean 对
+   * @throws BeansException 无法获取 bean 时抛出异常
+   */
+  Object getBean(String name, Object... args) throws BeansException;
 }
