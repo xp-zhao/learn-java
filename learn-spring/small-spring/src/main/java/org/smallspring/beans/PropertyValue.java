@@ -1,4 +1,4 @@
-package org.smallspring.beans.factory.config;
+package org.smallspring.beans;
 
 /**
  * @author zhaoxiaoping
