@@ -36,7 +36,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     Class<?> beanClass = beanDefinition.getBeanClass();
     Constructor<?>[] declaredConstructors = beanClass.getDeclaredConstructors();
     for (Constructor<?> constructor : declaredConstructors) {
-      if (null != constructor && constructor.getParameterTypes().length == args.length) {
+      if (null != args && constructor.getParameterTypes().length == args.length) {
         constructorToUse = constructor;
         break;
       }
