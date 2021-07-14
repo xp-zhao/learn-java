@@ -2,19 +2,11 @@ package client;
 
 import client.console.ConsoleCommandManager;
 import client.console.LoginConsoleCommand;
-import client.handler.CreateGroupResponseHandler;
-import client.handler.GroupMessageResponseHandler;
-import client.handler.HeartBeatTimerHandler;
-import codec.PacketCodecHandler;
-import client.handler.JoinGroupResponseHandler;
-import client.handler.ListGroupMembersResponseHandler;
-import client.handler.LoginResponseHandler;
-import client.handler.LogoutResponseHandler;
-import client.handler.MessageResponseHandler;
-import client.handler.QuitGroupResponseHandler;
+import client.handler.*;
 import codec.PacketDecoder;
 import codec.PacketEncoder;
 import codec.Spliter;
+import handler.IMIdleStateHandler;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
@@ -23,11 +15,11 @@ import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import util.SessionUtil;
+
 import java.util.Date;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
-import handler.IMIdleStateHandler;
-import util.SessionUtil;
 
 /**
  * Created by xp-zhao on 2018/11/26.
@@ -36,7 +28,7 @@ public class NettyClient {
 
   private static final Integer MAX_RETRY = 5;
   private static final String HOST = "127.0.0.1";
-  private static final Integer PORT = 8001;
+  private static final Integer PORT = 8000;
 
   public static void main(String[] args) {
     // 引导类

@@ -2,7 +2,6 @@ package client.handler;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
-import java.util.Date;
 import protocol.response.MessageResponsePacket;
 
 /**

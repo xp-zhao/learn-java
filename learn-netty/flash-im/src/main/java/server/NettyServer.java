@@ -2,18 +2,19 @@ package server;
 
 import codec.PacketCodecHandler;
 import codec.Spliter;
+import handler.IMIdleStateHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import java.util.Date;
 import server.handler.AuthHandler;
 import server.handler.HeartBeatRequestHandler;
 import server.handler.IMHandler;
-import handler.IMIdleStateHandler;
 import server.handler.LoginRequestHandler;
+
+import java.util.Date;
 
 /**
  * Created by xp-zhao on 2018/11/26.

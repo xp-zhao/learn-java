@@ -1,9 +1,10 @@
 package protocol.request;
 
-import java.util.List;
 import lombok.Data;
 import protocol.command.Command;
 import protocol.command.Packet;
+
+import java.util.List;
 
 /**
  * @description: 创建群聊请求数据包
