@@ -2,11 +2,7 @@ package org.smallspring.beans.factory;
 
 import org.smallspring.beans.BeansException;
 
-/**
- * @Author: xp-zhao
- * @Description: TODO
- * @DateTime: 2021/7/8 11:33 下午
- **/
+/** @Author: xp-zhao @Description: TODO @DateTime: 2021/7/8 11:33 下午 */
 public interface BeanFactory {
 
   /**
@@ -27,4 +23,6 @@ public interface BeanFactory {
    * @throws BeansException 无法获取 bean 时抛出异常
    */
   Object getBean(String name, Object... args) throws BeansException;
+
+  <T> T getBean(String name, Class<T> requiredType) throws BeansException;
 }
