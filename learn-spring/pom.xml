@@ -13,6 +13,7 @@
         <module>litespring</module>
         <module>learn-ioc</module>
         <module>small-spring</module>
+        <module>tiny-spring</module>
     </modules>
 
 
