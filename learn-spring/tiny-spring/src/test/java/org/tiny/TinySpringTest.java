@@ -8,6 +8,7 @@ import org.tiny.beans.PropertyValues;
 import org.tiny.beans.factory.config.BeanDefinition;
 import org.tiny.beans.factory.config.BeanReference;
 import org.tiny.beans.factory.support.DefaultListableBeanFactory;
+import org.tiny.beans.factory.xml.XmlBeanDefinitionReader;
 
 /** @author zhaoxiaoping @Description: 测试用例 @Date 2021-8-19 */
 public class TinySpringTest {
@@ -26,6 +27,18 @@ public class TinySpringTest {
     beanFactory.registerBeanDefinition("userService", beanDefinition);
     // 4. 获取 bean
     UserService userService = (UserService) beanFactory.getBean("userService");
+    userService.queryUserInfo();
+  }
+
+  @Test
+  public void testXmlBeanDefinition() {
+    // 1. 初始化 BeanFactory
+    DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+    // 2. 读取配置文件&注册Bean
+    XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+    reader.loadBeanDefinitions("classpath:spring.xml");
+    // 3. 获取Bean对象调用方法
+    UserService userService = beanFactory.getBean("userService", UserService.class);
     userService.queryUserInfo();
   }
 }
