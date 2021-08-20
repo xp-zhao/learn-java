@@ -35,3 +35,14 @@ InstantiationStrategy: 对象实例化策略接口
 SimpleInstantiationStrategy: jdk 实例化策略
 
 CglibSubclassingInstantiationStrategy: cglib 实例化策略
+
+## tag: tiny-spring-0.0.4
+
+增加对象属性设置, 在对象实例化完成之后进行属性设置
+
+PropertyValue: 类属性对象
+
+PropertyValues: 类属性集合
+
+BeanReference: 类引用对象
+
