@@ -26,3 +26,12 @@ DefaultListableBeanFactory: 默认可用的 BeanFactory, 实现注册, 获取 Be
 
 ![tiny-spring-0.0.2](https://xp-note-oss.oss-cn-chengdu.aliyuncs.com/tiny-spring-0.0.2.png)
 
+## tag: tiny-spring-0.0.3
+
+增加对有构造函数的类进行实例化的功能
+
+InstantiationStrategy: 对象实例化策略接口
+
+SimpleInstantiationStrategy: jdk 实例化策略
+
+CglibSubclassingInstantiationStrategy: cglib 实例化策略

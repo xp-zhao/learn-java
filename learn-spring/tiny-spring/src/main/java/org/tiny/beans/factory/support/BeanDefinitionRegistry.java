@@ -1,4 +1,4 @@
-package org.tiny.beans.factory.supprot;
+package org.tiny.beans.factory.support;
 
 import org.tiny.beans.factory.config.BeanDefinition;
 

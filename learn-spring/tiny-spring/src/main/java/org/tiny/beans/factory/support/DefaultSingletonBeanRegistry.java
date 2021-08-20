@@ -1,4 +1,4 @@
-package org.tiny.beans.factory.supprot;
+package org.tiny.beans.factory.support;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
