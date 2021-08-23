@@ -46,3 +46,24 @@ PropertyValues: 类属性集合
 
 BeanReference: 类引用对象
 
+## tag: tiny-spring-0.0.5
+
+从xml中解析, 注册 bean 对象
+
+Resource: 资源加载接口
+
+ClassPathResource: 从 classpath 中加载资源实现
+
+FileSystemResource: 从文件系统中加载资源实现
+
+UrlResource: 从网络 url 中加载资源实现
+
+ResourceLoader: 资源获取接口
+
+DefaultResourceLoader: 资源获取默认实现
+
+BeanDefinitionReader: bean 定义信息读取接口
+
+AbstractBeanDefinitionReader: bean 定义信息读取接口抽象类实现
+
+XmlBeanDefinitionReader: 解析 xml 获取并注册 bean 定义
