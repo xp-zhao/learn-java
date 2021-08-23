@@ -9,5 +9,7 @@
     <property name="location" value="深圳"/>
     <property name="userDao" ref="userDao"/>
   </bean>
-
+  
+  <bean class="bean.MyBeanFactoryPostProcessor"/>
+  <bean class="bean.MyBeanPostProcessor"/>
 </beans>

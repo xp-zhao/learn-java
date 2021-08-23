@@ -1,7 +1,5 @@
 package bean;
 
-import cn.hutool.core.util.StrUtil;
-
 /** @Author: xp-zhao @Description: TODO @DateTime: 2021/7/7 11:19 下午 */
 public class UserService {
 
@@ -13,7 +11,7 @@ public class UserService {
   private UserDao userDao;
 
   public void queryUserInfo() {
-    System.out.println(StrUtil.format("查询用户信息: {}", userDao.queryUserName(uId)));
+    System.out.println(userDao.queryUserName(uId) + "," + company + "," + location);
   }
 
   public String getId() {
@@ -30,5 +28,29 @@ public class UserService {
 
   public void setUserDao(UserDao userDao) {
     this.userDao = userDao;
+  }
+
+  public String getuId() {
+    return uId;
+  }
+
+  public void setuId(String uId) {
+    this.uId = uId;
+  }
+
+  public String getCompany() {
+    return company;
+  }
+
+  public void setCompany(String company) {
+    this.company = company;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
   }
 }
