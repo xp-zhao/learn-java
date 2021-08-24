@@ -10,4 +10,6 @@
     <property name="userDao" ref="userDao"/>
   </bean>
 
+  <bean class="org.tiny.common.MyBeanPostProcessor"/>
+  <bean class="org.tiny.common.MyBeanFactoryPostProcessor"/>
 </beans>

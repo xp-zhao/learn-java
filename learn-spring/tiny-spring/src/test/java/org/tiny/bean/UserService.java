@@ -3,12 +3,14 @@ package org.tiny.bean;
 /** @author zhaoxiaoping @Description: 测试类 @Date 2021-8-19 */
 public class UserService {
   private String id;
+  private String company;
+  private String location;
   private UserDao userDao;
 
   public UserService() {}
 
-  public void queryUserInfo() {
-    System.out.println("查询用户信息 " + userDao.queryUserName(id));
+  public String queryUserInfo() {
+    return userDao.queryUserName(id) + "," + company + "," + location;
   }
 
   public String getId() {
@@ -25,5 +27,21 @@ public class UserService {
 
   public void setUserDao(UserDao userDao) {
     this.userDao = userDao;
+  }
+
+  public String getCompany() {
+    return company;
+  }
+
+  public void setCompany(String company) {
+    this.company = company;
+  }
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
   }
 }

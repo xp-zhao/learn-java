@@ -1,12 +1,18 @@
 package org.tiny.beans.factory.support;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.tiny.beans.BeansException;
-import org.tiny.beans.factory.BeanFactory;
 import org.tiny.beans.factory.config.BeanDefinition;
+import org.tiny.beans.factory.config.BeanPostProcessor;
+import org.tiny.beans.factory.config.ConfigurableBeanFactory;
 
 /** @author zhaoxiaoping @Description: 抽象 bean 工厂 @Date 2021-8-19 */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
-    implements BeanFactory {
+    implements ConfigurableBeanFactory {
+
+  private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
+
   @Override
   public Object getBean(String beanName) throws BeansException {
     return doGetBean(beanName, null);
@@ -51,4 +57,14 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
    */
   protected abstract Object createBean(
       String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
+
+  @Override
+  public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+    this.beanPostProcessors.remove(beanPostProcessor);
+    this.beanPostProcessors.add(beanPostProcessor);
+  }
+
+  public List<BeanPostProcessor> getBeanPostProcessors() {
+    return this.beanPostProcessors;
+  }
 }
