@@ -7,18 +7,35 @@
   <groupId>com.xp</groupId>
   <artifactId>learn-concurrent</artifactId>
   <version>1.0-SNAPSHOT</version>
+  <properties>
+    <lombok.version>1.18.20</lombok.version>
+    <hutool.version>5.6.2</hutool.version>
+    <junit.version>4.13.1</junit.version>
+    <commons-collections4.version>4.1</commons-collections4.version>
+  </properties>
 
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
-      <version>4.1</version>
+      <version>${commons-collections4.version}</version>
     </dependency>
 
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>4.13.1</version>
+      <version>${junit.version}</version>
+    </dependency>
+    <!-- lombok 插件 -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>${lombok.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
+      <version>${hutool.version}</version>
     </dependency>
   </dependencies>
 
