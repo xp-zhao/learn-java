@@ -28,6 +28,7 @@
     <easyexcel.version>2.2.8</easyexcel.version>
     <hutool.version>5.6.2</hutool.version>
     <jsoup.version>1.13.1</jsoup.version>
+    <cglib.version>3.3.0</cglib.version>
   </properties>
 
   <dependencies>
@@ -170,6 +171,11 @@
       <groupId>org.jsoup</groupId>
       <artifactId>jsoup</artifactId>
       <version>${jsoup.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>${cglib.version}</version>
     </dependency>
   </dependencies>
 
