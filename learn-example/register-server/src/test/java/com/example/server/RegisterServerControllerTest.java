@@ -19,5 +19,8 @@ public class RegisterServerControllerTest {
     heartbeatRequest.setServiceName("inventory-service");
     heartbeatRequest.setServiceInstanceId(serviceInstanceId);
     controller.heartbeat(heartbeatRequest);
+    // 开启一个线程, 检测微服务存活状态
+    ServiceAliveMonitor serviceAliveMonitor = new ServiceAliveMonitor();
+    serviceAliveMonitor.start();
   }
 }

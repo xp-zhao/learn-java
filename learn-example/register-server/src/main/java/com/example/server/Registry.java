@@ -32,6 +32,17 @@ public class Registry {
   }
 
   /**
+   * 从注册表删除一个服务实例
+   *
+   * @param serviceName
+   * @param serviceInstanceId
+   */
+  public void remove(String serviceName, String serviceInstanceId) {
+    System.out.println("服务实例[" + serviceInstanceId + "], 从注册表中删除");
+    registry.get(serviceName).remove(serviceInstanceId);
+  }
+
+  /**
    * 获取服务实例
    *
    * @param serviceName 服务名称
@@ -42,6 +53,11 @@ public class Registry {
     return registry.get(serviceName).get(serviceInstanceId);
   }
 
+  /**
+   * 获取整个注册表
+   *
+   * @return 注册表
+   */
   public Map<String, Map<String, ServiceInstance>> getRegistry() {
     return registry;
   }
