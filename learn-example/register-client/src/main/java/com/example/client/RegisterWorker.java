@@ -42,6 +42,7 @@ public class RegisterWorker implements Runnable {
     if (finishedRegister) {
       // 注册成功, 循环发送心跳请求
       HeartbeatRequest heartbeatRequest = new HeartbeatRequest();
+      heartbeatRequest.setServiceName(SERVICE_NAME);
       heartbeatRequest.setServiceInstanceId(serviceInstanceId);
       while (true) {
         HeartbeatResponse heartbeatResponse = httpSender.heartbeat(heartbeatRequest);

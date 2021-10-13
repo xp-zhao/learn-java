@@ -1,4 +1,4 @@
-package com.example.client;
+package com.example.server;
 
 import lombok.Data;
 import lombok.ToString;
@@ -7,6 +7,7 @@ import lombok.ToString;
 @Data
 @ToString
 public class HeartbeatRequest {
+
   /** 服务名称 */
   private String serviceName;
   /** 服务实例id */
