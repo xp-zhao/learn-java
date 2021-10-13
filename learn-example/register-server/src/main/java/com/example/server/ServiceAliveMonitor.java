@@ -9,15 +9,20 @@ public class ServiceAliveMonitor {
   /** 检查服务实例是否存活的间隔 */
   private static final Long CHECK_ALIVE_INTERVAL = 60 * 1000L;
 
-  private Daemon daemon = new Daemon();
+  private Daemon daemon;
+
+  public ServiceAliveMonitor() {
+    daemon = new Daemon();
+    daemon.setDaemon(true);
+  }
 
   /** 启动后台线程 */
   public void start() {
-    new Thread(daemon).start();
+    daemon.start();
   }
 
   /** 负责监控微服务存活状态的后台线程 */
-  private class Daemon implements Runnable {
+  private class Daemon extends Thread {
     Registry registry = Registry.getInstance();
 
     @Override
