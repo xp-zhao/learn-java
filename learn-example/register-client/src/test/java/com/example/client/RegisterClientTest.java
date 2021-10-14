@@ -1,6 +1,6 @@
 package com.example.client;
 
-import org.junit.Test;
+import java.util.concurrent.TimeUnit;
 
 public class RegisterClientTest {
 
@@ -10,8 +10,10 @@ public class RegisterClientTest {
     registerClient.start();
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws InterruptedException {
     RegisterClient registerClient = new RegisterClient();
     registerClient.start();
+    TimeUnit.SECONDS.sleep(5);
+    registerClient.showdown();
   }
 }

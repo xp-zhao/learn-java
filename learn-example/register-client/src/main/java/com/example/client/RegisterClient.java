@@ -15,12 +15,19 @@ public class RegisterClient {
   private HttpSender httpSender;
   /** 服务实例id */
   private String serviceInstanceId;
+  /** 心跳线程 */
+  private HeartbeatWorker heartbeatWorker;
+  /** 服务实例运行状态 */
+  private Boolean isRunning;
 
   public RegisterClient() {
     this.serviceInstanceId = UUID.randomUUID().toString().replace("-", "");
     this.httpSender = new HttpSender();
+    this.heartbeatWorker = new HeartbeatWorker();
+    this.isRunning = true;
   }
 
+  /** 启动 Register-Client 组件 */
   public void start() {
     // 启动组件之后, 开启一个后台线程向 register-server 发送请求, 注册当前服务
     // 在注册成功之后, 开启另一个线程发送心跳
@@ -29,11 +36,16 @@ public class RegisterClient {
       registerWorker.start();
       // 等待注册线程完成之后, 在开启心跳线程
       registerWorker.join();
-      HeartbeatWorker heartbeatWorker = new HeartbeatWorker();
       heartbeatWorker.start();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+  }
+
+  /** 停止 Register-Client 组件 */
+  public void showdown() {
+    this.isRunning = false;
+    this.heartbeatWorker.interrupt();
   }
 
   /** 服务注册线程 */
@@ -59,7 +71,7 @@ public class RegisterClient {
       HeartbeatRequest heartbeatRequest = new HeartbeatRequest();
       heartbeatRequest.setServiceName(SERVICE_NAME);
       heartbeatRequest.setServiceInstanceId(serviceInstanceId);
-      while (true) {
+      while (isRunning) {
         HeartbeatResponse heartbeatResponse = httpSender.heartbeat(heartbeatRequest);
         System.out.println("心跳检测结果: " + heartbeatResponse.getStatus());
         try {
