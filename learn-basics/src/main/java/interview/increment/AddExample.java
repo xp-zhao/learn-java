@@ -1,4 +1,4 @@
-package interview.incr;
+package interview.increment;
 
 /** @author zhaoxiaoping @Description: @Date 2021-10-12 */
 public class AddExample {
