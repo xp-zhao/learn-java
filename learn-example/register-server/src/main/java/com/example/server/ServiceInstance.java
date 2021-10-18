@@ -44,7 +44,7 @@ public class ServiceInstance {
   @Getter
   private class Lease {
     /** 最近一次心跳时间 */
-    private Long latestHeartbeatTime = System.currentTimeMillis();
+    private volatile Long latestHeartbeatTime = System.currentTimeMillis();
 
     /** 续约, 发送一次心跳就相当于一次续约 */
     public void renew() {

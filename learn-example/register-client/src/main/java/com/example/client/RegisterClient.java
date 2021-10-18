@@ -18,7 +18,7 @@ public class RegisterClient {
   /** 心跳线程 */
   private HeartbeatWorker heartbeatWorker;
   /** 服务实例运行状态 */
-  private Boolean isRunning;
+  private volatile Boolean isRunning;
 
   public RegisterClient() {
     this.serviceInstanceId = UUID.randomUUID().toString().replace("-", "");
