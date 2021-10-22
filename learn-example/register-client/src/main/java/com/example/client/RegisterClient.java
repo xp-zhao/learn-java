@@ -2,8 +2,10 @@ package com.example.client;
 
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author zhaoxiaoping @Description: 在各个服务上被创建启动, 负责和 register-server 通信 @Date 2021-10-13 */
+@Slf4j
 public class RegisterClient {
 
   private static final String SERVICE_NAME = "inventory-service";
@@ -52,6 +54,7 @@ public class RegisterClient {
     this.isRunning = false;
     this.heartbeatWorker.interrupt();
     this.registry.destroy();
+    this.httpSender.cancel(SERVICE_NAME, serviceInstanceId);
   }
 
   public Boolean isRunning() {
@@ -69,7 +72,7 @@ public class RegisterClient {
       registerRequest.setPort(PORT);
       registerRequest.setServiceInstanceId(serviceInstanceId);
       RegisterResponse registerResponse = httpSender.register(registerRequest);
-      System.out.println("服务注册结果: " + registerResponse.getStatus());
+      log.info("服务注册结果: {}", registerResponse.getStatus());
     }
   }
 
@@ -83,7 +86,7 @@ public class RegisterClient {
       heartbeatRequest.setServiceInstanceId(serviceInstanceId);
       while (isRunning) {
         HeartbeatResponse heartbeatResponse = httpSender.heartbeat(heartbeatRequest);
-        System.out.println("心跳检测结果: " + heartbeatResponse.getStatus());
+        log.info("心跳检测结果: {}", heartbeatResponse.getStatus());
         try {
           TimeUnit.SECONDS.sleep(30);
         } catch (InterruptedException e) {

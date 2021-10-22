@@ -2,8 +2,10 @@ package com.example.server;
 
 import java.util.HashMap;
 import java.util.Map;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author zhaoxiaoping @Description: 服务注册表 @Date 2021-10-13 */
+@Slf4j
 public class ServiceRegistry {
 
   /** 注册表是单例 */
@@ -27,8 +29,8 @@ public class ServiceRegistry {
     registry
         .computeIfAbsent(serviceInstance.getServiceName(), v -> new HashMap<>(1))
         .put(serviceInstance.getServiceInstanceId(), serviceInstance);
-    System.out.println("服务实例[" + serviceInstance + "], 完成注册...");
-    System.out.println("注册表: " + registry);
+    log.info("服务实例[{}], 完成注册...", serviceInstance);
+    log.info("注册表: {}", registry);
   }
 
   /**
@@ -38,7 +40,7 @@ public class ServiceRegistry {
    * @param serviceInstanceId
    */
   public synchronized void remove(String serviceName, String serviceInstanceId) {
-    System.out.println("服务实例[" + serviceInstanceId + "], 从注册表中删除");
+    log.info("服务实例[{}], 从注册表中删除", serviceInstanceId);
     registry.get(serviceName).remove(serviceInstanceId);
   }
 

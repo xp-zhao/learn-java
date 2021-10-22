@@ -2,6 +2,7 @@ package com.example.server;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 /** @author zhaoxiaoping @Description: 服务实例 @Date 2021-10-13 */
 @Data
@@ -42,6 +43,7 @@ public class ServiceInstance {
 
   /** 契约, 维护了一个服务实例和当前注册中心的联系(心跳时间, 创建时间) */
   @Getter
+  @Slf4j
   private class Lease {
     /** 最近一次心跳时间 */
     private volatile Long latestHeartbeatTime = System.currentTimeMillis();
@@ -49,7 +51,7 @@ public class ServiceInstance {
     /** 续约, 发送一次心跳就相当于一次续约 */
     public void renew() {
       this.latestHeartbeatTime = System.currentTimeMillis();
-      System.out.println("服务实例[" + serviceInstanceId + "], 进行续约: " + latestHeartbeatTime);
+      log.info("服务实例[{}], 进行续约: {}", serviceInstanceId, latestHeartbeatTime);
     }
 
     /**
@@ -60,10 +62,10 @@ public class ServiceInstance {
     public Boolean isAlive() {
       long currentTimeMillis = System.currentTimeMillis();
       if (currentTimeMillis - latestHeartbeatTime > NOT_ALIVE_PERIOD) {
-        System.out.println("服务实例[" + serviceInstanceId + "], 不再存活");
+        log.info("服务实例[{}], 不再存活", serviceInstanceId);
         return false;
       }
-      System.out.println("服务实例[" + serviceInstanceId + "], 保持存活");
+      log.info("服务实例[{}], 保持存活", serviceInstanceId);
       return true;
     }
   }
