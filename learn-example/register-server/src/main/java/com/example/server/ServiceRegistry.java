@@ -23,7 +23,7 @@ public class ServiceRegistry {
    *
    * @param serviceInstance 服务实例
    */
-  public void register(ServiceInstance serviceInstance) {
+  public synchronized void register(ServiceInstance serviceInstance) {
     registry
         .computeIfAbsent(serviceInstance.getServiceName(), v -> new HashMap<>(1))
         .put(serviceInstance.getServiceInstanceId(), serviceInstance);
@@ -37,7 +37,7 @@ public class ServiceRegistry {
    * @param serviceName
    * @param serviceInstanceId
    */
-  public void remove(String serviceName, String serviceInstanceId) {
+  public synchronized void remove(String serviceName, String serviceInstanceId) {
     System.out.println("服务实例[" + serviceInstanceId + "], 从注册表中删除");
     registry.get(serviceName).remove(serviceInstanceId);
   }
@@ -49,7 +49,8 @@ public class ServiceRegistry {
    * @param serviceInstanceId 服务实例id
    * @return 服务实例
    */
-  public ServiceInstance getServiceInstance(String serviceName, String serviceInstanceId) {
+  public synchronized ServiceInstance getServiceInstance(
+      String serviceName, String serviceInstanceId) {
     return registry.get(serviceName).get(serviceInstanceId);
   }
 

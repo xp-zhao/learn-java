@@ -1,5 +1,7 @@
 package com.example.server;
 
+import java.util.Map;
+
 /** @author zhaoxiaoping @Description: 服务注册控制层 @Date 2021-10-13 */
 public class RegisterServerController {
 
@@ -39,15 +41,28 @@ public class RegisterServerController {
   public HeartbeatResponse heartbeat(HeartbeatRequest heartbeatRequest) {
     HeartbeatResponse heartbeatResponse = new HeartbeatResponse();
     try {
+      // 对服务实例进行续约
       ServiceInstance serviceInstance =
           serviceRegistry.getServiceInstance(
               heartbeatRequest.getServiceName(), heartbeatRequest.getServiceInstanceId());
       serviceInstance.renew();
+      // 记录一下每分钟的心跳次数
+      HeartbeatMeasuredRate heartbeatMeasuredRate = new HeartbeatMeasuredRate();
+      heartbeatMeasuredRate.increment();
       heartbeatResponse.setStatus(HeartbeatResponse.SUCCESS);
     } catch (Exception e) {
       e.printStackTrace();
       heartbeatResponse.setStatus(HeartbeatResponse.FAILURE);
     }
     return heartbeatResponse;
+  }
+
+  /**
+   * 拉取服务注册表
+   *
+   * @return
+   */
+  public Map<String, Map<String, ServiceInstance>> fetchServiceRegistry() {
+    return serviceRegistry.getRegistry();
   }
 }
