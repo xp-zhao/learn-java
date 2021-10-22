@@ -23,14 +23,14 @@ public class ServiceAliveMonitor {
 
   /** 负责监控微服务存活状态的后台线程 */
   private class Daemon extends Thread {
-    Registry registry = Registry.getInstance();
+    ServiceRegistry serviceRegistry = ServiceRegistry.getInstance();
 
     @Override
     public void run() {
       Map<String, Map<String, ServiceInstance>> registryMap = null;
       while (true) {
         try {
-          registryMap = this.registry.getRegistry();
+          registryMap = this.serviceRegistry.getRegistry();
           registryMap.forEach(
               (serviceName, serviceInstanceMap) -> {
                 serviceInstanceMap.forEach(
@@ -38,7 +38,7 @@ public class ServiceAliveMonitor {
                       if (!serviceInstance.isAlive()) {
                         // 服务实例距离上一次发送心跳已经超过 90s
                         // 从注册表中删除
-                        registry.remove(serviceName, serviceInstanceId);
+                        serviceRegistry.remove(serviceName, serviceInstanceId);
                       }
                     });
               });

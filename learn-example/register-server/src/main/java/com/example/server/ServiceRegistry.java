@@ -3,13 +3,13 @@ package com.example.server;
 import java.util.HashMap;
 import java.util.Map;
 
-/** @author zhaoxiaoping @Description: 注册表 @Date 2021-10-13 */
-public class Registry {
+/** @author zhaoxiaoping @Description: 服务注册表 @Date 2021-10-13 */
+public class ServiceRegistry {
 
   /** 注册表是单例 */
-  private static Registry instance = new Registry();
+  private static ServiceRegistry instance = new ServiceRegistry();
 
-  private Registry() {}
+  private ServiceRegistry() {}
 
   /**
    * 核心的内存数据结构: 注册表<br>
@@ -62,7 +62,7 @@ public class Registry {
     return registry;
   }
 
-  public static Registry getInstance() {
+  public static ServiceRegistry getInstance() {
     return instance;
   }
 }

@@ -19,12 +19,15 @@ public class RegisterClient {
   private HeartbeatWorker heartbeatWorker;
   /** 服务实例运行状态 */
   private volatile Boolean isRunning;
+  /** 客户端缓存注册表 */
+  private ClientCachedServiceRegistry registry;
 
   public RegisterClient() {
     this.serviceInstanceId = UUID.randomUUID().toString().replace("-", "");
     this.httpSender = new HttpSender();
     this.heartbeatWorker = new HeartbeatWorker();
     this.isRunning = true;
+    this.registry = new ClientCachedServiceRegistry(this);
   }
 
   /** 启动 Register-Client 组件 */
@@ -37,6 +40,8 @@ public class RegisterClient {
       // 等待注册线程完成之后, 在开启心跳线程
       registerWorker.join();
       heartbeatWorker.start();
+      // 初始化后台拉取注册表的线程
+      registry.initialize();
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
@@ -46,6 +51,11 @@ public class RegisterClient {
   public void showdown() {
     this.isRunning = false;
     this.heartbeatWorker.interrupt();
+    this.registry.destroy();
+  }
+
+  public Boolean isRunning() {
+    return this.isRunning;
   }
 
   /** 服务注册线程 */
