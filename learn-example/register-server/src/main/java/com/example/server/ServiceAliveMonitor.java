@@ -30,6 +30,12 @@ public class ServiceAliveMonitor {
       Map<String, Map<String, ServiceInstance>> registryMap = null;
       while (true) {
         try {
+          // 判断一下是否开启自我保护机制
+          SelfProtectionPolicy selfProtectionPolicy = SelfProtectionPolicy.getInstance();
+          if (selfProtectionPolicy.isEnable()) {
+            TimeUnit.MILLISECONDS.sleep(CHECK_ALIVE_INTERVAL);
+            continue;
+          }
           registryMap = this.serviceRegistry.getRegistry();
           registryMap.forEach(
               (serviceName, serviceInstanceMap) -> {

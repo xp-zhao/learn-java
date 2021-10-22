@@ -24,7 +24,14 @@ public class RegisterServerController {
       serviceInstance.setServiceInstanceId(registerRequest.getServiceInstanceId());
       // 注册
       serviceRegistry.register(serviceInstance);
-
+      // 更新自我保护的阈值
+      synchronized (SelfProtectionPolicy.class) {
+        SelfProtectionPolicy selfProtectionPolicy = SelfProtectionPolicy.getInstance();
+        selfProtectionPolicy.setExpectedHeartbeatRate(
+            selfProtectionPolicy.getExpectedHeartbeatRate() + 2);
+        selfProtectionPolicy.setExpectedHeartbeatThreshold(
+            (long) (selfProtectionPolicy.getExpectedHeartbeatRate() * 0.85));
+      }
       registerResponse.setStatus(RegisterResponse.SUCCESS);
     } catch (Exception e) {
       registerResponse.setStatus(RegisterResponse.FAILURE);
@@ -74,5 +81,13 @@ public class RegisterServerController {
    */
   public void cancel(String serviceName, String serviceInstanceId) {
     serviceRegistry.remove(serviceName, serviceInstanceId);
+    // 更新自我保护的阈值
+    synchronized (SelfProtectionPolicy.class) {
+      SelfProtectionPolicy selfProtectionPolicy = SelfProtectionPolicy.getInstance();
+      selfProtectionPolicy.setExpectedHeartbeatRate(
+          selfProtectionPolicy.getExpectedHeartbeatRate() - 2);
+      selfProtectionPolicy.setExpectedHeartbeatThreshold(
+          (long) (selfProtectionPolicy.getExpectedHeartbeatRate() * 0.85));
+    }
   }
 }
