@@ -22,5 +22,6 @@ public class RegisterServerControllerTest {
     // 开启一个线程, 检测微服务存活状态
     ServiceAliveMonitor serviceAliveMonitor = new ServiceAliveMonitor();
     serviceAliveMonitor.start();
+    while(true) {}
   }
 }

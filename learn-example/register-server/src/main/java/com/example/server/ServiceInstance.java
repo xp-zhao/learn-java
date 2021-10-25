@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /** @author zhaoxiaoping @Description: 服务实例 @Date 2021-10-13 */
 @Data
+@Slf4j
 public class ServiceInstance {
 
   /** 判断一个服务不在存活的周期 */
@@ -43,7 +44,6 @@ public class ServiceInstance {
 
   /** 契约, 维护了一个服务实例和当前注册中心的联系(心跳时间, 创建时间) */
   @Getter
-  @Slf4j
   private class Lease {
     /** 最近一次心跳时间 */
     private volatile Long latestHeartbeatTime = System.currentTimeMillis();

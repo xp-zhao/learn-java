@@ -54,7 +54,7 @@ public class RegisterServerController {
               heartbeatRequest.getServiceName(), heartbeatRequest.getServiceInstanceId());
       serviceInstance.renew();
       // 记录一下每分钟的心跳次数
-      HeartbeatMeasuredRate heartbeatMeasuredRate = new HeartbeatMeasuredRate();
+      HeartbeatMeasuredRate heartbeatMeasuredRate = HeartbeatMeasuredRate.getInstance();
       heartbeatMeasuredRate.increment();
       heartbeatResponse.setStatus(HeartbeatResponse.SUCCESS);
     } catch (Exception e) {

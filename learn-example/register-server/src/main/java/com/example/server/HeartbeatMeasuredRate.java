@@ -2,6 +2,8 @@ package com.example.server;
 
 /** @author zhaoxiaoping @Description: 心跳计数器 @Date 2021-10-22 */
 public class HeartbeatMeasuredRate {
+  private HeartbeatMeasuredRate() {}
+
   private static HeartbeatMeasuredRate instance = new HeartbeatMeasuredRate();
 
   /** 最近一分钟心跳次数 */
