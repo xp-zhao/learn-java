@@ -11,6 +11,7 @@
   <modules>
     <module>register-server</module>
     <module>register-client</module>
+    <module>distributed-filesystem</module>
   </modules>
 
   <properties>
