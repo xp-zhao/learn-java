@@ -1,10 +1,13 @@
 package concurrent.completablefuture;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -133,8 +136,146 @@ public class CompletableFutureExample {
     Assert.assertEquals("message upon cancel", exceptionHandler.join());
   }
 
-  
-  
+  @Test
+  public void cancelExample() {
+    CompletableFuture<String> future =
+        CompletableFuture.completedFuture("message").thenApplyAsync(String::toUpperCase);
+    CompletableFuture<String> exceptionally = future.exceptionally(th -> "canceled message");
+    System.out.println(future.cancel(true));
+    System.out.println(future.isCompletedExceptionally());
+    Assert.assertEquals("canceled message", exceptionally.join());
+  }
+
+  @Test
+  public void applyToEitherExample() {
+    // 两个任务只要有一个完成, 就进行执行后续 function (不保证哪一个必须会被执行)
+    String original = "message";
+    CompletableFuture<String> future1 =
+        CompletableFuture.completedFuture(original).thenApplyAsync(String::toUpperCase);
+    CompletableFuture<String> future2 =
+        future1.applyToEither(
+            CompletableFuture.completedFuture(original).thenApplyAsync(String::toLowerCase),
+            s -> s + " from applyToEither");
+    System.out.println(future2.join());
+  }
+
+  @Test
+  public void acceptEitherExample() {
+    // 两个任务只要有一个完成, 就进行执行后续 consumer (不保证哪一个必须会被执行)
+    String original = "message";
+    CompletableFuture<Void> future =
+        CompletableFuture.completedFuture(original)
+            .thenApplyAsync(String::toUpperCase)
+            .acceptEither(
+                CompletableFuture.completedFuture(original).thenApplyAsync(String::toLowerCase),
+                s -> System.out.println(s));
+    System.out.println(future.join());
+  }
+
+  @Test
+  public void runAfterBothExample() {
+    // 在两个 CompletableFuture 都结束之后, 执行一个 Runnable
+    String original = "message";
+    CompletableFuture.completedFuture(original)
+        .thenApply(String::toUpperCase)
+        .runAfterBoth(
+            CompletableFuture.completedFuture(original).thenApply(String::toLowerCase),
+            () -> System.out.println(original));
+  }
+
+  @Test
+  public void thenAcceptBothExample() {
+    // 使用BiConsumer处理两个阶段的结果
+    String original = "message";
+    CompletableFuture.completedFuture(original)
+        .thenApply(String::toUpperCase)
+        .thenAcceptBoth(
+            CompletableFuture.completedFuture(original).thenApply(String::toLowerCase),
+            (s1, s2) -> System.out.println(s1 + s2));
+  }
+
+  @Test
+  public void thenCombineExample() {
+    // 使用BiFunction处理两个阶段的结果
+    String original = "message";
+    CompletableFuture<String> future =
+        CompletableFuture.completedFuture(original)
+            .thenApply(String::toUpperCase)
+            .thenCombine(
+                CompletableFuture.completedFuture(original).thenApply(String::toLowerCase),
+                (s1, s2) -> s1 + s2);
+    System.out.println(future.getNow(null));
+  }
+
+  @Test
+  public void thenCombineAsyncExample() {
+    // 异步使用BiFunction处理两个阶段的结果
+    String original = "message";
+    CompletableFuture<String> future =
+        CompletableFuture.completedFuture(original)
+            .thenApply(String::toUpperCase)
+            .thenCombine(
+                CompletableFuture.completedFuture(original).thenApply(String::toLowerCase),
+                (s1, s2) -> s1 + s2);
+    System.out.println(future.getNow(null));
+  }
+
+  @Test
+  public void thenComposeExample() {
+    // 组合 CompletableFuture
+    String original = "Message";
+    CompletableFuture<String> future =
+        CompletableFuture.completedFuture(original)
+            .thenApply(String::toUpperCase)
+            .thenCompose(
+                upper ->
+                    CompletableFuture.completedFuture(original)
+                        .thenApply(String::toLowerCase)
+                        .thenApply(s -> upper + s));
+    System.out.println(future.join());
+  }
+
+  @Test
+  public void anyOfExample() {
+    // 当几个 CompletableFuture 中的一个完成后，使用 BiConsumer 处理结果
+    List<String> messages = Arrays.asList("a", "b", "c");
+    List<CompletableFuture<String>> futureList =
+        messages.stream()
+            .map(msg -> CompletableFuture.completedFuture(msg).thenApply(String::toUpperCase))
+            .collect(Collectors.toList());
+    CompletableFuture.anyOf(futureList.toArray(new CompletableFuture[futureList.size()]))
+        .whenComplete(
+            (res, th) -> futureList.forEach(item -> System.out.println(item.getNow(null))));
+  }
+
+  @Test
+  public void allOfExample() {
+    // 当几个 CompletableFuture 全部完成后，使用 BiConsumer 处理结果
+    List<String> messages = Arrays.asList("a", "b", "c");
+    List<CompletableFuture<String>> futureList =
+        messages.stream()
+            .map(msg -> CompletableFuture.completedFuture(msg).thenApply(String::toUpperCase))
+            .collect(Collectors.toList());
+    CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()]))
+        .whenComplete(
+            (res, th) -> futureList.forEach(item -> System.out.println(item.getNow(null))));
+  }
+
+  @Test
+  public void allOfAsyncExample() {
+    // 当几个 CompletableFuture 全部完成后，使用 BiConsumer 处理结果
+    List<String> messages = Arrays.asList("a", "b", "c");
+    List<CompletableFuture<String>> futureList =
+        messages.stream()
+            .map(msg -> CompletableFuture.completedFuture(msg).thenApplyAsync(String::toUpperCase))
+            .collect(Collectors.toList());
+    CompletableFuture<Void> future =
+        CompletableFuture.allOf(futureList.toArray(new CompletableFuture[futureList.size()]))
+            .whenComplete(
+                (res, th) -> futureList.forEach(item -> System.out.println(item.getNow(null))));
+    System.out.println(future.join());
+  }
+
   private void sleep(long timeout) {
     try {
       Thread.sleep(timeout);
