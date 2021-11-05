@@ -29,6 +29,7 @@
     <hutool.version>5.6.2</hutool.version>
     <jsoup.version>1.13.1</jsoup.version>
     <cglib.version>3.3.0</cglib.version>
+    <jol.version>0.14</jol.version>
   </properties>
 
   <dependencies>
@@ -176,6 +177,11 @@
       <groupId>cglib</groupId>
       <artifactId>cglib</artifactId>
       <version>${cglib.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.openjdk.jol</groupId>
+      <artifactId>jol-core</artifactId>
+      <version>${jol.version}</version>
     </dependency>
   </dependencies>
 
