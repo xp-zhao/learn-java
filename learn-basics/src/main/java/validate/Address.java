@@ -1,11 +1,11 @@
 package validate;
 
-import javax.validation.Constraint;
-import javax.validation.Payload;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import javax.validation.Constraint;
+import javax.validation.Payload;
 
 /** @Author: xp-zhao @Description: 地址约束 @DateTime: 2021/11/19 10:41 下午 */
 @Target({ElementType.FIELD})

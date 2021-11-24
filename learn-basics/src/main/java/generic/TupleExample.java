@@ -1,5 +1,9 @@
 package generic;
 
+import cn.hutool.core.collection.CollUtil;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author zhaoxiaoping
  * @Description: 泛型实现元组
@@ -12,6 +16,9 @@ public class TupleExample {
     System.out.println(point);
     System.out.println(point.first);
     System.out.println(point.second);
+    List<String> list = Arrays.asList("1", "", "2", "", "3");
+//    list.stream().filter()
+    System.out.println(CollUtil.join(list, "<br/>"));
   }
 
   public static Tuple<Integer, Integer> getPoint() {
