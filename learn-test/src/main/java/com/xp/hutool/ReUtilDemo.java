@@ -1,7 +1,9 @@
 package com.xp.hutool;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.convert.Convert;
 import cn.hutool.core.util.ReUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HtmlUtil;
 import java.util.Arrays;
 import java.util.List;
@@ -17,6 +19,7 @@ import java.util.stream.Collectors;
 public class ReUtilDemo {
 
   public static void main(String[] args) {
+    System.out.println(Convert.toBigDecimal(StrUtil.EMPTY));
     List<Integer> list1 = Arrays.asList(1, 2, 3, 4, 5);
     System.out.println(CollUtil.splitList(list1, 2));
     List<String> all = ReUtil.findAll("^<写作>.+</写作>$", "<写作>xxx</写作>", 0);
