@@ -1,4 +1,4 @@
-package mapstruct;
+package mapstruct1;
 
 import java.time.LocalDateTime;
 import lombok.Data;
