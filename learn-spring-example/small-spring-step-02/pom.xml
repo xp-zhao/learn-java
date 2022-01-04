@@ -9,5 +9,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
-  <artifactId>small-spring-step-01</artifactId>
+  <artifactId>small-spring-step-02</artifactId>
+
+
 </project>
