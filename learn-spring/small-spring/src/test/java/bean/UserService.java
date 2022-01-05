@@ -1,10 +1,21 @@
 package bean;
 
-import org.smallspring.beans.factory.DisposableBean;
-import org.smallspring.beans.factory.InitializingBean;
+import org.smallspring.beans.BeansException;
+import org.smallspring.beans.factory.*;
+import org.smallspring.context.ApplicationContext;
+import org.smallspring.context.ApplicationContextAware;
 
 /** @Author: xp-zhao @Description: TODO @DateTime: 2021/7/7 11:19 下午 */
-public class UserService implements InitializingBean, DisposableBean {
+public class UserService
+    implements InitializingBean,
+        DisposableBean,
+        BeanNameAware,
+        BeanClassLoaderAware,
+        BeanFactoryAware,
+        ApplicationContextAware {
+
+  private ApplicationContext applicationContext;
+  private BeanFactory beanFactory;
 
   private String id;
   private String uId;
@@ -65,5 +76,33 @@ public class UserService implements InitializingBean, DisposableBean {
   @Override
   public void afterPropertiesSet() throws Exception {
     System.out.println("执行：UserService.afterPropertiesSet");
+  }
+
+  @Override
+  public void setBeanClassLoader(ClassLoader classLoader) {
+    System.out.println("ClassLoader：" + classLoader);
+  }
+
+  @Override
+  public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+    this.beanFactory = beanFactory;
+  }
+
+  @Override
+  public void setBeanName(String name) {
+    System.out.println("Bean Name is：" + name);
+  }
+
+  @Override
+  public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+    this.applicationContext = applicationContext;
+  }
+
+  public ApplicationContext getApplicationContext() {
+    return applicationContext;
+  }
+
+  public BeanFactory getBeanFactory() {
+    return beanFactory;
   }
 }

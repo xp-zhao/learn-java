@@ -2,17 +2,17 @@ package org.smallspring.beans.factory.supprot;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Method;
 import org.smallspring.beans.BeansException;
 import org.smallspring.beans.PropertyValue;
 import org.smallspring.beans.PropertyValues;
-import org.smallspring.beans.factory.DisposableBean;
-import org.smallspring.beans.factory.InitializingBean;
+import org.smallspring.beans.factory.*;
 import org.smallspring.beans.factory.config.AutowireCapableBeanFactory;
 import org.smallspring.beans.factory.config.BeanDefinition;
 import org.smallspring.beans.factory.config.BeanPostProcessor;
 import org.smallspring.beans.factory.config.BeanReference;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /** @author zhaoxiaoping @Description: @Date 2021-7-9 */
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
@@ -88,6 +88,18 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
   }
 
   private Object initializeBean(String beanName, Object bean, BeanDefinition beanDefinition) {
+    // invokeAwareMethods
+    if (bean instanceof Aware) {
+      if (bean instanceof BeanFactoryAware) {
+        ((BeanFactoryAware) bean).setBeanFactory(this);
+      }
+      if (bean instanceof BeanClassLoaderAware) {
+        ((BeanClassLoaderAware) bean).setBeanClassLoader(getBeanClassLoader());
+      }
+      if (bean instanceof BeanNameAware) {
+        ((BeanNameAware) bean).setBeanName(beanName);
+      }
+    }
     // 1. 执行 BeanPostProcessor Before 处理
     Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
 

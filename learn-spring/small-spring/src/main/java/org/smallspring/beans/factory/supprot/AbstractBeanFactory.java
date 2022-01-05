@@ -1,15 +1,19 @@
 package org.smallspring.beans.factory.supprot;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.smallspring.beans.BeansException;
 import org.smallspring.beans.factory.config.BeanDefinition;
 import org.smallspring.beans.factory.config.BeanPostProcessor;
 import org.smallspring.beans.factory.config.ConfigurableBeanFactory;
+import org.smallspring.util.ClassUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /** @Author: xp-zhao @Description: TODO @DateTime: 2021/7/8 11:38 下午 */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
     implements ConfigurableBeanFactory {
+
+  private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
 
   private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
@@ -53,5 +57,9 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
    */
   public List<BeanPostProcessor> getBeanPostProcessors() {
     return this.beanPostProcessors;
+  }
+
+  public ClassLoader getBeanClassLoader() {
+    return this.beanClassLoader;
   }
 }
