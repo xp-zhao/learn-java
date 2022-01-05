@@ -3,8 +3,6 @@ package org.smallspring.beans.factory.xml;
 import cn.hutool.core.bean.BeanException;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.XmlUtil;
-import java.io.IOException;
-import java.io.InputStream;
 import org.smallspring.beans.BeansException;
 import org.smallspring.beans.PropertyValue;
 import org.smallspring.beans.factory.config.BeanDefinition;
@@ -16,6 +14,9 @@ import org.smallspring.core.io.ResourceLoader;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 /** @author zhaoxiaoping @Description: @Date 2021-8-17 */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
@@ -78,6 +79,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
       String id = bean.getAttribute("id");
       String name = bean.getAttribute("name");
       String className = bean.getAttribute("class");
+      String initMethod = bean.getAttribute("init-method");
+      String destroyMethodName = bean.getAttribute("destroy-method");
       // 获取 Class，方便获取类中的名称
       Class<?> clazz = Class.forName(className);
       // 优先级 id > name
@@ -87,6 +90,8 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
       }
       // 定义Bean
       BeanDefinition beanDefinition = new BeanDefinition(clazz);
+      beanDefinition.setInitMethodName(initMethod);
+      beanDefinition.setDestroyMethodName(destroyMethodName);
       // 读取属性并填充
       for (int j = 0; j < bean.getChildNodes().getLength(); j++) {
         if (!(bean.getChildNodes().item(j) instanceof Element)) {

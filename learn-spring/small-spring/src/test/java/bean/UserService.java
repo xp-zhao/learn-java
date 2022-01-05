@@ -1,7 +1,10 @@
 package bean;
 
+import org.smallspring.beans.factory.DisposableBean;
+import org.smallspring.beans.factory.InitializingBean;
+
 /** @Author: xp-zhao @Description: TODO @DateTime: 2021/7/7 11:19 下午 */
-public class UserService {
+public class UserService implements InitializingBean, DisposableBean {
 
   private String id;
   private String uId;
@@ -10,8 +13,8 @@ public class UserService {
 
   private UserDao userDao;
 
-  public void queryUserInfo() {
-    System.out.println(userDao.queryUserName(uId) + "," + company + "," + location);
+  public String queryUserInfo() {
+    return userDao.queryUserName(uId) + "," + company + "," + location;
   }
 
   public String getId() {
@@ -52,5 +55,15 @@ public class UserService {
 
   public void setLocation(String location) {
     this.location = location;
+  }
+
+  @Override
+  public void destroy() throws Exception {
+    System.out.println("执行：UserService.destroy");
+  }
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    System.out.println("执行：UserService.afterPropertiesSet");
   }
 }
