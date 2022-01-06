@@ -17,6 +17,7 @@
     <module>small-spring-step-06</module>
     <module>small-spring-step-07</module>
     <module>small-spring-step-08</module>
+    <module>small-spring-step-09</module>
   </modules>
 
   <dependencies>
