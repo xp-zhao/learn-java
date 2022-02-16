@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+  <bean class="org.learn.spring.beans.factory.event.ContextRefreshedEventListener"/>
+
+  <bean class="org.learn.spring.beans.factory.event.CustomEventListener"/>
+
+  <bean class="org.learn.spring.beans.factory.event.ContextClosedEventListener"/>
+</beans>
