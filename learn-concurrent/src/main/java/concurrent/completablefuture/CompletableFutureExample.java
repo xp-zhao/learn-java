@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -274,6 +275,31 @@ public class CompletableFutureExample {
             .whenComplete(
                 (res, th) -> futureList.forEach(item -> System.out.println(item.getNow(null))));
     System.out.println(future.join());
+  }
+
+  @Test
+  public void exceptionExample() throws ExecutionException, InterruptedException {
+    CompletableFuture<String> base =
+        CompletableFuture.supplyAsync(
+                () -> {
+                  System.out.println("基础任务开始执行");
+                  if (true) {
+                    throw new RuntimeException("运行时异常");
+                  }
+                  return "success";
+                })
+//            .exceptionally(
+//                th -> {
+//                  System.out.println("异常信息捕获");
+//                  return "error";
+//                })
+            .whenComplete((res, th) -> System.out.println("基础任务完成：" + res + ":" + th));
+    CompletableFuture<Void> task1 =
+        base.thenAcceptAsync(
+            baseRes -> {
+              System.out.println("BaseResult: " + baseRes);
+            });
+    task1.join();
   }
 
   private void sleep(long timeout) {
