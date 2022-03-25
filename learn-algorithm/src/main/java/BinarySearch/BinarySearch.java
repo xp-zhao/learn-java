@@ -1,8 +1,6 @@
 package BinarySearch;
 
-/**
- * 二分查找算法（所查找的数组必须是有序的） 时间复杂度：O(logn) Created by xp-zhao on 2018/12/25.
- */
+/** 二分查找算法（所查找的数组必须是有序的） 时间复杂度：O(logn) Created by xp-zhao on 2018/12/25. */
 public class BinarySearch {
 
   public static void main(String[] args) {
@@ -58,10 +56,10 @@ public class BinarySearch {
         right = mid;
       }
     }
-    if (left == arrays.length) {
+    if (left == arrays.length || arrays[left] != value) {
       return -1;
     }
-    return arrays[left] == value ? left : -1;
+    return left;
   }
 
   public static int searchLeft01(int[] arrays, int value) {
@@ -81,5 +79,43 @@ public class BinarySearch {
       return -1;
     }
     return left;
+  }
+
+  public static int searchRight(int[] arrays, int value) {
+    int left = 0;
+    int right = arrays.length;
+    while (left < right) {
+      int mid = left + (right - left) / 2;
+      if (arrays[mid] == value) {
+        left = mid + 1;
+      } else if (arrays[mid] < value) {
+        left = mid + 1;
+      } else if (arrays[mid] > value) {
+        right = mid;
+      }
+    }
+    if (left == 0 || arrays[left - 1] != value) {
+      return -1;
+    }
+    return left - 1;
+  }
+
+  public static int searchRight01(int[] arrays, int value) {
+    int left = 0;
+    int right = arrays.length - 1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (arrays[mid] == value) {
+        left = mid + 1;
+      } else if (arrays[mid] < value) {
+        left = mid + 1;
+      } else if (arrays[mid] > value) {
+        right = mid - 1;
+      }
+    }
+    if (right < 0 || arrays[right] != value) {
+      return -1;
+    }
+    return right;
   }
 }
