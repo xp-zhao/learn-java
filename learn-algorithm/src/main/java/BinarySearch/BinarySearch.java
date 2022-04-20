@@ -4,11 +4,15 @@ package BinarySearch;
 public class BinarySearch {
 
   public static void main(String[] args) {
-    int[] sortedArrays = {1, 2, 3, 3, 3, 3, 4, 5, 6, 7};
+    int[] sortedArrays = {3, 3, 3, 3, 4, 5, 6, 7};
     System.out.println(search(sortedArrays, 3));
     System.out.println(binarySearch(sortedArrays, 3));
     System.out.println(searchLeft(sortedArrays, 3));
     System.out.println(searchLeft01(sortedArrays, 3));
+    System.out.println(searchLeft02(sortedArrays, 3));
+    System.out.println(searchRight(sortedArrays, 3));
+    System.out.println(searchRight01(sortedArrays, 3));
+    System.out.println(searchRight02(sortedArrays, 3));
   }
 
   public static int search(int[] arrays, int value) {
@@ -81,6 +85,22 @@ public class BinarySearch {
     return left;
   }
 
+  public static int searchLeft02(int[] arrays, int value) {
+    int left = 0;
+    int right = arrays.length - 1;
+    int res = -1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if (arrays[mid] >= value) {
+        res = mid;
+        right = mid - 1;
+      } else {
+        left = mid + 1;
+      }
+    }
+    return res;
+  }
+
   public static int searchRight(int[] arrays, int value) {
     int left = 0;
     int right = arrays.length;
@@ -117,5 +137,21 @@ public class BinarySearch {
       return -1;
     }
     return right;
+  }
+
+  public static int searchRight02(int[] arrays, int value) {
+    int left = 0;
+    int right = arrays.length - 1;
+    int res = -1;
+    while (left <= right) {
+      int mid = left + (right - left) / 2;
+      if(arrays[mid] <= value){
+        res = mid;
+        left = mid + 1;
+      }else{
+        right = mid - 1;
+      }
+    }
+    return res;
   }
 }
