@@ -17,15 +17,16 @@ public class ValidExample {
     person.setName("xxx");
     person.setAge(35);
     person.setHobbies(Arrays.asList("足球", "篮球"));
+    person.setGender("x");
     person.setChild(new Child());
-//    Set<ConstraintViolation<Person>> result =
-//        Validation.buildDefaultValidatorFactory().getValidator().validate(person);
-    ValidatorFactory factory =
-        Validation.byProvider(HibernateValidator.class)
-            .configure()
-            .failFast(true)
-            .buildValidatorFactory();
-    Set<ConstraintViolation<Person>> result = factory.getValidator().validate(person);
+    Set<ConstraintViolation<Person>> result =
+        Validation.buildDefaultValidatorFactory().getValidator().validate(person);
+//    ValidatorFactory factory =
+//        Validation.byProvider(HibernateValidator.class)
+//            .configure()
+//            .failFast(true)
+//            .buildValidatorFactory();
+//    Set<ConstraintViolation<Person>> result = factory.getValidator().validate(person);
     result.stream()
         .map(v -> v.getPropertyPath() + " " + v.getMessage() + ": " + v.getInvalidValue())
         .forEach(System.out::println);

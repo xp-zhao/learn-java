@@ -10,6 +10,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.group.GroupSequenceProvider;
+import validate.GenderEnum;
 
 /**
  * @author zhaoxiaoping
@@ -26,6 +27,9 @@ public class Person {
   @NotNull
   @Range(min = 10, max = 40)
   private Integer age;
+
+  @EnumValue(enumClass = GenderEnum.class, enumField = "name")
+  private String gender;
 
   @NotNull(groups = {WhenAge20And30Group.class, WhenAge30And40Group.class})
   @Size(min = 1, max = 2, groups = WhenAge20And30Group.class)
