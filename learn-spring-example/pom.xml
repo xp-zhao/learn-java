@@ -21,6 +21,7 @@
     <module>small-spring-step-10</module>
     <module>small-spring-step-11</module>
     <module>small-spring-step-15</module>
+    <module>small-spring-step-16</module>
   </modules>
 
   <dependencies>
