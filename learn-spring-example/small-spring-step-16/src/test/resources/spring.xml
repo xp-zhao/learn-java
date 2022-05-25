@@ -8,12 +8,12 @@
     <property name="wife" ref="wife"/>
   </bean>
 
+  <bean id="husbandMother" class="org.learn.spring.test.beans.HusbandMother"/>
+
   <bean id="wife" class="org.learn.spring.test.beans.Wife">
     <property name="husband" ref="husband"/>
     <property name="mother" ref="husbandMother"/>
   </bean>
-
-  <bean id="husbandMother" class="org.learn.spring.test.beans.HusbandMother"/>
 
   <!-- AOP 配置，验证三级缓存 -->
   <bean class="org.learn.spring.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>

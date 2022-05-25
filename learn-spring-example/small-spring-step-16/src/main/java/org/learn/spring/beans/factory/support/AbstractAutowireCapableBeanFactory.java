@@ -29,7 +29,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     implements AutowireCapableBeanFactory {
 
   /** 对象实例化策略 */
-  private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
+  private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
 
   @Override
   protected Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args)
@@ -78,7 +78,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
       // 获取代理对象
       exposedObject = getSingleton(beanName);
       // 注册单例对象
-      registerSingleton(beanName, bean);
+      registerSingleton(beanName, exposedObject);
     }
     return exposedObject;
   }

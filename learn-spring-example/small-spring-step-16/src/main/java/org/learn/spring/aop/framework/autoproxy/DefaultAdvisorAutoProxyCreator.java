@@ -75,7 +75,7 @@ public class DefaultAdvisorAutoProxyCreator
 
   protected Object wrapIfNecessary(Object bean, String beanName) {
     if (isInfrastructureClass(bean.getClass())) {
-      return null;
+      return bean;
     }
     Collection<AspectJExpressionPointcutAdvisor> advisors =
         beanFactory.getBeansOfType(AspectJExpressionPointcutAdvisor.class).values();
