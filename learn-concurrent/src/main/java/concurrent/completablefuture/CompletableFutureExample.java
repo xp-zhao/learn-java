@@ -1,18 +1,15 @@
 package concurrent.completablefuture;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CompletionException;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
-import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
+
 /** @author zhaoxiaoping @Description: CompletableFuture 使用示例集合 @Date 2021-11-3 */
+@SuppressWarnings("AlibabaThreadPoolCreation")
 public class CompletableFutureExample {
 
   @Test
