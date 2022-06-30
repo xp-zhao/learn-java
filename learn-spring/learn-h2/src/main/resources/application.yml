@@ -1,0 +1,29 @@
+#??????????????????????
+server:
+  port: 8088
+spring:
+  application:
+    name: h2-demo
+  datasource:
+    url: jdbc:h2:~/h2demo;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;LOCK_TIMEOUT=10000;AUTO_SERVER=TRUE;
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      trace: false
+      web-allow-others: true
+  config:
+    activate:
+      on-profile:
+  sql:
+    init:
+      schema-locations: classpath:sql/schema.sql
+      data-locations: classpath:sql/data.sql
+      mode:
+      platform: h2
+mybatis:
+  mapper-locations: classpath*:mappers/**/*.xml
