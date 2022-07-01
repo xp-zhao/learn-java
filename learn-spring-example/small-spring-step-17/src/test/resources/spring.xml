@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+  <bean id="husband" class="org.learn.spring.test.beans.Husband">
+    <property name="wife" ref="wife"/>
+  </bean>
+
+  <bean id="husbandMother" class="org.learn.spring.test.beans.HusbandMother"/>
+
+  <bean id="wife" class="org.learn.spring.test.beans.Wife">
+    <property name="husband" ref="husband"/>
+    <property name="mother" ref="husbandMother"/>
+  </bean>
+
+  <!-- AOP 配置，验证三级缓存 -->
+  <bean class="org.learn.spring.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"/>
+
+  <bean id="beforeAdvice" class="org.learn.spring.test.beans.SpouseAdvice"/>
+
+  <bean id="methodInterceptor" class="org.learn.spring.aop.framework.adapter.MethodBeforeAdviceInterceptor">
+    <property name="advice" ref="beforeAdvice"/>
+  </bean>
+
+  <bean id="pointcutAdvisor" class="org.learn.spring.aop.aspectj.AspectJExpressionPointcutAdvisor">
+    <property name="expression" value="execution(* org.learn.spring.test.beans.Wife.*(..))"/>
+    <property name="advice" ref="methodInterceptor"/>
+  </bean>
+
+</beans>
