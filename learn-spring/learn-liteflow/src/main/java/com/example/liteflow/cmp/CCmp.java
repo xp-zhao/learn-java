@@ -2,8 +2,9 @@ package com.example.liteflow.cmp;
 
 import com.yomahub.liteflow.annotation.LiteflowComponent;
 import com.yomahub.liteflow.core.NodeComponent;
-import java.util.concurrent.TimeUnit;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author zhaoxiaoping
@@ -16,6 +17,10 @@ public class CCmp extends NodeComponent {
   @Override
   public void process() throws InterruptedException {
     TimeUnit.SECONDS.sleep(2);
-    log.info("c 执行完成");
+  }
+
+  @Override
+  public void onSuccess() throws Exception {
+    log.info("c 模块执行成功");
   }
 }
