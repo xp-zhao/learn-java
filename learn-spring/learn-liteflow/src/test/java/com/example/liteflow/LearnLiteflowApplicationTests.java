@@ -18,8 +18,15 @@ class LearnLiteflowApplicationTests {
     LiteflowResponse resp = flowExecutor.execute2Resp("chain");
     if (resp.isSuccess()) {
       log.info("流程执行成功");
-    }else{
+    } else {
       log.info("流程执行失败");
+      resp.getExecuteSteps()
+          .forEach(
+              (k, v) -> {
+                if (!v.isSuccess()) {
+                  log.info("{}失败:{}", v.getNodeName(), v.getException().getMessage());
+                }
+              });
     }
   }
 }
