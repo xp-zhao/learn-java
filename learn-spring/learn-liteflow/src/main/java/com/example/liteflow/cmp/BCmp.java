@@ -15,7 +15,6 @@ public class BCmp extends NodeComponent {
 
   @Override
   public void process() throws Exception {
-    int a = 1 / 0;
     log.info("b 执行完成");
   }
 

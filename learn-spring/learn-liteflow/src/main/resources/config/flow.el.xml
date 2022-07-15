@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <flow>
   <chain name="chain">
-    THEN(PRE(d), a, WHEN(b, c));
+    THEN(
+        PRE(d),
+        WHEN(
+            a, a, a, a, a,
+            b, c
+        )
+    );
   </chain>
 </flow>
