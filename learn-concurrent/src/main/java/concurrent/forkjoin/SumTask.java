@@ -1,5 +1,6 @@
 package concurrent.forkjoin;
 
+import java.util.Arrays;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveTask;
@@ -54,12 +55,9 @@ public class SumTask extends RecursiveTask<Long> {
   public static void main(String[] args) {
     // 创建随机数组成的数组:
     long[] array = new long[400];
-    for (int i = 0; i < 400; i++) {
-      array[i] = i;
-    }
+    Arrays.fill(array, 1);
     // fork/join task:
-    // 最大并发数4
-    ForkJoinPool fjp = new ForkJoinPool(4);
+    ForkJoinPool fjp = new ForkJoinPool();
     ForkJoinTask<Long> task = new SumTask(array, 0, array.length);
     long startTime = System.currentTimeMillis();
     Long result = fjp.invoke(task);
