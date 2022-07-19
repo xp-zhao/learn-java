@@ -12,6 +12,9 @@
     <module>register-server</module>
     <module>register-client</module>
     <module>distributed-filesystem</module>
+      <module>service-api</module>
+    <module>service-client</module>
+      <module>classloader-service</module>
   </modules>
 
   <properties>
