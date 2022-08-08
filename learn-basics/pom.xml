@@ -13,7 +13,7 @@
     <jackson.version>2.12.2</jackson.version>
     <jave-version>2.7.3</jave-version>
     <mapstruct.version>1.4.2.Final</mapstruct.version>
-    <lombok.version>1.18.20</lombok.version>
+    <lombok.version>1.18.12</lombok.version>
     <junit.version>4.13.2</junit.version>
     <commons-lang3.version>3.11</commons-lang3.version>
     <commons-collections4.version>4.4</commons-collections4.version>
@@ -43,7 +43,6 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
       <version>${lombok.version}</version>
-      <scope>provided</scope>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.assertj/assertj-core -->
     <dependency>
@@ -225,6 +224,16 @@
               <groupId>org.projectlombok</groupId>
               <artifactId>lombok</artifactId>
               <version>${lombok.version}</version>
+            </path>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok-mapstruct-binding</artifactId>
+              <version>0.2.0</version>
+            </path>
+            <path>
+              <groupId>org.mapstruct</groupId>
+              <artifactId>mapstruct-processor</artifactId>
+              <version>${mapstruct.version}</version>
             </path>
           </annotationProcessorPaths>
         </configuration>

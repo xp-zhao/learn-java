@@ -1,8 +1,8 @@
 package mapstruct1.target1;
 
-import com.fasterxml.jackson.databind.deser.impl.PropertyValue;
 import java.util.List;
 import lombok.Data;
+import mapstruct1.source.ValueDTO;
 
 /**
  * @author zhaoxiaoping
@@ -11,5 +11,5 @@ import lombok.Data;
 @Data
 public class PropertyItem {
   private String key;
-  private List<PropertyValue> value;
+  private List<ValueDTO> value;
 }
