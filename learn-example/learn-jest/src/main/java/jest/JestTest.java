@@ -1,3 +1,5 @@
+package jest;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.searchbox.client.JestClient;
@@ -16,7 +18,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * 功能测试
+ * Jest 测试用例
  *
  * @author zhaoxiaoping
  * @date 2022-8-16
