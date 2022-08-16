@@ -15,6 +15,7 @@
       <module>service-api</module>
     <module>service-client</module>
       <module>classloader-service</module>
+    <module>learn-jest</module>
   </modules>
 
   <properties>
