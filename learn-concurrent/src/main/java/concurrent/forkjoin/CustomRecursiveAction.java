@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.ForkJoinTask;
 import java.util.concurrent.RecursiveAction;
-import java.util.concurrent.TimeUnit;
 
 /**
  * TODO
@@ -51,8 +50,6 @@ public class CustomRecursiveAction extends RecursiveAction {
 
   public static void main(String[] args) throws InterruptedException {
     ForkJoinPool forkJoinPool = new ForkJoinPool();
-    forkJoinPool.submit(new CustomRecursiveAction("abcdefghij"));
-    forkJoinPool.awaitTermination(2, TimeUnit.SECONDS);
-    forkJoinPool.shutdown();
+    Void result = forkJoinPool.invoke(new CustomRecursiveAction("abcdefghij"));
   }
 }
