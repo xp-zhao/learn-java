@@ -9,6 +9,7 @@ import config.EsConfig;
 import es.repository.ArticleRepository;
 import java.util.Collections;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import model.Article;
 import model.Author;
 import org.apache.lucene.search.join.ScoreMode;
@@ -33,6 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = EsConfig.class)
+@Slf4j
 public class EsTemplateTest {
   @Autowired private ElasticsearchRestTemplate elasticsearchTemplate;
 
@@ -68,7 +70,6 @@ public class EsTemplateTest {
         nestedQuery("authors", rangeQuery("authors.age").from(5).to(25), ScoreMode.None);
     NativeSearchQuery searchQuery = new NativeSearchQuery(queryBuilder);
     SearchHits<Article> hits = elasticsearchTemplate.search(searchQuery, Article.class);
-    System.out.println(hits.getTotalHits());
   }
 
   @Test

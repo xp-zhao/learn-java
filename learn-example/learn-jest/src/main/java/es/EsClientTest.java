@@ -2,6 +2,8 @@ package es;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import lombok.extern.slf4j.Slf4j;
 import org.elasticsearch.action.delete.DeleteRequest;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetRequest;
@@ -33,6 +35,7 @@ import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
  * @author zhaoxiaoping
  * @date 2022-8-16
  */
+@Slf4j
 public class EsClientTest {
   private RestHighLevelClient client;
   private ElasticsearchOperations esRestTemplate;
@@ -52,7 +55,7 @@ public class EsClientTest {
             .startObject()
             .field("fullName", "Test")
             .field("dateOfBirth", LocalDateTime.now())
-            .field("age", 10)
+            .field("age", 20)
             .endObject();
     IndexRequest indexRequest = new IndexRequest("text");
     indexRequest.source(builder);
@@ -66,24 +69,25 @@ public class EsClientTest {
     searchRequest.indices("text");
     SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
     SearchHit[] hits = response.getHits().getHits();
-    System.out.println(hits);
+    log.info(Arrays.toString(hits));
   }
 
   @Test
   public void testSearchBuilder() throws IOException {
-//    SearchSourceBuilder builder =
-//        new SearchSourceBuilder().postFilter(QueryBuilders.rangeQuery("age").from(5).to(10));
+    //    SearchSourceBuilder builder =
+    //        new SearchSourceBuilder().postFilter(QueryBuilders.rangeQuery("age").from(5).to(10));
     SearchSourceBuilder builder = new SearchSourceBuilder();
     QueryBuilder matchAllQuery = QueryBuilders.matchAllQuery();
-    RangeQueryBuilder age = QueryBuilders.rangeQuery("age").from(5).to(15);
+    RangeQueryBuilder age = QueryBuilders.rangeQuery("authors.age").from(5).to(25);
     builder.query(age);
     SearchRequest searchRequest = new SearchRequest();
     searchRequest.searchType(SearchType.DFS_QUERY_THEN_FETCH);
     searchRequest.source(builder);
-        searchRequest.indices("text");
+    searchRequest.indices("text");
+    log.info("DSL 语句:" + searchRequest.source().toString());
     SearchResponse response = client.search(searchRequest, RequestOptions.DEFAULT);
     SearchHit[] hits = response.getHits().getHits();
-    System.out.println(hits.length);
+    System.out.println("匹配结果: " + hits.length);
   }
 
   @Test
