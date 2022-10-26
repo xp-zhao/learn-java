@@ -26,6 +26,7 @@
     <vavr.version>0.10.4</vavr.version>
     <streamex.version>0.8.1</streamex.version>
     <junit.version>4.13.2</junit.version>
+    <mapstruct.version>1.5.2.Final</mapstruct.version>
   </properties>
 
   <dependencies>
@@ -54,6 +55,17 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct</artifactId>
+      <version>${mapstruct.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+      <version>${mapstruct.version}</version>
     </dependency>
   </dependencies>
 </project>
