@@ -1,6 +1,9 @@
 package label;
 
 import cn.hutool.http.HtmlUtil;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import label.DocumentConstant.LabelEnum;
@@ -12,11 +15,7 @@ import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.junit.Test;
 
-/**
- * @author zhaoxiaoping
- * @Description: Jsoup 测试
- * @Date 2020-6-28
- **/
+/** @author zhaoxiaoping @Description: Jsoup 测试 @Date 2020-6-28 */
 public class JsoupTest {
 
   public static void main(String[] args) {
@@ -27,33 +26,35 @@ public class JsoupTest {
     for (Element element : select) {
       element.replaceWith(new TextNode(element.toString()));
     }
-    System.out.println(Jsoup.clean(parse.outerHtml(), Whitelist.basic())
-        .replaceAll(" &lt;", "<")
-        .replaceAll("&lt;", "<")
-        .replaceAll("&gt; ", ">")
-        .replaceAll("&gt;", ">"));
+    System.out.println(
+        Jsoup.clean(parse.outerHtml(), Whitelist.basic())
+            .replaceAll(" &lt;", "<")
+            .replaceAll("&lt;", "<")
+            .replaceAll("&gt; ", ">")
+            .replaceAll("&gt;", ">"));
   }
 
   @Test
   public void testAllLabel() {
     String text = "我是测试<blue>文档</blue>";
-    text = "<sup>我是上标</sup>上标\n"
-        + "<sub>我是下标</sub>下标\n"
-        + "<粗体>我是粗体</粗体>粗体标记\n"
-        + "<斜体>我是斜体</斜体>斜体标记\n"
-        + "<red>我是红色</red>红色标记\n"
-        + "<blue>我是蓝色</blue>蓝色标记\n"
-        + "<orange>我是橙色</orange>橙色标记\n"
-        + "<yellow>我是黄色</yellow>黄色标记\n"
-        + "<green>我是绿色</green>绿色标记\n"
-        + "<加点>我加点</加点>加点标记\n"
-        + "<下划线>我加下划线</下划线>下划线标记\n"
-        + "<波浪线>我加波浪线</波浪线>波浪线标记\n"
-        + "<middle>我居中</middle>居中  \n"
-        + "<right>我靠右</right>靠右";
+    text =
+        "<sup>我是上标</sup>上标\n"
+            + "<sub>我是下标</sub>下标\n"
+            + "<粗体>我是粗体</粗体>粗体标记\n"
+            + "<斜体>我是斜体</斜体>斜体标记\n"
+            + "<red>我是红色</red>红色标记\n"
+            + "<blue>我是蓝色</blue>蓝色标记\n"
+            + "<orange>我是橙色</orange>橙色标记\n"
+            + "<yellow>我是黄色</yellow>黄色标记\n"
+            + "<green>我是绿色</green>绿色标记\n"
+            + "<加点>我加点</加点>加点标记\n"
+            + "<下划线>我加下划线</下划线>下划线标记\n"
+            + "<波浪线>我加波浪线</波浪线>波浪线标记\n"
+            + "<middle>我居中</middle>居中  \n"
+            + "<right>我靠右</right>靠右";
     String result = LabelConvertUtil.allLabelConvert(text);
     System.out.println(result);
-//    Assert.assertTrue(result.equals("我是测试<font color=\"blue\">文档</font>"));
+    //    Assert.assertTrue(result.equals("我是测试<font color=\"blue\">文档</font>"));
   }
 
   @Test
@@ -75,5 +76,20 @@ public class JsoupTest {
     System.out.println(str);
   }
 
-
+  @Test
+  public void testImg() {
+    String txt = "asdf<img src=\"xxx\"/>adfas<img src=\"http://xxx.jpg\" width=\"\" height=\"\"/>";
+    txt = HtmlUtil.filter(txt);
+    Document doc = Jsoup.parse(txt);
+    Map<String, String> map = new HashMap<>();
+    for (Element element : doc.select("img")) {
+      map.put(HtmlUtil.filter(element.outerHtml()), element.attr("src"));
+    }
+    System.out.println(txt);
+    System.out.println(map);
+    for (Entry<String, String> entry : map.entrySet()) {
+      txt = txt.replaceAll(entry.getKey(), entry.getValue());
+    }
+    System.out.println(txt);
+  }
 }
