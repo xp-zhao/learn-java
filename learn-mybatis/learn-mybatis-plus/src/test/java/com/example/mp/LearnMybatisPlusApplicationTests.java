@@ -26,8 +26,8 @@ class LearnMybatisPlusApplicationTests {
   
   @Test
   public void testService(){
-//    List<User> list = userService.list();
-//    System.out.println(list);
+    List<User> list = userService.list();
+    System.out.println(list);
     User user = new User();
     user.setId(6L);
     user.setName("xxx");
@@ -35,5 +35,7 @@ class LearnMybatisPlusApplicationTests {
     user.setEmail("xxx");
     userService.save(user);
     System.out.println(user);
+    list = userService.list();
+    System.out.println(list);
   }
 }
