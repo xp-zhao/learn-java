@@ -27,6 +27,7 @@
     <streamex.version>0.8.1</streamex.version>
     <junit.version>4.13.2</junit.version>
     <mapstruct.version>1.5.2.Final</mapstruct.version>
+    <spring.version>5.3.21</spring.version>
   </properties>
 
   <dependencies>
@@ -66,6 +67,11 @@
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct-processor</artifactId>
       <version>${mapstruct.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>${spring.version}</version>
     </dependency>
   </dependencies>
 </project>
