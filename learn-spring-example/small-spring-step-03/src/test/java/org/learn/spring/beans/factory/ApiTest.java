@@ -16,6 +16,8 @@ public class ApiTest {
     // 2.注册 bean
     BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
     beanFactory.registerBeanDefinition("userService", beanDefinition);
+    // 可以手动设置对象实例化策略
+    //    beanFactory.setInstantiationStrategy(new SimpleInstantiationStrategy());
     // 3.第一次获取 bean
     UserService userService = (UserService) beanFactory.getBean("userService", "xxx");
     userService.queryUserInfo();
