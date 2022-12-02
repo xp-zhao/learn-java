@@ -28,6 +28,7 @@
     <junit.version>4.13.2</junit.version>
     <mapstruct.version>1.5.2.Final</mapstruct.version>
     <spring.version>5.3.21</spring.version>
+    <springboot.version>2.7.1</springboot.version>
   </properties>
 
   <dependencies>
@@ -72,6 +73,16 @@
       <groupId>org.springframework</groupId>
       <artifactId>spring-tx</artifactId>
       <version>${spring.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter</artifactId>
+      <version>${springboot.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+      <version>${springboot.version}</version>
     </dependency>
   </dependencies>
 </project>
