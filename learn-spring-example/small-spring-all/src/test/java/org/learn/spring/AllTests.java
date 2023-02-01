@@ -13,6 +13,7 @@ import org.junit.runners.Suite;
 @Suite.SuiteClasses({
   org.learn.spring.v1.ApiTest.class,
   org.learn.spring.v2.ApiTest.class,
-  org.learn.spring.v3.ApiTest.class
+  org.learn.spring.v3.ApiTest.class,
+  org.learn.spring.v4.ApiTest.class
 })
 public class AllTests {}

@@ -1,7 +1,11 @@
 package org.learn.spring.beans.factory.support;
 
+import cn.hutool.core.bean.BeanUtil;
 import org.learn.spring.beans.BeansException;
+import org.learn.spring.beans.factory.PropertyValue;
+import org.learn.spring.beans.factory.PropertyValues;
 import org.learn.spring.beans.factory.config.BeanDefinition;
+import org.learn.spring.beans.factory.config.BeanReference;
 
 import java.lang.reflect.Constructor;
 
@@ -21,6 +25,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     Object bean = null;
     try {
       bean = createBeanInstance(beanDefinition, beanName, args);
+      // 给 bean 对象填充属性
+      applyPropertyValue(beanName, bean, beanDefinition);
     } catch (Exception e) {
       throw new BeansException("Instantiation of bean failed", e);
     }
@@ -41,6 +47,32 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
       }
     }
     return getInstantiationStrategy().instantiate(beanDefinition, beanName, constructorToUse, args);
+  }
+
+  /**
+   * 填充对象属性
+   *
+   * @param beanName
+   * @param bean
+   * @param beanDefinition
+   */
+  protected void applyPropertyValue(String beanName, Object bean, BeanDefinition beanDefinition) {
+    try {
+      PropertyValues propertyValues = beanDefinition.getPropertyValues();
+      for (PropertyValue pv : propertyValues.getPropertyValues()) {
+        String name = pv.getName();
+        Object value = pv.getValue();
+        if (value instanceof BeanReference) {
+          // 对象属性是另一个对象的引用
+          BeanReference beanReference = (BeanReference) value;
+          value = getBean(beanReference.getBeanName());
+        }
+        // 属性填充
+        BeanUtil.setFieldValue(bean, name, value);
+      }
+    } catch (Exception e) {
+      throw new BeansException("Error setting property values：" + beanName);
+    }
   }
 
   public InstantiationStrategy getInstantiationStrategy() {
