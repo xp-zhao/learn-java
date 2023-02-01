@@ -1,13 +1,16 @@
 package org.learn.spring.v2.bean;
 
+import lombok.extern.slf4j.Slf4j;
+
 /**
  * 测试服务类
  *
  * @author zhaoxiaoping
  * @date 2023-2-1
  */
+@Slf4j
 public class UserService {
   public void queryUserInfo() {
-    System.out.println("查询用户信息");
+    log.info("查询用户信息");
   }
 }
