@@ -1,9 +1,9 @@
-package org.learn.spring.v1;
+package org.learn.spring.v2;
 
 import org.junit.Test;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.support.DefaultListableBeanFactory;
-import org.learn.spring.v1.bean.UserService;
+import org.learn.spring.v2.bean.UserService;
 
 /**
  * 单元测试
@@ -19,8 +19,11 @@ public class ApiTest {
     // 注册 Bean
     BeanDefinition beanDefinition = new BeanDefinition(UserService.class);
     beanFactory.registerBeanDefinition("userService", beanDefinition);
-    // 获取 Bean
+    // 第一次获取 Bean
     UserService userService = (UserService) beanFactory.getBean("userService");
     userService.queryUserInfo();
+    // 第二次获取 Bean
+    UserService userServiceSingleton = (UserService) beanFactory.getBean("userService");
+    userServiceSingleton.queryUserInfo();
   }
 }
