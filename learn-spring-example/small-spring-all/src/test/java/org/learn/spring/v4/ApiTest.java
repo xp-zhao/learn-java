@@ -2,8 +2,8 @@ package org.learn.spring.v4;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
-import org.learn.spring.beans.factory.PropertyValue;
-import org.learn.spring.beans.factory.PropertyValues;
+import org.learn.spring.beans.PropertyValue;
+import org.learn.spring.beans.PropertyValues;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.config.BeanReference;
 import org.learn.spring.beans.factory.support.DefaultListableBeanFactory;

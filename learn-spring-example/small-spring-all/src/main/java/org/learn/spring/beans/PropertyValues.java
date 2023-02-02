@@ -1,4 +1,4 @@
-package org.learn.spring.beans.factory;
+package org.learn.spring.beans;
 
 import java.util.ArrayList;
 import java.util.List;

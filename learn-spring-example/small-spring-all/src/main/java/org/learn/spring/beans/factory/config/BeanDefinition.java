@@ -1,6 +1,6 @@
 package org.learn.spring.beans.factory.config;
 
-import org.learn.spring.beans.factory.PropertyValues;
+import org.learn.spring.beans.PropertyValues;
 
 /**
  * Bean 定义对象

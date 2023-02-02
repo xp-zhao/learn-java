@@ -16,4 +16,12 @@ public interface BeanDefinitionRegistry {
    * @param beanDefinition
    */
   void registerBeanDefinition(String beanName, BeanDefinition beanDefinition);
+
+  /**
+   * 判断容器中是否已经包含指定名称的 Bean
+   *
+   * @param beanName
+   * @return
+   */
+  boolean containsBeanDefinition(String beanName);
 }

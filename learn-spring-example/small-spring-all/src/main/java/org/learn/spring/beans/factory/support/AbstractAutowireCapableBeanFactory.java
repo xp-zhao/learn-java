@@ -2,8 +2,8 @@ package org.learn.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import org.learn.spring.beans.BeansException;
-import org.learn.spring.beans.factory.PropertyValue;
-import org.learn.spring.beans.factory.PropertyValues;
+import org.learn.spring.beans.PropertyValue;
+import org.learn.spring.beans.PropertyValues;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.config.BeanReference;
 

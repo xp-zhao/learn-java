@@ -1,4 +1,4 @@
-package org.learn.spring.beans.factory;
+package org.learn.spring.beans;
 
 /**
  * Bean 属性信息
