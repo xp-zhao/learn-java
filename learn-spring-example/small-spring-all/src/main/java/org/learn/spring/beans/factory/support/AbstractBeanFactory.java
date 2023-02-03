@@ -1,8 +1,12 @@
 package org.learn.spring.beans.factory.support;
 
 import org.learn.spring.beans.BeansException;
-import org.learn.spring.beans.factory.BeanFactory;
 import org.learn.spring.beans.factory.config.BeanDefinition;
+import org.learn.spring.beans.factory.config.BeanPostProcessor;
+import org.learn.spring.beans.factory.config.ConfigurableBeanFactory;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 抽象 Bean 工厂, 统一获取 Bean 对象的逻辑
@@ -11,7 +15,10 @@ import org.learn.spring.beans.factory.config.BeanDefinition;
  * @date 2023-2-1
  */
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
-    implements BeanFactory {
+    implements ConfigurableBeanFactory {
+
+  private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
+
   @Override
   public Object getBean(String beanName) throws BeansException {
     return doGetBean(beanName, null);
@@ -56,4 +63,14 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
    */
   protected abstract Object createBean(
       String beanName, BeanDefinition beanDefinition, Object[] args) throws BeansException;
+
+  @Override
+  public void addBeanPostProcessor(BeanPostProcessor beanPostProcessor) {
+    this.beanPostProcessors.remove(beanPostProcessor);
+    this.beanPostProcessors.add(beanPostProcessor);
+  }
+
+  public List<BeanPostProcessor> getBeanPostProcessors() {
+    return beanPostProcessors;
+  }
 }

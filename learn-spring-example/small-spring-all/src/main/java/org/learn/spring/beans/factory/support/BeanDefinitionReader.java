@@ -48,4 +48,12 @@ public interface BeanDefinitionReader {
    * @throws BeansException
    */
   void loadBeanDefinitions(String location) throws BeansException;
+
+  /**
+   * 加载 BeanDefinition
+   *
+   * @param locations 资源位置
+   * @throws BeansException
+   */
+  void loadBeanDefinitions(String... locations) throws BeansException;
 }
