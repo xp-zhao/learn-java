@@ -1,15 +1,19 @@
 package org.learn.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
 import org.learn.spring.beans.BeansException;
 import org.learn.spring.beans.PropertyValue;
 import org.learn.spring.beans.PropertyValues;
+import org.learn.spring.beans.factory.DisposableBean;
+import org.learn.spring.beans.factory.InitializingBean;
 import org.learn.spring.beans.factory.config.AutowireCapableBeanFactory;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.config.BeanPostProcessor;
 import org.learn.spring.beans.factory.config.BeanReference;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Method;
 
 /**
  * BeanFactory 抽象类, 负责实例化 Bean 对象
@@ -35,9 +39,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     } catch (Exception e) {
       throw new BeansException("Instantiation of bean failed", e);
     }
+    // 注册实现了 DisposableBean 接口的 Bean 对象
+    registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
     // 注册单例对象
     addSingleton(beanName, bean);
     return bean;
+  }
+
+  protected void registerDisposableBeanIfNecessary(
+      String beanName, Object bean, BeanDefinition beanDefinition) {
+    if (bean instanceof DisposableBean
+        || StrUtil.isNotEmpty(beanDefinition.getDestroyMethodName())) {
+      registerDisposableBean(beanName, new DisposableBeanAdapter(bean, beanName, beanDefinition));
+    }
   }
 
   protected Object createBeanInstance(
@@ -92,14 +106,35 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     // 执行前置方法
     Object wrappedBean = applyBeanPostProcessorsBeforeInitialization(bean, beanName);
     // 执行初始化方法
-    invokeInitMethods(beanName, bean, beanDefinition);
+    try {
+      invokeInitMethods(beanName, bean, beanDefinition);
+    } catch (Exception e) {
+      throw new BeansException("Invocation of init method of bean[" + beanName + "] failed", e);
+    }
     // 执行后置方法
     wrappedBean = applyBeanPostProcessorsAfterInitialization(bean, beanName);
     return wrappedBean;
   }
 
-  private void invokeInitMethods(
-      String beanName, Object wrappedBean, BeanDefinition beanDefinition) {}
+  private void invokeInitMethods(String beanName, Object wrappedBean, BeanDefinition beanDefinition)
+      throws Exception {
+    if (wrappedBean instanceof InitializingBean) {
+      ((InitializingBean) wrappedBean).afterPropertiesSet();
+    }
+    String initMethodName = beanDefinition.getInitMethodName();
+    if (StrUtil.isNotEmpty(initMethodName)) {
+      Method initMethod = beanDefinition.getBeanClass().getMethod(initMethodName);
+      if (null == initMethod) {
+        throw new BeansException(
+            "Could not find an init method named '"
+                + initMethodName
+                + "' on bean with name '"
+                + beanName
+                + "'");
+      }
+      initMethod.invoke(wrappedBean);
+    }
+  }
 
   @Override
   public Object applyBeanPostProcessorsBeforeInitialization(Object existingBean, String beanName)
