@@ -4,6 +4,7 @@ import org.learn.spring.beans.BeansException;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.config.BeanPostProcessor;
 import org.learn.spring.beans.factory.config.ConfigurableBeanFactory;
+import org.learn.spring.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +18,7 @@ import java.util.List;
 public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
     implements ConfigurableBeanFactory {
 
+  private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
   private final List<BeanPostProcessor> beanPostProcessors = new ArrayList<>();
 
   @Override
@@ -72,5 +74,9 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
 
   public List<BeanPostProcessor> getBeanPostProcessors() {
     return beanPostProcessors;
+  }
+
+  public ClassLoader getBeanClassLoader() {
+    return beanClassLoader;
   }
 }
