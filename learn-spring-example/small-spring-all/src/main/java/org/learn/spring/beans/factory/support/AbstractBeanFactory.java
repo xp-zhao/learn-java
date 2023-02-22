@@ -1,6 +1,7 @@
 package org.learn.spring.beans.factory.support;
 
 import org.learn.spring.beans.BeansException;
+import org.learn.spring.beans.factory.FactoryBean;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.config.BeanPostProcessor;
 import org.learn.spring.beans.factory.config.ConfigurableBeanFactory;
@@ -15,7 +16,7 @@ import java.util.List;
  * @author zhaoxiaoping
  * @date 2023-2-1
  */
-public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
+public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport
     implements ConfigurableBeanFactory {
 
   private ClassLoader beanClassLoader = ClassUtils.getDefaultClassLoader();
@@ -39,10 +40,23 @@ public abstract class AbstractBeanFactory extends DefaultSingletonBeanRegistry
   protected <T> T doGetBean(final String beanName, final Object[] args) {
     Object singleton = getSingleton(beanName);
     if (singleton != null) {
-      return (T) singleton;
+      return (T) getObjectForBeanInstance(singleton, beanName);
     }
     BeanDefinition beanDefinition = getBeanDefinition(beanName);
-    return (T) createBean(beanName, beanDefinition, args);
+    Object bean = createBean(beanName, beanDefinition, args);
+    return (T) getObjectForBeanInstance(bean, beanName);
+  }
+
+  private Object getObjectForBeanInstance(Object beanInstance, String beanName) {
+    if (!(beanInstance instanceof FactoryBean)) {
+      return beanInstance;
+    }
+    Object obj = getCachedObjectForFactoryBean(beanName);
+    if (obj == null) {
+      FactoryBean<?> factoryBean = (FactoryBean<?>) beanInstance;
+      obj = getObjectFromFactoryBean(factoryBean, beanName);
+    }
+    return obj;
   }
 
   /**

@@ -9,11 +9,20 @@ import org.learn.spring.beans.PropertyValues;
  * @date 2023-2-1
  */
 public class BeanDefinition {
+
+  String SCOPE_SINGLETON = ConfigurableBeanFactory.SCOPE_SINGLETON;
+  String SCOPE_PROTOTYPE = ConfigurableBeanFactory.SCOPE_PROTOTYPE;
+
   /** 存放 Bean 对象的 class, 将 Bean 的实例化操作放在容器中 */
   private Class beanClass;
 
   /** 存放 Bean 对象的属性信息 */
   private PropertyValues propertyValues;
+
+  private String scope = SCOPE_SINGLETON;
+
+  private boolean singleton = true;
+  private boolean prototype = false;
 
   /** 初始化方法的名称 */
   private String initMethodName;
@@ -28,7 +37,21 @@ public class BeanDefinition {
 
   public BeanDefinition(Class beanClass, PropertyValues propertyValues) {
     this.beanClass = beanClass;
-    this.propertyValues = propertyValues;
+    this.propertyValues = propertyValues != null ? propertyValues : new PropertyValues();
+  }
+
+  public void setScope(String scope) {
+    this.scope = scope;
+    this.singleton = SCOPE_SINGLETON.equals(scope);
+    this.prototype = SCOPE_PROTOTYPE.equals(scope);
+  }
+
+  public boolean isSingleton() {
+    return singleton;
+  }
+
+  public boolean isPrototype() {
+    return prototype;
   }
 
   public Class getBeanClass() {

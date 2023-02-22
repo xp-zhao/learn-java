@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans>
+
+<!--    <bean id="userService" class="org.learn.spring.v9.bean.UserService" scope="prototype">-->
+    <bean id="userService" class="org.learn.spring.v9.bean.UserService" scope="singleton">
+        <property name="uId" value="10001"/>
+        <property name="name" value="xxxx"/>
+        <property name="location" value="xxxx"/>
+        <property name="userDao" ref="proxyUserDao"/>
+    </bean>
+
+    <bean id="proxyUserDao" class="org.learn.spring.v9.bean.ProxyBeanFactory"/>
+
+</beans>
