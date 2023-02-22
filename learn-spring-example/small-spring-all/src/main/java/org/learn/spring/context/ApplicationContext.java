@@ -8,6 +8,4 @@ import org.learn.spring.beans.factory.ListableBeanFactory;
  * @author zhaoxiaoping
  * @date 2023-2-2
  */
-public interface ApplicationContext extends ListableBeanFactory {
-
-}
+public interface ApplicationContext extends ListableBeanFactory, ApplicationEventPublisher {}
