@@ -105,7 +105,7 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         if (!(bean.getChildNodes().item(j) instanceof Element)) {
           continue;
         }
-        if (!"property".equals(bean.getChildNodes().item(i).getNodeName())) {
+        if (!"property".equals(bean.getChildNodes().item(j).getNodeName())) {
           continue;
         }
         // 解析属性标签 property
