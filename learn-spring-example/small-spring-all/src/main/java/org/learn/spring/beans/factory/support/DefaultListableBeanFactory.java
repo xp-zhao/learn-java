@@ -54,4 +54,9 @@ public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFacto
         });
     return result;
   }
+
+  @Override
+  public String[] getBeanDefinitionNames() {
+    return beanDefinitionMap.keySet().toArray(new String[0]);
+  }
 }

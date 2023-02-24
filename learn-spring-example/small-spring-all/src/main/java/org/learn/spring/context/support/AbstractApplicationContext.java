@@ -80,6 +80,11 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader
     return getBeanFactory().getBeansOfType(type);
   }
 
+  @Override
+  public String[] getBeanDefinitionNames() {
+    return getBeanFactory().getBeanDefinitionNames();
+  }
+
   /**
    * 创建 BeanFactory 并加载 BeanDefinition
    *
