@@ -25,5 +25,6 @@ import org.junit.runners.Suite;
   org.learn.spring.v12.ApiTest.class,
   org.learn.spring.v13.ApiTest.class,
   org.learn.spring.v14.ApiTest.class,
+  org.learn.spring.v15.ApiTest.class,
 })
 public class AllTests {}
