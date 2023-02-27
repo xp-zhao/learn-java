@@ -1,6 +1,7 @@
 package org.learn.spring.beans.factory.config;
 
 import org.learn.spring.beans.factory.HierarchicalBeanFactory;
+import org.learn.spring.util.StringValueResolver;
 
 /**
  * BeanFactory 拓展接口, 负责添加 bean 对象后置处理器
@@ -24,4 +25,19 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
 
   /** 销毁单例对象 */
   void destroySingletons();
+
+  /**
+   * 添加 String 值解析器
+   *
+   * @param valueResolver
+   */
+  void addEmbeddedValueResolver(StringValueResolver valueResolver);
+
+  /**
+   * 解析
+   *
+   * @param value
+   * @return
+   */
+  String resolveEmbeddedValue(String value);
 }

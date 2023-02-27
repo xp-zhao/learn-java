@@ -6,6 +6,7 @@ import org.learn.spring.aop.*;
 import org.learn.spring.aop.aspectj.AspectJExpressionPointcutAdvisor;
 import org.learn.spring.aop.framework.ProxyFactory;
 import org.learn.spring.beans.BeansException;
+import org.learn.spring.beans.PropertyValues;
 import org.learn.spring.beans.factory.BeanFactory;
 import org.learn.spring.beans.factory.BeanFactoryAware;
 import org.learn.spring.beans.factory.config.InstantiationAwareBeanPostProcessor;
@@ -67,6 +68,12 @@ public class DefaultAdvisorAutoProxyCreator
       return new ProxyFactory(advisedSupport).getProxy();
     }
     return null;
+  }
+
+  @Override
+  public PropertyValues postProcessPropertyValues(
+      PropertyValues pvs, Object bean, String beanName) {
+    return pvs;
   }
 
   private boolean isInfrastructureClass(Class<?> beanClass) {

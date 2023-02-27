@@ -1,6 +1,7 @@
 package org.learn.spring.context.annotation;
 
 import cn.hutool.core.util.StrUtil;
+import org.learn.spring.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.support.BeanDefinitionRegistry;
 import org.learn.spring.stereotype.Component;
@@ -32,6 +33,9 @@ public class ClassPathBeanDefinitionScanner extends ClassPathScanningCandidateCo
             determineBeanName(beanDefinition), beanDefinition);
       }
     }
+    beanDefinitionRegistry.registerBeanDefinition(
+        "org.learn.spring.context.annotation.internalAutowiredAnnotationProcessor",
+        new BeanDefinition(AutowiredAnnotationBeanPostProcessor.class));
   }
 
   private String resolveBeanScope(BeanDefinition beanDefinition) {

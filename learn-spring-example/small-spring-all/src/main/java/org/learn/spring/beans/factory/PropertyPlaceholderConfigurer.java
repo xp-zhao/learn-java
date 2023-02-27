@@ -7,6 +7,7 @@ import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.config.BeanFactoryPostProcessor;
 import org.learn.spring.core.io.DefaultResourceLoader;
 import org.learn.spring.core.io.Resource;
+import org.learn.spring.util.StringValueResolver;
 
 import java.util.Properties;
 
@@ -42,25 +43,46 @@ public class PropertyPlaceholderConfigurer implements BeanFactoryPostProcessor {
           if (!(value instanceof String)) {
             continue;
           }
-          String strVal = (String) value;
-          StringBuilder builder = new StringBuilder(strVal);
-          int startIdx = strVal.indexOf(DEFAULT_PLACEHOLDER_PREFIX);
-          int stopIdx = strVal.indexOf(DEFAULT_PLACEHOLDER_SUFFIX);
-          if (startIdx != -1 && stopIdx != -1 && startIdx < stopIdx) {
-            String propKey = strVal.substring(startIdx + 2, stopIdx);
-            String propVal = properties.getProperty(propKey);
-            builder.replace(startIdx, stopIdx + 1, propVal);
-            propertyValues.addPropertyValue(
-                    new PropertyValue(propertyValue.getName(), builder.toString()));
-          }
+          value = resolvePlaceholder((String) value, properties);
+          propertyValues.addPropertyValue(new PropertyValue(propertyValue.getName(), value));
         }
       }
+      // 添加 String 值解析器
+      StringValueResolver valueResolver = new PlaceholderResolvingStringValueResolver(properties);
+      beanFactory.addEmbeddedValueResolver(valueResolver);
     } catch (Exception e) {
       e.printStackTrace();
     }
   }
 
+  private String resolvePlaceholder(String value, Properties properties) {
+    String strVal = value;
+    StringBuilder stringBuilder = new StringBuilder(strVal);
+    int startIdx = strVal.indexOf(DEFAULT_PLACEHOLDER_PREFIX);
+    int stopIdx = strVal.indexOf(DEFAULT_PLACEHOLDER_SUFFIX);
+    if (startIdx != -1 && stopIdx != -1 && startIdx < stopIdx) {
+      String propKey = strVal.substring(startIdx + 2, stopIdx);
+      String propVal = properties.getProperty(propKey);
+      stringBuilder.replace(startIdx, stopIdx + 1, propVal);
+    }
+    return stringBuilder.toString();
+  }
+
   public void setLocation(String location) {
     this.location = location;
+  }
+
+  private class PlaceholderResolvingStringValueResolver implements StringValueResolver {
+
+    private final Properties properties;
+
+    public PlaceholderResolvingStringValueResolver(Properties properties) {
+      this.properties = properties;
+    }
+
+    @Override
+    public String resolveStringValue(String strVal) {
+      return PropertyPlaceholderConfigurer.this.resolvePlaceholder(strVal, properties);
+    }
   }
 }
