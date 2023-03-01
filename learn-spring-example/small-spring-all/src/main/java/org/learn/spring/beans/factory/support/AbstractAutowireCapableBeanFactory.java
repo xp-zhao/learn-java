@@ -2,6 +2,7 @@ package org.learn.spring.beans.factory.support;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.util.StrUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.learn.spring.beans.BeansException;
 import org.learn.spring.beans.PropertyValue;
 import org.learn.spring.beans.PropertyValues;
@@ -17,22 +18,35 @@ import java.lang.reflect.Method;
  * @author zhaoxiaoping
  * @date 2023-2-1
  */
+@Slf4j
 public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFactory
     implements AutowireCapableBeanFactory {
 
   /** 对象实例化策略, 默认 cglib 策略 */
-  private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
+//  private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
+  private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
 
   @Override
   public Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) {
+    // 判断是否需要返回代理对象
+    Object bean = resolveBeforeInstantiation(beanName, beanDefinition);
+    if (bean != null) {
+      return bean;
+    }
+    return doCreateBean(beanName, beanDefinition, args);
+  }
+
+  protected Object doCreateBean(String beanName, BeanDefinition beanDefinition, Object[] args) {
     Object bean = null;
     try {
-      // 判断是否需要返回代理对象
-      bean = resolveBeforeInstantiation(beanName, beanDefinition);
-      if (bean != null) {
-        return bean;
-      }
+      // 实例化 bean
       bean = createBeanInstance(beanDefinition, beanName, args);
+      // 处理循环依赖, 将实例化之后的 Bean 对象提前放入缓存中
+      if (beanDefinition.isSingleton()) {
+        Object finalBean = bean;
+        addSingletonFactory(
+            beanName, () -> getEarlyBeanReference(beanName, beanDefinition, finalBean));
+      }
       // BeanPostProcessor 修改属性值
       applyBeanPostProcessorsBeforeApplyingPropertyValues(beanName, bean, beanDefinition);
       // 给 bean 对象填充属性
@@ -44,11 +58,29 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
     // 注册实现了 DisposableBean 接口的 Bean 对象
     registerDisposableBeanIfNecessary(beanName, bean, beanDefinition);
+    Object exposedObject = bean;
     if (beanDefinition.isSingleton()) {
+      exposedObject = getSingleton(beanName);
       // 注册单例对象
-      addSingleton(beanName, bean);
+      registerSingleton(beanName, bean);
     }
-    return bean;
+    return exposedObject;
+  }
+
+  protected Object getEarlyBeanReference(
+      String beanName, BeanDefinition beanDefinition, Object bean) {
+    Object exposedObject = bean;
+    for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+      if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+        exposedObject =
+            ((InstantiationAwareBeanPostProcessor) beanPostProcessor)
+                .getEarlyBeanReference(bean, beanName);
+        if (null == exposedObject) {
+          return exposedObject;
+        }
+      }
+    }
+    return exposedObject;
   }
 
   protected void applyBeanPostProcessorsBeforeApplyingPropertyValues(
@@ -59,6 +91,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             ((InstantiationAwareBeanPostProcessor) beanPostProcessor)
                 .postProcessPropertyValues(beanDefinition.getPropertyValues(), bean, beanName);
         if (null != pvs) {
+          PropertyValues propertyValues = beanDefinition.getPropertyValues();
           for (PropertyValue propertyValue : pvs.getPropertyValues()) {
             beanDefinition.getPropertyValues().addPropertyValue(propertyValue);
           }
@@ -138,6 +171,7 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         BeanUtil.setFieldValue(bean, name, value);
       }
     } catch (Exception e) {
+      log.error("Error setting property values", e);
       throw new BeansException("Error setting property values：" + beanName);
     }
   }
