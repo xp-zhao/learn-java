@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	         http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <bean id="husband" class="org.learn.spring.v17.bean.Husband">
+        <property name="wifiName" value="hhh"/>
+        <property name="marriageDate" value="2022-08-08"/>
+    </bean>
+
+    <bean id="conversionService" class="org.learn.spring.context.support.ConversionServiceFactoryBean">
+        <property name="converters" ref="converters"/>
+    </bean>
+
+    <bean id="converters" class="org.learn.spring.v17.bean.ConvertersFactoryBean"/>
+
+</beans>

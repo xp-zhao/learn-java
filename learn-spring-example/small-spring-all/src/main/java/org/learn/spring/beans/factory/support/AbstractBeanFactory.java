@@ -5,6 +5,7 @@ import org.learn.spring.beans.factory.FactoryBean;
 import org.learn.spring.beans.factory.config.BeanDefinition;
 import org.learn.spring.beans.factory.config.BeanPostProcessor;
 import org.learn.spring.beans.factory.config.ConfigurableBeanFactory;
+import org.learn.spring.core.convert.ConversionService;
 import org.learn.spring.util.ClassUtils;
 import org.learn.spring.util.StringValueResolver;
 
@@ -25,6 +26,8 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport
 
   /** 嵌入的值解析器 */
   private final List<StringValueResolver> embeddedValueResolvers = new ArrayList<>();
+
+  private ConversionService conversionService;
 
   @Override
   public Object getBean(String beanName) throws BeansException {
@@ -110,5 +113,15 @@ public abstract class AbstractBeanFactory extends FactoryBeanRegistrySupport
       result = resolver.resolveStringValue(value);
     }
     return result;
+  }
+
+  @Override
+  public void setConversionService(ConversionService conversionService) {
+    this.conversionService = conversionService;
+  }
+
+  @Override
+  public ConversionService getConversionService() {
+    return conversionService;
   }
 }

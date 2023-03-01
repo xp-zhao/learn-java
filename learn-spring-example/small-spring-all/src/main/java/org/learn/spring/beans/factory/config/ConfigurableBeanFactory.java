@@ -1,6 +1,8 @@
 package org.learn.spring.beans.factory.config;
 
+import com.sun.istack.internal.Nullable;
 import org.learn.spring.beans.factory.HierarchicalBeanFactory;
+import org.learn.spring.core.convert.ConversionService;
 import org.learn.spring.util.StringValueResolver;
 
 /**
@@ -40,4 +42,9 @@ public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, Single
    * @return
    */
   String resolveEmbeddedValue(String value);
+
+  void setConversionService(ConversionService conversionService);
+
+  @Nullable
+  ConversionService getConversionService();
 }
