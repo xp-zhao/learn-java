@@ -1,0 +1,5 @@
+config:
+  threadNum: 2
+  period: 1000
+  queueSizeLimit: 6
+  capacity: 10
