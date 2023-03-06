@@ -25,9 +25,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     implements AutowireCapableBeanFactory {
 
   /** 对象实例化策略, 默认 cglib 策略 */
-  //  private InstantiationStrategy instantiationStrategy = new
-  // CglibSubclassingInstantiationStrategy();
-  private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
+  private InstantiationStrategy instantiationStrategy = new CglibSubclassingInstantiationStrategy();
+//    private InstantiationStrategy instantiationStrategy = new SimpleInstantiationStrategy();
 
   @Override
   public Object createBean(String beanName, BeanDefinition beanDefinition, Object[] args) {
