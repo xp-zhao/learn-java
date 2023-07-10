@@ -4,6 +4,9 @@ import async.callback.ICallback;
 import async.callback.IWorker;
 import async.executor.timer.SystemClock;
 import async.worker.WorkResult;
+import async.wrapper.WorkerWrapper;
+
+import java.util.Map;
 
 /**
  * 串行任务2
@@ -34,7 +37,7 @@ public class SeqWorker2 implements IWorker<String, String>, ICallback<String, St
   }
 
   @Override
-  public String action(String object) {
+  public String action(String object, Map<String, WorkerWrapper> allWrapper) {
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {

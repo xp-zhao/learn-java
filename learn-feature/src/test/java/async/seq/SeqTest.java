@@ -25,9 +25,24 @@ public class SeqTest {
     ParWorker1 worker1 = new ParWorker1();
     ParWorker2 worker2 = new ParWorker2();
     ParWorker3 worker3 = new ParWorker3();
-    WorkerWrapper wrapper1 = new WorkerWrapper(worker1, "1", worker1);
-    WorkerWrapper wrapper2 = new WorkerWrapper(worker2, "2", worker2);
-    WorkerWrapper wrapper3 = new WorkerWrapper(worker3, "3", worker3);
+    WorkerWrapper wrapper1 =
+        new WorkerWrapper.Builder<String, String>()
+            .worker(worker1)
+            .callback(worker1)
+            .param("1")
+            .build();
+    WorkerWrapper wrapper2 =
+        new WorkerWrapper.Builder<String, String>()
+            .worker(worker2)
+            .callback(worker2)
+            .param("2")
+            .build();
+    WorkerWrapper wrapper3 =
+        new WorkerWrapper.Builder<String, String>()
+            .worker(worker3)
+            .callback(worker3)
+            .param("3")
+            .build();
     wrapper1.addNext(wrapper2);
     wrapper2.addNext(wrapper3);
     long now = SystemClock.now();

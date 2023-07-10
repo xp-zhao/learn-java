@@ -33,11 +33,14 @@ public class Async {
       return;
     }
     List<WorkerWrapper> workerWrappers = Arrays.stream(workerWrapper).collect(Collectors.toList());
+    // 定义一个map，存放所有的wrapper，key为wrapper的唯一id，value是该wrapper，可以从value中获取wrapper的result
+    Map<String, WorkerWrapper> forParamUseWrappers = new ConcurrentHashMap<>();
     CompletableFuture[] futures = new CompletableFuture[workerWrappers.size()];
     for (int i = 0; i < workerWrappers.size(); i++) {
       WorkerWrapper wrapper = workerWrappers.get(i);
       futures[i] =
-          CompletableFuture.runAsync(() -> wrapper.work(COMMON_POOL, timeout), COMMON_POOL);
+          CompletableFuture.runAsync(
+              () -> wrapper.work(COMMON_POOL, timeout, forParamUseWrappers), COMMON_POOL);
     }
     try {
       CompletableFuture.allOf(futures).get(timeout, TimeUnit.MILLISECONDS);
