@@ -13,7 +13,7 @@
     <jackson.version>2.12.2</jackson.version>
     <jave-version>2.7.3</jave-version>
     <mapstruct.version>1.4.2.Final</mapstruct.version>
-    <lombok.version>1.18.12</lombok.version>
+    <lombok.version>1.18.24</lombok.version>
     <junit.version>4.13.2</junit.version>
     <commons-lang3.version>3.11</commons-lang3.version>
     <commons-collections4.version>4.4</commons-collections4.version>

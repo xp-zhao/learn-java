@@ -6,6 +6,7 @@ import com.rabbitmq.client.ConnectionFactory;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by xp-zhao on 2017/11/28.
@@ -43,6 +44,8 @@ public class Send
 		catch (IOException e)
 		{
 			e.printStackTrace();
+		} catch (TimeoutException e) {
+			throw new RuntimeException(e);
 		}
 	}
 }
