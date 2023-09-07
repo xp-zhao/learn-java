@@ -5,6 +5,7 @@ import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import lombok.RequiredArgsConstructor;
+import org.example.aop.ServiceLock;
 import org.example.common.Constants;
 import org.example.common.Result;
 import org.example.entity.Award;
@@ -94,12 +95,44 @@ public class SeckillService {
   /**
    * 开始秒杀 - 使用Aop
    *
-   * @param skgId 商品id
+   * @param awardId 商品id
    * @param userId 用户id
    * @return
    */
-  public Result startSecondKillByAop(long skgId, long userId) {
-    return Result.buildErrorResult();
+  @ServiceLock // 使用 aop 进行加锁
+  @Transactional(rollbackFor = Exception.class)
+  public Result startSecondKillByAop(long awardId, long userId) {
+    try {
+      // 校验库存
+      Award award = awardService.getById(awardId);
+      Integer awardCount = Optional.ofNullable(award).map(Award::getAwardCount).orElse(0);
+      if (awardCount > 0) {
+        // 扣库存
+        award.setAwardCount(awardCount - 1);
+        awardService.updateById(award);
+        // 创建秒杀记录
+        UserTakeSeckill userTakeSeckill = new UserTakeSeckill();
+        userTakeSeckill.setAwardId(awardId);
+        userTakeSeckill.setUserId(userId);
+        userTakeSeckill.setState(0);
+        userTakeSeckill.setCreateTime(LocalDateTime.now());
+        userTakeSeckill.setUpdateTime(LocalDateTime.now());
+        userTakeSeckillService.save(userTakeSeckill);
+        // 模拟支付
+        Payment payment = new Payment();
+        payment.setUserId(userId);
+        payment.setAwardId(awardId);
+        payment.setState(1);
+        payment.setMoney(100L);
+        payment.setCreateTime(LocalDateTime.now());
+        paymentService.save(payment);
+      } else {
+        return Result.buildResult(Constants.ResponseCode.END);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Result.buildSuccessResult();
   }
 
   /**

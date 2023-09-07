@@ -42,4 +42,17 @@ public class LotteryController {
     }
     return Result.buildSuccessResult();
   }
+
+  @PostMapping("/start/aop")
+  public Result startAop(long awardId) {
+    try {
+      log.info("开始秒杀");
+      final long userId = (int) (new Random().nextDouble() * (99999 - 10000 + 1)) + 10000;
+      Result result = seckillService.startSecondKillByAop(awardId, userId);
+      log.info("用户:{}--{}", userId, result.getInfo());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Result.buildSuccessResult();
+  }
 }
