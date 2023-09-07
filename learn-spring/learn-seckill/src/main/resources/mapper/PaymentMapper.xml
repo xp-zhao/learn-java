@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.PaymentMapper">
+  <resultMap id="BaseResultMap" type="org.example.entity.Payment">
+    <!--@mbg.generated-->
+    <!--@Table payment-->
+    <id column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="award_id" jdbcType="BIGINT" property="awardId" />
+    <result column="state" jdbcType="TINYINT" property="state" />
+    <result column="money" jdbcType="BIGINT" property="money" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    user_id, award_id, `state`, money, create_time
+  </sql>
+</mapper>

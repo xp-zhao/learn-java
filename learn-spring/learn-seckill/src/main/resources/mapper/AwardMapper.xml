@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.AwardMapper">
+  <resultMap id="BaseResultMap" type="org.example.entity.Award">
+    <!--@mbg.generated-->
+    <!--@Table award-->
+    <id column="award_id" jdbcType="BIGINT" property="awardId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="award_count" jdbcType="INTEGER" property="awardCount" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="version" jdbcType="INTEGER" property="version" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--@mbg.generated-->
+    award_id, `name`, award_count, start_time, end_time, create_time, update_time, version
+  </sql>
+</mapper>
