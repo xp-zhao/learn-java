@@ -17,4 +17,16 @@
     <!--@mbg.generated-->
     award_id, `name`, award_count, start_time, end_time, create_time, update_time, version
   </sql>
+  
+  <select id="queryAwardForUpdate" resultMap="BaseResultMap">
+    select * from award where award_id = #{awardId} for update;
+  </select>
+  
+  <update id="updateAwardById">
+    update award set award_count = award_count - 1 where award_id = #{awardId} and award_count > 0;
+  </update>
+  
+  <update id="updateAwardByVersion">
+    update award set award_count = award_count - #{awardCount}, version = version + 1 where award_id = #{awardId} and version = #{version};
+  </update>
 </mapper>

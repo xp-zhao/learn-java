@@ -6,6 +6,10 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import lombok.extern.slf4j.Slf4j;
 import org.example.common.Result;
+import org.example.entity.UserTakeSeckill;
+import org.example.queue.disruptor.DisruptorUtil;
+import org.example.queue.disruptor.SeckillEvent;
+import org.example.queue.jvm.SeckillQueue;
 import org.example.service.SeckillService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,8 +52,78 @@ public class LotteryController {
     try {
       log.info("开始秒杀");
       final long userId = (int) (new Random().nextDouble() * (99999 - 10000 + 1)) + 10000;
-      Result result = seckillService.startSecondKillByAop(awardId, userId);
+      Result result = seckillService.startSeckillByAop(awardId, userId);
       log.info("用户:{}--{}", userId, result.getInfo());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Result.buildSuccessResult();
+  }
+
+  @PostMapping("/start/pes/lock/one")
+  public Result startPesLockOne(long awardId) {
+    try {
+      log.info("开始秒杀");
+      final long userId = (int) (new Random().nextDouble() * (99999 - 10000 + 1)) + 10000;
+      Result result = seckillService.startSeckillByUpdate(awardId, userId);
+      log.info("用户:{}--{}", userId, result.getInfo());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Result.buildSuccessResult();
+  }
+
+  @PostMapping("/start/pes/lock/two")
+  public Result startPesLockTwo(long awardId) {
+    try {
+      log.info("开始秒杀");
+      final long userId = (int) (new Random().nextDouble() * (99999 - 10000 + 1)) + 10000;
+      Result result = seckillService.startSeckillByUpdateTwo(awardId, userId);
+      log.info("用户:{}--{}", userId, result.getInfo());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Result.buildSuccessResult();
+  }
+
+  @PostMapping("/start/opt/lock")
+  public Result startOptLock(long awardId) {
+    try {
+      log.info("开始秒杀");
+      final long userId = (int) (new Random().nextDouble() * (99999 - 10000 + 1)) + 10000;
+      Result result = seckillService.startSecondKillByOptLock(awardId, userId, 1);
+      log.info("用户:{}--{}", userId, result.getInfo());
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Result.buildSuccessResult();
+  }
+
+  @PostMapping("/start/queue")
+  public Result startQueue(long awardId) {
+    try {
+      log.info("开始秒杀");
+      final long userId = (int) (new Random().nextDouble() * (99999 - 10000 + 1)) + 10000;
+      UserTakeSeckill seckill = new UserTakeSeckill();
+      seckill.setAwardId(awardId);
+      seckill.setUserId(userId);
+      boolean flag = SeckillQueue.getQueue().produce(seckill);
+      log.info("用户:{}--{}", userId, flag ? "秒杀队列入队成功" : "入队失败");
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return Result.buildSuccessResult();
+  }
+
+  @PostMapping("/start/disruptor")
+  public Result startDisruptor(long awardId) {
+    try {
+      log.info("开始秒杀");
+      final long userId = (int) (new Random().nextDouble() * (99999 - 10000 + 1)) + 10000;
+      SeckillEvent kill = new SeckillEvent();
+      kill.setSeckillId(awardId);
+      kill.setUserId(userId);
+      DisruptorUtil.producer(kill);
     } catch (Exception e) {
       e.printStackTrace();
     }

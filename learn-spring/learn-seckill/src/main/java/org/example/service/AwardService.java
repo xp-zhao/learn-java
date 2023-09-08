@@ -12,4 +12,16 @@ import org.springframework.stereotype.Service;
  * @date 2023-9-7
  */
 @Service
-public class AwardService extends ServiceImpl<AwardMapper, Award> {}
+public class AwardService extends ServiceImpl<AwardMapper, Award> {
+  public Award queryAwardForUpdate(Long awardId) {
+    return this.baseMapper.queryAwardForUpdate(awardId);
+  }
+
+  public Integer updateAwardById(Long awardId) {
+    return this.baseMapper.updateAwardById(awardId);
+  }
+
+  public Integer updateAwardByVersion(Long awardId, Integer awardCount, Integer version) {
+    return this.baseMapper.updateAwardByVersion(awardCount, awardId, version);
+  }
+}
