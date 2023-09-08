@@ -1,5 +1,6 @@
 package code.v6;
 
+import cn.hutool.core.lang.Pair;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -9,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javafx.util.Pair;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -29,6 +29,7 @@
     <junit.version>4.13.2</junit.version>
     <slf4j.version>1.7.26</slf4j.version>
     <logback.version>1.2.5</logback.version>
+    <hutool.version>5.8.20</hutool.version>
   </properties>
 
   <dependencyManagement>
@@ -58,6 +59,11 @@
         <artifactId>logback-core</artifactId>
         <version>${logback.version}</version>
       </dependency>
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-all</artifactId>
+        <version>${hutool.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -86,6 +92,10 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cn.hutool</groupId>
+      <artifactId>hutool-all</artifactId>
     </dependency>
   </dependencies>
 </project>
