@@ -187,6 +187,7 @@ public class SeckillService {
    * @param userId 用户id
    * @return
    */
+  @Transactional(rollbackFor = Exception.class)
   public Result startSeckillByUpdateTwo(long awardId, long userId) {
     try {
       // 直接扣减库存，看能否更新成功
