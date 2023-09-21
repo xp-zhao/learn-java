@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
 public class ComponentConfiguration {
   @Autowired private ConfigProperties configProperties;
 
-  @Bean
+//  @Bean
   public ProducerAndConsumerComponent registerBean() {
     return new ProducerAndConsumerComponent(
         configProperties.getThreadNum(),
