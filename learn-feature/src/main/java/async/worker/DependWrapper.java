@@ -3,7 +3,7 @@ package async.worker;
 import async.wrapper.WorkerWrapper;
 
 /**
- * 对依赖的 wrapper 的封装
+ * 对依赖的 wrapper 的封装，可以指定依赖的任务是否是 must，如果是 must 则依赖任务必须执行完毕，才能执行自己
  *
  * @author zhaoxiaoping
  * @date 2023-6-16

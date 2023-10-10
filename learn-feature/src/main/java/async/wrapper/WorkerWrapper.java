@@ -11,15 +11,18 @@ import async.worker.WorkResult;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicInteger;
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * 对每个 worker 和 callback 进行封装
+ * 对每个任务单元 worker 和回调 callback 进行封装，是一个最小的调度单元<br>
+ * 客户端通过编排 wrapper 之间的关系，达到组合各个 worker 顺序的目的
  *
  * @author zhaoxiaoping
  * @date 2023-6-16
  */
+@Slf4j
 public class WorkerWrapper<T, V> {
   /** 当前 wrapper 的唯一标识 */
   private String id;
@@ -32,29 +35,39 @@ public class WorkerWrapper<T, V> {
 
   /** 当前 wrapper 的下一个 wrapper, 为空说明自己就是最后一个；有一个说明是串行；多个就是并行，有几个就需要开几个线程 */
   private List<WorkerWrapper<?, ?>> nextWrappers;
-  /** 依赖的 wrappers, 必须依赖的全部完成后，才能够执行自己 */
+  /**
+   * 依赖的 wrappers, 有两种情况：<br>
+   * 1: 必须依赖的全部完成后，才能够执行自己<br>
+   * 2: 依赖的任何一个、多个完成之后，才能够执行自己<br>
+   * 可以通过 must 字段来控制依赖项是否必须完成
+   */
   private List<DependWrapper> dependWrappers;
   /**
    * 标记该事件是否已经被处理过了，例如：任务已经超时返回 false 了，后续 rpc 又收到返回值了，此时不再进行二次调用<br>
-   * 1-finish, 2-error, 3-working
+   * 0-init, 1-finish, 2-error, 3-working
    */
   private AtomicInteger state = new AtomicInteger(0);
 
   /**
-   * 是否在执行自己前，去校验nextWrapper的执行结果
+   * 是否在执行自己前，去校验nextWrapper的执行结果<br>
+   * A -> B <br>
+   * -------> D <br>
+   * ---C <br>
+   * 例如在这种情况下，A,B 串行并且与 C 并行，两条任务线任意一个执行完就可以执行 D, <br>
+   * 如果执行 B 的时候发现 D 已经被执行了（C执行完之后触发）, 那么 B 就不需要再执行了
    *
    * <p>注意，该属性仅在nextWrapper数量<=1时有效，>1时的情况是不存在的
    */
   private volatile boolean needCheckNextWrapperResult;
-  /** 存储临时结果 */
-  private volatile WorkResult<V> workResult;
-  /** 存放所有 wrapper 的 id 和 wrapper 映射 */
+  /** 存储任务结果，worker 中 action 方法的返回值会赋值给它，在 result 回调中可以拿到这个结果 */
+  private volatile WorkResult<V> workResult = WorkResult.defaultResult();
+  /** 收集所有的 wrapper ，key 是 id，以便用于在 worker 工作单元中，获取任意 worker 的执行结果 */
   private Map<String, WorkerWrapper> fromParamUseWrappers;
 
+  private static final int INIT = 0;
   private static final int FINISH = 1;
   private static final int ERROR = 2;
   private static final int WORKING = 3;
-  private static final int INIT = 0;
 
   private WorkerWrapper(String id, IWorker<T, V> worker, T param, ICallback<T, V> callback) {
     if (worker == null) {
@@ -63,7 +76,7 @@ public class WorkerWrapper<T, V> {
     this.worker = worker;
     this.param = param;
     this.id = id;
-    // 允许不设置回调
+    // 允许不设置回调，添加默认回调
     if (callback == null) {
       callback = new DefaultCallback<>();
     }
@@ -75,59 +88,75 @@ public class WorkerWrapper<T, V> {
    *
    * @param poolExecutor
    * @param fromWrapper 当前 work 是由上游哪个 wrapper 发起的
-   * @param remainTime
+   * @param remainTime 剩余时间，用来监控任务超时的。随着一组任务的执行，<br>
+   *     这个值从全局设置的 timeout 时间逐渐减少，当 remainTime <=0 时，任务就超时了
    */
   private void work(
-      ThreadPoolExecutor poolExecutor,
+      ExecutorService executorService,
       WorkerWrapper fromWrapper,
       long remainTime,
       Map<String, WorkerWrapper> forParamUseWrappers) {
     this.fromParamUseWrappers = forParamUseWrappers;
+    // 1. 收集所有的 wrapper，key 是 id, 以便在 worker 工作单元中，获取任意 worker 的执行结果
     fromParamUseWrappers.put(id, this);
     long now = SystemClock.now();
-    // 总时间已经超时，快速失败，进行下一个
+    // 2. 总时间已经超时，快速失败，进行下一个
     if (remainTime <= 0) {
       fastFail(INIT, null);
-      beginNext(poolExecutor, now, remainTime);
+      beginNext(executorService, now, remainTime);
       return;
     }
-    // 自己已经执行过了，直接执行下一个，不再重复执行
-    if (getState() != INIT) {
-      beginNext(poolExecutor, now, remainTime);
+    // 3. 自己已经执行过了，直接执行下一个，不再重复执行
+    // 可能有多个依赖，其中的一个依赖已经执行完了，并且自己也已开始执行或执行完毕。当另一个依赖执行完毕，又进来该方法时，就不重复处理了
+    if (getState() == FINISH || getState() == ERROR) {
+      beginNext(executorService, now, remainTime);
       return;
     }
-    // 如果在执行前需要校验nextWrapper的状态
+    // 4. 如果在执行前需要校验nextWrapper的状态, 仅在 nextWrappers <= 1 时有效
     if (needCheckNextWrapperResult) {
       // 如果自己的next链上有已经出结果或已经开始执行的任务了，自己就不用继续了
       if (!checkNextWrapperResult()) {
         fastFail(INIT, new SkippedException());
-        beginNext(poolExecutor, now, remainTime);
+        beginNext(executorService, now, remainTime);
         return;
       }
     }
-    // 如果没有任何依赖，说明自己就是第一批执行的
+    // 5. 如果没有任何依赖，说明自己就是第一批执行的
     if (dependWrappers == null || dependWrappers.size() == 0) {
-      fire(poolExecutor, remainTime);
-      beginNext(poolExecutor, now, remainTime);
+      // 5.1 执行当前任务
+      fire();
+      // 5.2 执行后续任务
+      beginNext(executorService, now, remainTime);
       return;
     }
     // 前方有依赖
     // 1. 只有一个依赖 A -> B
     // 2. 有多个依赖 A, C -> B (需要 A, C 都完成了才能执行 B, 但 A 和 C 执行完之后都会去唤醒 B)
     // 所以 B 需要做判断,必须 A, C 都完成之后自己才能执行
+    // 6. 处理有前置依赖的情况
     if (dependWrappers.size() == 1) {
-      doDependsOneJob(poolExecutor, fromWrapper, remainTime);
-      beginNext(poolExecutor, now, remainTime);
+      // 6.1 只有一个前置依赖，依赖任务正常结束了，就执行自己
+      doDependsOneJob(executorService, fromWrapper, remainTime);
+      beginNext(executorService, now, remainTime);
       return;
+    } else {
+      // 6.2 有多个前置依赖，多个依赖任务的判断处理
+      doDependsOneJobs(executorService, dependWrappers, fromWrapper, now, remainTime);
     }
-    doDependsOneJobs(poolExecutor, dependWrappers, fromWrapper, now, remainTime);
   }
 
   public void work(
-      ThreadPoolExecutor poolExecutor,
+      ExecutorService executorService,
       long remainTime,
       Map<String, WorkerWrapper> forParamUseWrappers) {
-    work(poolExecutor, null, remainTime, forParamUseWrappers);
+    work(executorService, null, remainTime, forParamUseWrappers);
+  }
+
+  /** 总控制台超时，停止所有任务 */
+  public void stopNow() {
+    if (getState() == INIT || getState() == WORKING) {
+      fastFail(getState(), null);
+    }
   }
 
   private boolean checkNextWrapperResult() {
@@ -141,32 +170,37 @@ public class WorkerWrapper<T, V> {
     return state && nextWrapper.checkNextWrapperResult();
   }
 
-  private void beginNext(ThreadPoolExecutor poolExecutor, long now, long remainTime) {
+  private void beginNext(ExecutorService executorService, long now, long remainTime) {
     // 已经花费的时间
     long costTime = SystemClock.now() - now;
+    // 1. 后续没有任务了，直接返回
     if (nextWrappers == null) {
       return;
     }
+    // 2. 后续只有一个任务，使用当前任务的线程执行 next 任务
     if (nextWrappers.size() == 1) {
       nextWrappers
           .get(0)
-          .work(poolExecutor, WorkerWrapper.this, remainTime - costTime, fromParamUseWrappers);
+          .work(executorService, WorkerWrapper.this, remainTime - costTime, fromParamUseWrappers);
       return;
     }
+    // 3. 后续有多个任务，使用 CompletableFuture[] 包装，有几个任务就起几个线程
     CompletableFuture[] futures = new CompletableFuture[nextWrappers.size()];
     for (int i = 0; i < nextWrappers.size(); i++) {
       int finalI = i;
-      CompletableFuture.runAsync(
-          () ->
-              nextWrappers
-                  .get(finalI)
-                  .work(
-                      poolExecutor,
-                      WorkerWrapper.this,
-                      remainTime - costTime,
-                      fromParamUseWrappers),
-          poolExecutor);
+      futures[i] =
+          CompletableFuture.runAsync(
+              () ->
+                  nextWrappers
+                      .get(finalI)
+                      .work(
+                          executorService,
+                          WorkerWrapper.this,
+                          remainTime - costTime,
+                          fromParamUseWrappers),
+              executorService);
     }
+    // 4. 阻塞获取 Future 结果，这里没有超时时间，超时时间由全局统一控制
     try {
       CompletableFuture.allOf(futures).get();
     } catch (InterruptedException | ExecutionException e) {
@@ -175,24 +209,32 @@ public class WorkerWrapper<T, V> {
   }
 
   private void doDependsOneJob(
-      ThreadPoolExecutor poolExecutor, WorkerWrapper dependWrapper, long remainTime) {
+      ExecutorService executorService, WorkerWrapper dependWrapper, long remainTime) {
     if (ResultState.TIMEOUT == dependWrapper.getWorkResult().getResultState()) {
+      // 依赖超时
       workResult = defaultResult();
       fastFail(INIT, null);
     } else if (ResultState.EXCEPTION == dependWrapper.getWorkResult().getResultState()) {
+      // 依赖异常
       workResult = defaultExResult(dependWrapper.getWorkResult().getEx());
+      fastFail(INIT, null);
     } else {
       // 依赖的任务正常执行完毕，执行自己
-      fire(poolExecutor, remainTime);
+      fire();
     }
   }
 
-  private void doDependsOneJobs(
-      ThreadPoolExecutor poolExecutor,
+  private synchronized void doDependsOneJobs(
+      ExecutorService executorService,
       List<DependWrapper> dependWrappers,
       WorkerWrapper fromWrapper,
       long now,
       long remainTime) {
+    // 如果当前任务已经完成了，依赖的其他任务拿到锁再进来时，不需要执行下面的逻辑了
+    if (getState() != INIT) {
+      return;
+    }
+    // 如果当前依赖不是非必须的，就跳过不处理
     boolean nowDependIsMust = false;
     // 必须完成的上游 wrapper 集合
     Set<DependWrapper> mustWrapper = new HashSet<>();
@@ -204,17 +246,19 @@ public class WorkerWrapper<T, V> {
         nowDependIsMust = dependWrapper.isMust();
       }
     }
-    // 如果全部不是必须的，那么直接执行自己
+    // 1. 如果全部不是必须的，只要执行到了这里，就直接执行自己
     if (mustWrapper.size() == 0) {
+      // 超时处理
       if (ResultState.TIMEOUT == fromWrapper.getWorkResult().getResultState()) {
         fastFail(INIT, null);
       } else {
-        fire(poolExecutor, remainTime);
+        // 正常情况执行
+        fire();
       }
-      beginNext(poolExecutor, now, remainTime);
+      beginNext(executorService, now, remainTime);
       return;
     }
-    // 如果存在必须执行的依赖 wrapper， 但 fromWrapper 不是必须的，那就直接什么都不做
+    // 2. 如果当前依赖是非必须的，则跳过不处理（非 must 的情况）
     if (!nowDependIsMust) {
       return;
     }
@@ -241,9 +285,10 @@ public class WorkerWrapper<T, V> {
         break;
       }
     }
+    // 3. 有失败的
     if (hasError) {
       fastFail(INIT, null);
-      beginNext(poolExecutor, now, remainTime);
+      beginNext(executorService, now, remainTime);
       return;
     }
     // 如果上游都没有失败
@@ -251,8 +296,8 @@ public class WorkerWrapper<T, V> {
     // 2. 还有在 working 的
     if (!existNoFinish) {
       // 上游都 finish 了，直接执行自己
-      fire(poolExecutor, remainTime);
-      beginNext(poolExecutor, now, remainTime);
+      fire();
+      beginNext(executorService, now, remainTime);
       return;
     }
   }
@@ -263,25 +308,26 @@ public class WorkerWrapper<T, V> {
    * @param poolExecutor
    * @param workerTimeout
    */
-  private void fire(ThreadPoolExecutor poolExecutor, long workerTimeout) {
+  private void fire() {
+    // 阻塞获取结果
     workResult = workerDoJob();
   }
 
   private boolean fastFail(int expect, Exception e) {
-    System.out.println(
-        "fastFail:" + Thread.currentThread().getName() + " time " + System.currentTimeMillis());
     // 将状态从 expect 状态，修改为 error
     if (!compareAndSetState(expect, ERROR)) {
-      System.out.println("compareAndSetState----------fail");
+      log.info("compareAndSetState----------fail");
       return false;
     }
-    if (workResult == null) {
+    // 处理没有完成的任务
+    if (checkIsNullResult()) {
       if (e == null) {
         workResult = defaultResult();
       } else {
         workResult = defaultExResult(e);
       }
     }
+    // 回调 result
     callback.result(false, getParam(), workResult);
     return true;
   }
@@ -292,31 +338,33 @@ public class WorkerWrapper<T, V> {
    * @return
    */
   private WorkResult<V> workerDoJob() {
-    if (workResult != null) {
+    // 1. Check 重复执行
+    if (!checkIsNullResult()) {
       // 已经执行过了，避免重复执行
       return workResult;
     }
     try {
-      // 任务不是 INIT 状态，无需执行
+      // 2. 设置 wrapper 状态为 working
+      // 任务不是 INIT 状态，无需执行 (说明正在执行或已执行完毕)
       if (!compareAndSetState(INIT, WORKING)) {
         return workResult;
       }
+      // 3. 回调 begin
       callback.begin();
-      // 执行任务的具体操作
+      // 4. 执行任务具体的耗时操作
       V resultValue = worker.action(getParam(), fromParamUseWrappers);
-      WorkResult<V> tempResult = new WorkResult<>(resultValue, ResultState.SUCCESS);
+      // 5. 设置 wrapper 状态为 finish
       // 状态不是 working, 说明在其它地方已经执行了
       if (!compareAndSetState(WORKING, FINISH)) {
         return workResult;
       }
-      // 执行回调
-      callback.result(true, getParam(), tempResult);
-      workResult = tempResult;
+      workResult.setResultState(ResultState.SUCCESS);
+      workResult.setResult(resultValue);
+      // 6. 执行回调
+      callback.result(true, getParam(), workResult);
       return workResult;
     } catch (Exception e) {
-      if (workResult != null) {
-        return workResult;
-      }
+      // 7. 异常处理
       fastFail(WORKING, e);
       return workResult;
     }
@@ -333,6 +381,10 @@ public class WorkerWrapper<T, V> {
       }
     }
     nextWrappers.add(workerWrapper);
+  }
+
+  private boolean checkIsNullResult() {
+    return ResultState.DEFAULT == workResult.getResultState();
   }
 
   private void addDepend(WorkerWrapper<?, ?> workerWrapper, boolean must) {
@@ -539,20 +591,24 @@ public class WorkerWrapper<T, V> {
     }
 
     public WorkerWrapper<W, C> build() {
+      // 创建 WorkerWrapper
       WorkerWrapper<W, C> wrapper = new WorkerWrapper<>(id, worker, param, callback);
       wrapper.setNeedCheckNextWrapperResult(needCheckNextWrapperResult);
+      // 添加前置依赖
       if (dependWrappers != null) {
         for (DependWrapper dependWrapper : dependWrappers) {
           dependWrapper.getDependWrapper().addNext(wrapper);
           wrapper.addDepend(dependWrapper);
         }
       }
+      // 添加后置依赖
       if (nextWrappers != null) {
         for (WorkerWrapper<?, ?> nextWrapper : nextWrappers) {
           boolean must = false;
           if (selfIsMustSet != null && selfIsMustSet.contains(nextWrapper)) {
             must = true;
           }
+          // 后置任务的前置依赖就是自己
           nextWrapper.addDepend(wrapper, must);
           wrapper.addNext(nextWrapper);
         }
