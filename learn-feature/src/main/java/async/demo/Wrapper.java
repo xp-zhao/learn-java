@@ -1,6 +1,6 @@
 package async.demo;
 /**
- * 包装器
+ * 包装器，保证 worker 和 回调器
  *
  * @author zhaoxiaoping
  * @date 2023-6-15
@@ -30,6 +30,11 @@ public class Wrapper {
     return listener;
   }
 
+  /**
+   * 添加回调器
+   *
+   * @param listener
+   */
   public void addListener(Listener listener) {
     this.listener = listener;
   }

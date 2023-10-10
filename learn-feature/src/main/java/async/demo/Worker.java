@@ -6,5 +6,11 @@ package async.demo;
  * @date 2023-6-15
  */
 public interface Worker {
+  /**
+   * 耗时操作
+   *
+   * @param object
+   * @return
+   */
   String action(Object object);
 }
