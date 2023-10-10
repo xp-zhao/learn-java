@@ -10,7 +10,7 @@ import org.example.proxy.ProxyFactory;
 public class Main {
   public static void main(String[] args) {
     HelloService service = ProxyFactory.getProxy(HelloService.class);
-    String result = service.sayHello("xx");
+    String result = service.sayHello("x00x");
     System.out.println(result);
   }
 }

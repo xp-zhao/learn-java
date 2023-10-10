@@ -1,9 +1,6 @@
 package org.example.protocol;
 
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import org.apache.commons.io.IOUtils;
@@ -15,7 +12,7 @@ import org.example.common.Invocation;
  * @date 2023/10/9 23:21
  */
 public class HttpClient {
-  public String send(String hostname, Integer port, Invocation invocation) {
+  public String send(String hostname, Integer port, Invocation invocation) throws IOException {
     // 读取用户配置
     try {
       URL url = new URL("http", hostname, port, "/");
@@ -35,8 +32,7 @@ public class HttpClient {
       String result = IOUtils.toString(inputStream);
       return result;
     } catch (Exception e) {
-
+      throw e;
     }
-    return null;
   }
 }
