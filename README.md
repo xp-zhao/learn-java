@@ -1,7 +1,7 @@
-<p style="text-align:center"><img src="https://xp-note-oss.oss-cn-chengdu.aliyuncs.com/github/logo.png"></p>
+<p align="center"><img src="https://xp-note-oss.oss-cn-chengdu.aliyuncs.com/github/logo.png"></p>
 
-<h1 style="text-align:center">Learn-Java</h1>
-<p style="text-align:center">一份<b>学习手册</b>, 记录 Java 学习过程中的代码片段, 以及各种 Java 新版本特性, 旨在让开发者能够快速补充对应知识
+<h1 align="center">Learn-Java</h1>
+<p align="center">一份<b>学习手册</b>, 记录 Java 学习过程中的代码片段, 以及各种 Java 新版本特性, 旨在让开发者能够快速补充对应知识
 
 ## 模块
 - learn-spi: spi 技术快速学习
@@ -10,7 +10,7 @@
 
 ## 快速开始
 ### learn-rpc
-1. 使用 maven 命令将 `rpc-api`、`rpc-common` 模块打包 ```mvn install```
+1. 使用 maven 命令```mvn install``` 将 `rpc-api`、`rpc-common` 模块打包
 2. 运行 `rpc-provider` 模块中的 Provider.java 类，启动服务
 3. 预习 `rpc-comsumer` 模块中的 Main.java 类即可看到请求效果
 
