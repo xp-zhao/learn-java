@@ -1,15 +1,14 @@
 package com.example.feature;
 
-import com.example.feature.annotation.TestAnnotation;
+import com.example.feature.register.EnableOperator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.retry.annotation.EnableRetry;
 
 @SpringBootApplication
 @EnableRetry
-//@ComponentScan(
+@EnableOperator
+// @ComponentScan(
 //    useDefaultFilters = false,
 //    includeFilters =
 //        @ComponentScan.Filter(type = FilterType.ANNOTATION, value = TestAnnotation.class))

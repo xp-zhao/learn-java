@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 /**
  * @author zhaoxiaoping @Description: @Date
  */
-@Component
+//@Component
 public class CustomServletContextInitializer implements ServletContextInitializer {
 
   @Resource private AnnotationConfigServletWebServerApplicationContext applicationContext;
