@@ -16,7 +16,8 @@
   </modules>
 
   <properties>
-    <spring.version>5.2.2.RELEASE</spring.version>
+    <spring.version>5.3.6</spring.version>
+    <webflux.version>5.2.2.RELEASE</webflux.version>
   </properties>
 
   <!-- Spring 依赖 -->

@@ -70,12 +70,6 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${springframework.version}</version>
         </dependency>
-
-        <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.3</version>
-        </dependency>
         <!-- redis cache related.....start -->
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -125,7 +119,6 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.21</version>
         </dependency>
     </dependencies>
 
