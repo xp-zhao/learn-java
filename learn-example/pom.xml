@@ -22,6 +22,7 @@
       <module>classloader-service</module>
     <module>learn-jest</module>
       <module>learn-code</module>
+    <module>learn-flowable</module>
   </modules>
 
   <properties>
