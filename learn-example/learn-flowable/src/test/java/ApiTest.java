@@ -8,6 +8,8 @@ import org.flowable.engine.repository.Deployment;
 import org.flowable.engine.repository.ProcessDefinition;
 import org.flowable.engine.runtime.ProcessInstance;
 import org.flowable.task.api.Task;
+import org.flowable.task.api.history.HistoricTaskInstance;
+import org.flowable.task.api.history.HistoricTaskInstanceQuery;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +23,7 @@ public class ApiTest {
   private Deployment deployment;
   private RepositoryService repositoryService;
   private ProcessEngine processEngine;
+  private HistoryService historyService;
 
   @Before
   public void init() {
@@ -34,6 +37,7 @@ public class ApiTest {
     repositoryService = processEngine.getRepositoryService();
     deployment =
         repositoryService.createDeployment().addClasspathResource("test.bpmn20.xml").deploy();
+    historyService = processEngine.getHistoryService();
   }
 
   @Test
@@ -76,16 +80,26 @@ public class ApiTest {
   public void testCommitForm() {
     RuntimeService runtimeService = processEngine.getRuntimeService();
     Map<String, Object> processStartParams = new HashMap<>();
+    // 用户 4 发起报销流程
     processStartParams.put("INITIATOR", "4");
     ProcessInstance processInstance =
         runtimeService.startProcessInstanceById("process_001:1:4", processStartParams);
     TaskService taskService = processEngine.getTaskService();
-    Task task = taskService.createTaskQuery().taskAssignee("4").singleResult();
-    log.info("task id: {}, name: {}", task.getId(), task.getName());
-    Map<String, Object> taskCompleteParams = new HashMap<>();
-    taskCompleteParams.put("money", 999);
-    taskService.complete(task.getId());
-    List<Task> taskList = taskService.createTaskQuery().list();
-    System.out.println(taskList);
+    // 用户任务：用户4填写报销单，录入金额并提交
+    Task userTask = taskService.createTaskQuery().taskAssignee("4").singleResult();
+    log.info("user task id: {}, name: {}", userTask.getId(), userTask.getName());
+    Map<String, Object> userTaskCompleteParams = new HashMap<>();
+    userTaskCompleteParams.put("money", 999);
+    taskService.complete(userTask.getId(), userTaskCompleteParams);
+    // 用户任务：主管选择同意or拒绝
+    Task leaderTask = taskService.createTaskQuery().taskCandidateGroup("leader").singleResult();
+    log.info("leader task id: {}, name: {}", leaderTask.getId(), leaderTask.getName());
+    Map<String, Object> leaderTaskCompleteParams = new HashMap<>();
+    leaderTaskCompleteParams.put("form_leader_approve_or_reject_outcome", "拒绝");
+    taskService.complete(leaderTask.getId(), leaderTaskCompleteParams);
+    // 历史任务查询
+    HistoricTaskInstanceQuery historicTaskQuery = historyService.createHistoricTaskInstanceQuery();
+    List<HistoricTaskInstance> list = historicTaskQuery.list();
+    System.out.println(list.size());
   }
 }
