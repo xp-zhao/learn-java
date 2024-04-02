@@ -7,7 +7,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <artifactId>learn-code</artifactId>
-    <name>Archetype - learn-code</name>
+    <name>learn-code</name>
     <url>http://maven.apache.org</url>
     <build>
         <plugins>

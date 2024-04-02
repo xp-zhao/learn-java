@@ -1,2 +1,1 @@
-delete from test;
-insert into test (id, username) values (1, 'zhao');
+insert into test (id, name) values (1, 'zhao');
