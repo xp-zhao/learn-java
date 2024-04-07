@@ -1,5 +1,5 @@
 FROM openjdk:8
-COPY ./target/classes/com/DockerfileTest.class /tmp
+COPY ./target/learn-design-1.0-SNAPSHOT-jar-with-dependencies.jar /tmp
 WORKDIR /tmp
 RUN ls -l
-ENTRYPOINT ["java", "DockerfileTest"]
+ENTRYPOINT ["java", "-jar", "learn-design-1.0-SNAPSHOT-jar-with-dependencies.jar"]

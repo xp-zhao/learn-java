@@ -1,4 +1,4 @@
-package com;
+package com.test;
 
 /**
  * @author zhaoxiaoping
@@ -6,6 +6,6 @@ package com;
  */
 public class DockerfileTest {
   public static void main(String[] args) {
-    System.out.println("hell world");
+    System.out.println("hello world");
   }
 }
