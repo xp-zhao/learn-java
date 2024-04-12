@@ -17,6 +17,12 @@ class LearnH2ApplicationTests {
   @Autowired private StudentService studentService;
 
   @Test
+  public void testQuery() {
+    List<Student> list = studentMapper.query();
+    log.info("查询结果：{}", list);
+  }
+
+  @Test
   public void testSelect() {
     List<Student> students = studentMapper.selectList(null);
     log.info("查询结果：{}", students);

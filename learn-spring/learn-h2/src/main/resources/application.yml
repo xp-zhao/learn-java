@@ -19,5 +19,5 @@ spring:
       path: /h2
       trace: false
       web-allow-others: true
-mybatis:
+mybatis-plus:
   mapper-locations: classpath*:mappers/**/*.xml
