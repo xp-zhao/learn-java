@@ -1,0 +1,10 @@
+curl http://localhost:8080/log/hello
+
+curl http://localhost:8080/actuator/proxy/listMeta
+
+curl -X POST \
+  -H "Content-Type: application/json" \
+  -d '{"proxyClassName":"org.learn.log.interceptor.LogMethodInterceptor","pointcut":"execution (* org.learn.log.service.AopLogService.*(..))", "id":"aopLogService"}' \
+  http://localhost:8080/actuator/proxy/save
+  
+curl -X POST http://localhost:8080/actuator/proxy/delete/aopLogService
