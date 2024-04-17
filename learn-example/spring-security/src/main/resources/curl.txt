@@ -2,3 +2,13 @@ curl -X POST \
   -H "Content-Type: application/json" \
   -d '{"username":"admin","password":"admin"}' \
   http://localhost:8080/auth/login
+
+curl -X POST http://localhost:8080/auth/register 
+  
+curl -X GET \
+  -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.aEzoxp3zgPbqvHtOK8V-n1F8ztRt1MNOwm--rRgF4x4" \
+  http://localhost:8080/auth/sayHi
+  
+curl -X GET \
+  -H "Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6ImFkbWluIn0.aEzoxp3zgPbqvHtOK8V-n1F8ztRt1MNOwm--rRgF4x4" \
+  http://localhost:8080/auth/users/123  
