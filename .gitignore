@@ -6,3 +6,5 @@ out
 *.py
 .DS_Store
 classes
+bytecode/
+.gitignore
