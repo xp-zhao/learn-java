@@ -7,7 +7,12 @@ package bytecode.javassist;
 public class HelloWorld {
   public static void main(String[] args) {
     System.out.println("hello javassist");
+    new HelloWorld().test();
   }
 
   public HelloWorld() {}
+
+  public void test() {
+    System.out.println("test");
+  }
 }
