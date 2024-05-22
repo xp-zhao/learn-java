@@ -14,8 +14,8 @@ public class Person {
   private String name;
   private Integer age;
   private String email;
-  private String address;
-
+  private String address; 
+  
   @AssertTrue(message = "用户信息非法")
   public boolean isValid() {
     return StrUtil.isNotBlank(name) && age >= 18;
