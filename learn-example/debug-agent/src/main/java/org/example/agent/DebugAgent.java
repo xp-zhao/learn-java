@@ -1,57 +1,59 @@
 package org.example.agent;
 
 import java.lang.instrument.Instrumentation;
-import java.lang.reflect.Method;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author zhaoxiaoping
  * @date 2024-5-20
  */
+@Slf4j
 public class DebugAgent {
 
-  private static Instrumentation instrumentation;
-  private static Object lockObject = new Object();
-
   public static void premain(String agentArgs, Instrumentation instrumentation) {
-    System.out.println("DebugAgent.premain() was called.");
-    System.out.println("Adding a DebugAgent instance to the JVM.");
-    // 注册 transformer
-    instrumentation.addTransformer(new DebugTransformer());
+    log.info("DebugAgent.premain() was called.");
+    String className = "org.example.hotswap.JavaAgent";
+
+    transformClass(className, instrumentation);
   }
 
   public static void agentmain(String agentArgs, Instrumentation instrumentation) {
-    synchronized (lockObject) {
-      boolean isSuccess = false;
-      Class[] allLoadedClasses = instrumentation.getAllLoadedClasses();
-      for (Class loadedClass : allLoadedClasses) {
-        if (loadedClass.getSimpleName().equals("JavaAgent")) {
-          try {
-            ClassLoader classLoader = loadedClass.getClassLoader();
-            Class<?> javaDynAgentClass = classLoader.loadClass(DebugAgent.class.getName());
-            Method method =
-                javaDynAgentClass.getDeclaredMethod("setInstrumentation", Instrumentation.class);
-            method.invoke((Object) null, instrumentation);
-            System.out.println("0->" + instrumentation);
-            isSuccess = true;
-            break;
-          } catch (Exception var13) {
-            var13.printStackTrace();
-            throw new RuntimeException(var13);
-          }
-        }
-      }
+    log.info("DebugAgent.agentmain() was called.");
+    String className = "org.example.hotswap.JavaAgent";
 
-      if (!isSuccess) {
-        System.out.println("instrumentation未成功设置：DebugAgent类未加载");
+    transformClass(className, instrumentation);
+  }
+
+  private static void transformClass(String className, Instrumentation instrumentation) {
+    Class<?> targetClass = null;
+    ClassLoader targetClassLoader = null;
+    try {
+      targetClass = Class.forName(className);
+      targetClassLoader = targetClass.getClassLoader();
+      transform(targetClass, targetClassLoader, instrumentation);
+      return;
+    } catch (Exception e) {
+      log.error("Class [{}] not found with Class.forName", className);
+    }
+    for (Class<?> clazz : instrumentation.getAllLoadedClasses()) {
+      if (clazz.getName().equals(className)) {
+        targetClass = clazz;
+        targetClassLoader = targetClass.getClassLoader();
+        transform(targetClass, targetClassLoader, instrumentation);
+        return;
       }
     }
+    throw new RuntimeException("Failed to find class [" + className + "]");
   }
 
-  public static Instrumentation getInstrumentation() {
-    return instrumentation;
-  }
-
-  public static void setInstrumentation(Instrumentation instrumentation) {
-    DebugAgent.instrumentation = instrumentation;
+  private static void transform(
+      Class<?> clazz, ClassLoader classLoader, Instrumentation instrumentation) {
+    DebugTransformer dt = new DebugTransformer(clazz.getName(), classLoader);
+    instrumentation.addTransformer(dt, true);
+    try {
+      instrumentation.retransformClasses(clazz);
+    } catch (Exception ex) {
+      throw new RuntimeException("Transform failed for class: [" + clazz.getName() + "]", ex);
+    }
   }
 }

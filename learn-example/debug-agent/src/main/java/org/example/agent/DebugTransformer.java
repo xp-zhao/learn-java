@@ -4,14 +4,24 @@ import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 import javassist.*;
-import javassist.expr.ExprEditor;
-import javassist.expr.MethodCall;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author zhaoxiaoping
  * @date 2024-5-20
  */
+@Slf4j
 public class DebugTransformer implements ClassFileTransformer {
+
+  private static final String QUERY_METHOD = "query";
+  private String targetClassName;
+  private ClassLoader targetClassLoader;
+
+  public DebugTransformer(String targetClassName, ClassLoader targetClassLoader) {
+    this.targetClassName = targetClassName;
+    this.targetClassLoader = targetClassLoader;
+  }
+
   @Override
   public byte[] transform(
       ClassLoader loader,
@@ -20,45 +30,37 @@ public class DebugTransformer implements ClassFileTransformer {
       ProtectionDomain protectionDomain,
       byte[] classfileBuffer)
       throws IllegalClassFormatException {
-    byte[] transformed = null;
-    if (!className.contains("bytecode")) {
-      return classfileBuffer;
+    byte[] byteCode = classfileBuffer;
+    String finalTargetClassName = this.targetClassName.replaceAll("\\.", "/");
+    if (!className.equals(finalTargetClassName)) {
+      return byteCode;
     }
-    System.out.println("Transforming " + className);
-    ClassPool pool = ClassPool.getDefault();
-    CtClass cl = null;
-    try {
-      cl = pool.makeClass(new java.io.ByteArrayInputStream(classfileBuffer));
-      if (cl.isInterface() == false) {
-        CtBehavior[] methods = cl.getDeclaredBehaviors();
-        for (int i = 0; i < methods.length; i++) {
-          if (methods[i].isEmpty() == false) {
-            doMethod(methods[i]);
-          }
-        }
-        transformed = cl.toBytecode();
-      }
-    } catch (Exception e) {
-      System.err.println("Could not instrument  " + className + ",  exception : " + e.getMessage());
-    } finally {
-      if (cl != null) {
-        cl.detach();
-      }
-    }
-    return transformed;
-  }
+    if (className.equals(finalTargetClassName) && loader.equals(targetClassLoader)) {
+      log.info("Transforming class: {}", className);
+      try {
+        ClassPool cp = ClassPool.getDefault();
+        CtClass cc = cp.get(targetClassName);
+        CtMethod cm = cc.getDeclaredMethod(QUERY_METHOD);
+        cm.addLocalVariable("startTime", CtClass.longType);
+        cm.insertBefore("startTime = System.currentTimeMillis();");
 
-  private void doMethod(CtBehavior method) throws CannotCompileException {
-    // 打印方法的执行时间
-    method.instrument(
-        new ExprEditor() {
-          public void edit(MethodCall m) throws CannotCompileException {
-            String name = m.getClassName() + "." + m.getMethodName();
-            m.replace(
-                "{ long startTime = System.nanoTime(); $_ = $proceed($$); System.out.println(\""
-                    + name
-                    + ":\" + (System.nanoTime() - startTime));}");
-          }
-        });
+        StringBuilder endLock = new StringBuilder();
+        cm.addLocalVariable("endTime", CtClass.longType);
+        cm.addLocalVariable("oprTime", CtClass.longType);
+        endLock.append("endTime = System.currentTimeMillis();");
+        endLock.append("oprTime = (endTime-startTime)/1000;");
+        endLock.append("log.info(\"query operation completed in: \" + oprTime + \" seconds!\");");
+        //        endBlock.append("LOGGER.info(\"[Application] Withdrawal operation completed in:\"
+        // + opTime + \" seconds!\");");
+        cm.insertAfter(endLock.toString());
+
+        byteCode = cc.toBytecode();
+        cc.detach();
+      } catch (Exception e) {
+        log.error("Exception", e);
+      }
+    }
+
+    return byteCode;
   }
 }
