@@ -41,6 +41,9 @@ public class DebugTransformer implements ClassFileTransformer {
         ClassPool cp = ClassPool.getDefault();
         CtClass cc = cp.get(targetClassName);
         CtMethod cm = cc.getDeclaredMethod(QUERY_METHOD);
+        // 获取调用方法的入参
+        String argList = getArgList(cm);
+        log.info("Calling {}.{}({})", className, cm.getName(), argList);
         cm.addLocalVariable("startTime", CtClass.longType);
         cm.insertBefore("startTime = System.currentTimeMillis();");
 
@@ -62,5 +65,17 @@ public class DebugTransformer implements ClassFileTransformer {
     }
 
     return byteCode;
+  }
+
+  private String getArgList(CtMethod cm) throws NotFoundException {
+    // 构建入参列表字符串
+    StringBuilder sb = new StringBuilder();
+    for (CtClass param : cm.getParameterTypes()) {
+      sb.append(param.getName()).append(", ");
+    }
+    if (sb.length() > 0) {
+      sb.deleteCharAt(sb.length() - 1).deleteCharAt(sb.length() - 1);
+    }
+    return sb.toString();
   }
 }

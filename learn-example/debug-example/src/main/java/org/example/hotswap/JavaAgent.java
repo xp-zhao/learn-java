@@ -9,9 +9,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class JavaAgent {
-  public static void query(Integer id) throws InterruptedException {
+  public static String query(Integer id) throws InterruptedException {
     Thread.sleep(2000);
     log.info("[JavaAgent] query method called, param: {}", id);
+    return "xxx";
   }
 
   public static void main(String[] args) throws InterruptedException {
