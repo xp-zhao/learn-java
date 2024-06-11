@@ -147,7 +147,7 @@
             <artifactId>curator-framework</artifactId>
             <version>5.1.0</version>
         </dependency>
-        
+
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
@@ -167,6 +167,11 @@
             <artifactId>javassist</artifactId>
             <version>3.12.1.GA</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>QLExpress</artifactId>
+            <version>3.3.3</version>
         </dependency>
     </dependencies>
 </project>
