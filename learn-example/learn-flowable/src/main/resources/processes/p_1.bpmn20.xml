@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL"
+             xmlns:flowable="http://flowable.org/bpmn"
+             xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI"
+             xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI"
+             typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath"
+             targetNamespace="p_namespace" exporter="Flowable Open Source Modeler"
+             exporterVersion="6.7.2">
+    <process id="p_1" name="p_1" isExecutable="true">
+        <documentation>测试流程</documentation>
+        <startEvent id="startEvent1" flowable:formFieldValidation="true"></startEvent>
+        <userTask id="sid-FE40E05D-BCBD-449C-A989-975D1AF9166E" name="兼职"
+                  flowable:formFieldValidation="true"></userTask>
+        <sequenceFlow id="sid-1C7843B1-436A-49F1-970D-60A11882B5F9" sourceRef="startEvent1"
+                      targetRef="sid-FE40E05D-BCBD-449C-A989-975D1AF9166E"></sequenceFlow>
+        <userTask id="sid-BEB3D4C1-8DB7-4E31-822F-3C9A8BA6FC34" name="全职"
+                  flowable:formFieldValidation="true"></userTask>
+        <sequenceFlow id="sid-E1DA3C78-4A80-49F0-9E21-64296E9FFBC3" sourceRef="sid-FE40E05D-BCBD-449C-A989-975D1AF9166E"
+                      targetRef="sid-BEB3D4C1-8DB7-4E31-822F-3C9A8BA6FC34"></sequenceFlow>
+        <exclusiveGateway id="sid-6C5060DE-3BBE-471D-BB3A-FEC356BC28FB"></exclusiveGateway>
+        <sequenceFlow id="sid-B7F3FBE9-A06E-4875-9360-61B72C318240" sourceRef="sid-BEB3D4C1-8DB7-4E31-822F-3C9A8BA6FC34"
+                      targetRef="sid-6C5060DE-3BBE-471D-BB3A-FEC356BC28FB"></sequenceFlow>
+        <endEvent id="sid-0028E6FA-5A04-4F53-9463-7A2A5E1C69C0"></endEvent>
+        <sequenceFlow id="sid-D74762FA-EE55-4095-B5B4-F1B6AFFF9D55" name="打回"
+                      sourceRef="sid-6C5060DE-3BBE-471D-BB3A-FEC356BC28FB"
+                      targetRef="sid-FE40E05D-BCBD-449C-A989-975D1AF9166E"></sequenceFlow>
+        <sequenceFlow id="sid-BE0843E7-8E25-4A5F-8FB2-8DDE4E12F316" name="通过"
+                      sourceRef="sid-6C5060DE-3BBE-471D-BB3A-FEC356BC28FB"
+                      targetRef="sid-0028E6FA-5A04-4F53-9463-7A2A5E1C69C0"></sequenceFlow>
+    </process>
+</definitions>
