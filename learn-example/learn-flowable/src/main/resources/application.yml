@@ -14,9 +14,43 @@ spring:
       path: /h2
       trace: false
       web-allow-others: true
+  data:
+    mongodb:
+      uri: mongodb://youxuepai:youxuepai@localhost:27017
+      database: task_data
 flowable:
+  common:
+    app:
+      security:
+        type: idm
+      role-prefix:
+      idm-admin:
+        user: admin
+        password: test
   idm:
+    ldap:
+      enabled: false
     app:
       admin:
         user-id: admin
-        password: 123456
+        password: test
+  process:
+    definition-cache-limit: 512
+    async:
+      executor:
+        default-async-job-acquire-wait-time: PT5S
+        default-timer-job-acquire-wait-time: PT5S
+  task:
+    app:
+      rest-enabled: true
+  admin:
+    app:
+      server-config:
+        app:
+          user-name: admin
+          password: 123456
+
+  form-field-validation-enabled: false
+  experimental:
+    debugger:
+      enabled: true
