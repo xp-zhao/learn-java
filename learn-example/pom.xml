@@ -24,6 +24,7 @@
         <module>learn-code</module>
         <module>learn-flowable</module>
         <module>aop-plugin-log</module>
+        <module>learn-arthas</module>
     </modules>
 
     <properties>

@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: learn-arthas
+  port: 8080
+
+arthas:
+  telnet-port: 8081
+  http-port: 8082
