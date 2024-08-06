@@ -173,5 +173,10 @@
             <artifactId>QLExpress</artifactId>
             <version>3.3.3</version>
         </dependency>
+        <dependency>
+            <groupId>com.networknt</groupId>
+            <artifactId>json-schema-validator</artifactId>
+            <version>1.4.0</version>
+        </dependency>
     </dependencies>
 </project>
