@@ -50,6 +50,24 @@ public interface Seq<T> {
     };
   }
 
+  default Seq<T> drop(int n) {
+    return c -> {
+      int[] i = {n - 1};
+      consume(
+          t -> {
+            if (i[0] < 0) {
+              c.accept(t);
+            } else {
+              i[0]--;
+            }
+          });
+    };
+  }
+
+  default Seq<T> onEach(Consumer<T> consumer) {
+    return c -> consume(consumer.andThen(c));
+  }
+
   default void consumeTillStop(Consumer<T> consumer) {
     try {
       consume(consumer);
