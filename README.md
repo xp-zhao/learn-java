@@ -6,6 +6,7 @@
 ## 模块
 - learn-spi: spi 技术快速学习
 - learn-rpc: rpc 技术入门
+- learn-db: 数据库学习
 - 持续补充中. . .
 
 ## 快速开始
