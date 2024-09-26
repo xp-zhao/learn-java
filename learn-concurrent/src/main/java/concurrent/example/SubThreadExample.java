@@ -1,5 +1,7 @@
 package concurrent.example;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.*;
 import lombok.extern.slf4j.Slf4j;
 
@@ -11,7 +13,49 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class SubThreadExample {
-  public static void main(String[] args) {
+  public static void main(String[] args) throws ExecutionException, InterruptedException {
+    //    completableFuture();
+    completionService();
+  }
+
+  public static void completionService() throws InterruptedException, ExecutionException {
+    // 创建线程池
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    // 创建CompletionService
+    CompletionService<Boolean> cs = new ExecutorCompletionService<>(executor);
+    log.info("start");
+    // 用于保存Future对象
+    List<Future<Boolean>> futures = new ArrayList<>(10);
+    // 提交异步任务，并保存future到futures
+    for (int i = 0; i < 10; i++) {
+      final int taskId = i + 1;
+      futures.add(cs.submit(() -> queryTask(taskId)));
+    }
+    // 获取任务执行结果
+    int trueCount = 0;
+    try {
+      // 只要有两个返回 true，则break
+      for (int i = 0; i < 10; ++i) {
+        if (cs.take().get()) {
+          trueCount++;
+        }
+        if (trueCount == 2) {
+          break;
+        }
+      }
+    } finally {
+      // 取消所有任务
+      for (Future<Boolean> f : futures) {
+        f.cancel(true);
+      }
+    }
+    // 返回结果
+    log.info("执行结束");
+    // 关闭线程池
+    executor.shutdown();
+  }
+
+  public static void completableFuture() {
     // 创建固定大小的线程池
     ExecutorService executor = Executors.newFixedThreadPool(10);
 
@@ -20,7 +64,7 @@ public class SubThreadExample {
     log.info("start");
     // 提交 10 个任务
     for (int i = 0; i < 10; i++) {
-      final int taskId = i;
+      final int taskId = i + 1;
       futures[i] = CompletableFuture.supplyAsync(() -> queryTask(taskId));
     }
 
@@ -61,13 +105,14 @@ public class SubThreadExample {
     if (Thread.currentThread().isInterrupted()) {
       return Boolean.FALSE;
     }
-    log.info("taskId: {}", taskId);
+    log.info("taskId: {} - start", taskId);
     // 这里可以放置实际的查询逻辑
     try {
-      TimeUnit.SECONDS.sleep(2);
+      TimeUnit.SECONDS.sleep(taskId);
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
+    log.info("task: {} - end", taskId);
     // 模拟返回 true 或 false
     return taskId % 2 == 0; // 偶数返回 true，奇数返回 false
   }
