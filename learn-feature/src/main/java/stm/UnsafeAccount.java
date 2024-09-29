@@ -1,35 +1,39 @@
 package stm;
 
-import cn.hutool.core.convert.Convert;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 
 /**
+ * 简单模拟转账时的并发问题
+ *
  * @author zhaoxiaoping
- * @date 2024-9-26
+ * @date 2024-9-27
  */
-public class Account {
-  private TxnRef<Integer> balance;
+@Slf4j
+@Data
+public class UnsafeAccount {
+  private int balance;
 
-  public Account(int balance) {
-    this.balance = new TxnRef<>(balance);
+  public UnsafeAccount(int balance) {
+    this.balance = balance;
   }
 
-  public void transfer(Account target, int amt) {
-    STM.atomic(
-        (txn) -> {
-          Integer from = balance.getValue(txn);
-          balance.setValue(from - amt, txn);
-          Integer to = target.balance.getValue(txn);
-          target.balance.setValue(to + amt, txn);
-        });
-  }
-
-  public int getBalance() {
-    return Convert.toInt(balance.curRef.value);
+  /**
+   * 转账
+   *
+   * @param target 目标用户
+   * @param amt 转账金额
+   */
+  void transfer(UnsafeAccount target, int amt) {
+    if (this.balance > amt) {
+      this.balance -= amt;
+      target.balance += amt;
+    }
   }
 
   public static void main(String[] args) {
-    Account source = new Account(1000);
-    Account target = new Account(1000);
+    UnsafeAccount source = new UnsafeAccount(1000);
+    UnsafeAccount target = new UnsafeAccount(1000);
 
     Runnable sourceToTarget =
         () -> {

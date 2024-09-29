@@ -1,39 +1,36 @@
 package stm;
 
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
+import cn.hutool.core.convert.Convert;
 
 /**
- * 简单模拟转账时的并发问题
- *
  * @author zhaoxiaoping
- * @date 2024-9-27
+ * @date 2024-9-26
  */
-@Slf4j
-@Data
-public class SimpleAccount {
-  private int balance;
+public class SafeAccount {
+  private TxnRef<Integer> balance;
 
-  public SimpleAccount(int balance) {
-    this.balance = balance;
+  public SafeAccount(int balance) {
+    this.balance = new TxnRef<>(balance);
   }
 
-  /**
-   * 转账
-   *
-   * @param target 目标用户
-   * @param amt 转账金额
-   */
-  void transfer(SimpleAccount target, int amt) {
-    if (this.balance > amt) {
-      this.balance -= amt;
-      target.balance += amt;
-    }
+  public void transfer(SafeAccount target, int amt) {
+    TxnRunnable txnRunnable =
+        (txn) -> {
+          Integer from = balance.getValue(txn);
+          balance.setValue(from - amt, txn);
+          Integer to = target.balance.getValue(txn);
+          target.balance.setValue(to + amt, txn);
+        };
+    STM.atomic(txnRunnable);
+  }
+
+  public int getBalance() {
+    return Convert.toInt(balance.curRef.value);
   }
 
   public static void main(String[] args) {
-    SimpleAccount source = new SimpleAccount(1000);
-    SimpleAccount target = new SimpleAccount(1000);
+    SafeAccount source = new SafeAccount(1000);
+    SafeAccount target = new SafeAccount(1000);
 
     Runnable sourceToTarget =
         () -> {

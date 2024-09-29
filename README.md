@@ -7,6 +7,7 @@
 - learn-spi: spi 技术快速学习
 - learn-rpc: rpc 技术入门
 - learn-db: 数据库学习
+- learn-feature-stm: [软件事务内存实现](learn-feature/src/main/java/stm/README.md)
 - 持续补充中. . .
 
 ## 快速开始
