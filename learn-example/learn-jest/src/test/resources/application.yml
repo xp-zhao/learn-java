@@ -1,0 +1,15 @@
+server:
+  port: 6700
+
+# 关闭es健康检查
+management:
+  health:
+    elasticsearch:
+      enabled: false
+
+spring:
+  data:
+    elasticsearch:
+      nodes: localhost:9200 # es 地址
+      repositories:
+        enabled: true

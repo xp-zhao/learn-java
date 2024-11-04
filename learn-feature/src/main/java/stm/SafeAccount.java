@@ -32,29 +32,30 @@ public class SafeAccount {
     SafeAccount source = new SafeAccount(1000);
     SafeAccount target = new SafeAccount(1000);
 
-    Runnable sourceToTarget =
-        () -> {
-          for (int i = 0; i < 100; i++) {
-            source.transfer(target, 10);
-          }
-        };
-    Runnable targetToSource =
-        () -> {
-          for (int i = 0; i < 100; i++) {
-            target.transfer(source, 10);
-          }
-        };
-    Thread t1 = new Thread(sourceToTarget, "Thread source to target");
-    Thread t2 = new Thread(targetToSource, "Thread target to source");
-
-    t1.start();
-    t2.start();
-    try {
-      t1.join();
-      t2.join();
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
+    source.transfer(target, 100);
+    //    Runnable sourceToTarget =
+    //        () -> {
+    //          for (int i = 0; i < 100; i++) {
+    //            source.transfer(target, 10);
+    //          }
+    //        };
+    //    Runnable targetToSource =
+    //        () -> {
+    //          for (int i = 0; i < 100; i++) {
+    //            target.transfer(source, 10);
+    //          }
+    //        };
+    //    Thread t1 = new Thread(sourceToTarget, "Thread source to target");
+    //    Thread t2 = new Thread(targetToSource, "Thread target to source");
+    //
+    //    t1.start();
+    //    t2.start();
+    //    try {
+    //      t1.join();
+    //      t2.join();
+    //    } catch (InterruptedException e) {
+    //      e.printStackTrace();
+    //    }
 
     System.out.println("Final Balances:");
     System.out.println("Account Source: " + source.getBalance());

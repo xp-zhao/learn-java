@@ -1,31 +1,70 @@
 package config;
 
+import common.Constants;
+import java.util.ArrayList;
+import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpHost;
+import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
-import org.springframework.context.annotation.Bean;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.elasticsearch.client.ClientConfiguration;
-import org.springframework.data.elasticsearch.client.RestClients;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 /**
  * @author zhaoxiaoping
  * @date 2022-8-16
  */
+@Slf4j
 @Configuration
-@EnableElasticsearchRepositories(basePackages = "es.repository")
-public class EsConfig {
-  @Bean
-  RestHighLevelClient client() {
-    ClientConfiguration clientConfiguration =
-        ClientConfiguration.builder().connectedTo("kvm2.yxp99.com:9200").build();
+public class EsConfig
+    implements FactoryBean<RestHighLevelClient>, InitializingBean, DisposableBean {
 
-    return RestClients.create(clientConfiguration).rest();
+  private static final String SCHEME = "http";
+
+  private RestHighLevelClient restHighLevelClient;
+
+  @Override
+  public void destroy() throws Exception {
+    try {
+      if (null != restHighLevelClient) {
+        restHighLevelClient.close();
+      }
+    } catch (final Exception e) {
+      log.error("Error closing ElasticSearch client: ", e);
+    }
   }
 
-  @Bean
-  public ElasticsearchOperations elasticsearchTemplate() {
-    return new ElasticsearchRestTemplate(client());
+  @Override
+  public RestHighLevelClient getObject() throws Exception {
+    return restHighLevelClient;
+  }
+
+  @Override
+  public Class<?> getObjectType() {
+    return RestHighLevelClient.class;
+  }
+
+  @Override
+  public void afterPropertiesSet() throws Exception {
+    restHighLevelClient = buildClient();
+  }
+
+  private RestHighLevelClient buildClient() {
+    try {
+      String[] hosts = Constants.ES_NODE.split(",");
+      List<HttpHost> httpHosts = new ArrayList<>(hosts.length);
+      for (String node : hosts) {
+        HttpHost host =
+            new HttpHost(node.split(":")[0], Integer.parseInt(node.split(":")[1]), SCHEME);
+        httpHosts.add(host);
+      }
+      restHighLevelClient =
+          new RestHighLevelClient(RestClient.builder(httpHosts.toArray(new HttpHost[0])));
+    } catch (Exception e) {
+      log.error(e.getMessage());
+    }
+    return restHighLevelClient;
   }
 }
