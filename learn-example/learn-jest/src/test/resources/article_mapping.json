@@ -1,0 +1,27 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "title": {
+      "type": "text"
+    },
+    "content": {
+      "type": "text"
+    },
+    "authors": {
+      "type": "nested",
+      "properties": {
+        "id": {
+          "type": "keyword"
+        },
+        "name": {
+          "type": "text"
+        },
+        "age": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}

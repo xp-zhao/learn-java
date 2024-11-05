@@ -7,6 +7,7 @@ package common;
  * @date 2024-11-4
  */
 public enum EsIndexEnum {
+  QUESTION("question"),
   AUTHOR("author"),
   ARTICLE("article");
 

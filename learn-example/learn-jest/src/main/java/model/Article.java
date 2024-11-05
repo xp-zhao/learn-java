@@ -15,7 +15,7 @@ public class Article {
 
   private String title;
 
-  private String randomText;
+  private String content;
 
   private List<Author> authors;
 }

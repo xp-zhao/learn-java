@@ -5,7 +5,10 @@ import common.Constants;
 import common.EsIndexEnum;
 import common.PageResponse;
 import config.EsConfig;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
+import model.Article;
 import model.Author;
 import org.elasticsearch.index.query.MultiMatchQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -36,11 +39,34 @@ public class ApiTest {
   }
 
   @Test
-  public void testAddDoc() {
+  public void testAddAuthor() {
     Author author = new Author();
+    author.setId("1");
     author.setName("xp");
     author.setAge(18);
     Boolean result = esUtil.addOrUptDocToEs(author, EsIndexEnum.AUTHOR.getIndexName());
+    log.info("{}", result);
+  }
+
+  @Test
+  public void testAddArticle() {
+    List<Author> authors = new ArrayList<>();
+    Author a1 = new Author();
+    a1.setId("1");
+    a1.setName("xp");
+    a1.setAge(18);
+    authors.add(a1);
+    Author a2 = new Author();
+    a2.setId("2");
+    a2.setName("hj");
+    a2.setAge(18);
+    authors.add(a2);
+    Article article = new Article();
+    article.setId("1");
+    article.setTitle("测试文章");
+    article.setContent("测试文章内容");
+    article.setAuthors(authors);
+    Boolean result = esUtil.addOrUptDocToEs(article, EsIndexEnum.ARTICLE.getIndexName());
     log.info("{}", result);
   }
 
@@ -72,9 +98,9 @@ public class ApiTest {
             pageSize);
     log.info("{}", resp.getData());
   }
-  
+
   @Test
-  public void testSearchAllDoc(){
-    esUtil.searchAllDoc(EsIndexEnum.AUTHOR.getIndexName());
+  public void testSearchAllDoc() {
+    esUtil.searchAllDoc(EsIndexEnum.ARTICLE.getIndexName());
   }
 }
