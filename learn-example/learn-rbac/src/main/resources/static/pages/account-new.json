@@ -1,0 +1,44 @@
+{
+  "type": "page",
+  "title": "新增",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/crud/list",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "title": "",
+      "type": "form",
+      "redirect": "/crud/list",
+      "name": "sample-edit-form",
+      "api": "${API_HOST}/api/amis-mock/sample",
+      "controls": [
+        {
+          "type": "text",
+          "name": "username",
+          "label": "用户名",
+          "required": true,
+          "inline": false,
+          "description": "",
+          "descriptionClassName": "help-block",
+          "placeholder": "",
+          "addOn": null
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "text",
+          "name": "pwd",
+          "label": "密码",
+          "required": true
+        }
+      ]
+    }
+  ]
+}
