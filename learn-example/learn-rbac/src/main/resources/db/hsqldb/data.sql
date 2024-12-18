@@ -1,3 +1,3 @@
-INSERT INTO users VALUES (1, 'a');
-INSERT INTO users VALUES (2, 'b');
-INSERT INTO users VALUES (3, 'c');
+INSERT INTO account VALUES (1, 'a');
+INSERT INTO account VALUES (2, 'b');
+INSERT INTO account VALUES (3, 'c');

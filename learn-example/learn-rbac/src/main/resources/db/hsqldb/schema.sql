@@ -1,4 +1,4 @@
-DROP TABLE users IF EXISTS;
+DROP TABLE account IF EXISTS;
 
 CREATE TABLE account
 (

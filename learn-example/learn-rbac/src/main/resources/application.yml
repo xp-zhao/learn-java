@@ -2,9 +2,15 @@ database: hsqldb
 
 spring:
   datasource:
-    schema: "classpath:db/${database}/schema.sql"
-    data: "classpath:db/${database}/data.sql"
-    sql-script-encoding: UTF-8
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:mem:rbac;shutdown=true
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: "classpath:db/${database}/schema.sql"
+      data-locations: "classpath:db/${database}/data.sql"
   jpa:
     show-sql: false
     hibernate:
