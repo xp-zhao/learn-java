@@ -24,4 +24,8 @@ public class AccountApplicationService {
   public Account getAccountById(Integer id) {
     return accountRepository.findById(id).orElse(null);
   }
+
+  public void createAccount(Account account) {
+    accountRepository.save(account);
+  }
 }

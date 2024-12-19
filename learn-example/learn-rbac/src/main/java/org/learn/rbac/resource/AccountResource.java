@@ -1,11 +1,20 @@
 package org.learn.rbac.resource;
 
 import javax.inject.Inject;
-import javax.ws.rs.*;
+import javax.validation.Valid;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import org.learn.rbac.application.AccountApplicationService;
 import org.learn.rbac.domain.account.Account;
+import org.learn.rbac.infrastructure.jaxrs.CommonResponse;
 import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
@@ -37,5 +46,12 @@ public class AccountResource {
   @Cacheable(key = "#id")
   public Account getAccountById(@PathParam("id") Integer id) {
     return service.getAccountById(id);
+  }
+
+  /** 创建新用户 */
+  @POST
+  @CacheEvict(key = "#user.username")
+  public Response createUser(@Valid Account user) {
+    return CommonResponse.op(() -> service.createAccount(user));
   }
 }
