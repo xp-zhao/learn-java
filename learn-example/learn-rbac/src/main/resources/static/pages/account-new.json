@@ -16,7 +16,7 @@
       "type": "form",
       "redirect": "/crud/list",
       "name": "sample-edit-form",
-      "api": "${API_HOST}/api/amis-mock/sample",
+      "api": "${API_HOST}/restful/accounts",
       "controls": [
         {
           "type": "text",
@@ -28,15 +28,6 @@
           "descriptionClassName": "help-block",
           "placeholder": "",
           "addOn": null
-        },
-        {
-          "type": "divider"
-        },
-        {
-          "type": "text",
-          "name": "pwd",
-          "label": "密码",
-          "required": true
         }
       ]
     }

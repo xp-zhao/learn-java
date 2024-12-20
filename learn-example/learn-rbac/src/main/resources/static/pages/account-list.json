@@ -6,10 +6,35 @@
   "toolbar": [
     {
       "type": "button",
-      "actionType": "link",
-      "link": "/crud/new",
+      "actionType": "dialog",
       "label": "新增",
-      "primary": true
+      "icon": "fa fa-plus pull-left",
+      "primary": true,
+      "dialog": {
+        "title": "新增",
+        "body": {
+          "type": "form",
+          "name": "sample-edit-form",
+          "api": "post:/restful/accounts",
+          "body": [
+            {
+              "type": "input-text",
+              "name": "username",
+              "label": "用户名",
+              "required": true
+            },
+            {
+              "type": "divider"
+            },
+            {
+              "type": "input-text",
+              "name": "desc",
+              "label": "描述",
+              "required": true
+            }
+          ]
+        }
+      }
     }
   ],
   "body": [
@@ -38,27 +63,6 @@
         "className": "m-b-sm"
       },
       "bulkActions": [
-        {
-          "label": "批量修改",
-          "type": "button",
-          "actionType": "dialog",
-          "level": "primary",
-          "dialog": {
-            "title": "批量编辑",
-            "name": "sample-bulk-edit",
-            "body": {
-              "type": "form",
-              "api": "${API_HOST}/api/amis-mock/sample/bulkUpdate2",
-              "controls": [
-                {
-                  "type": "text",
-                  "name": "engine",
-                  "label": "Engine"
-                }
-              ]
-            }
-          }
-        },
         {
           "label": "批量删除",
           "type": "button",
@@ -92,23 +96,75 @@
                   "type": "button",
                   "label": "查看",
                   "level": "primary",
-                  "actionType": "link",
-                  "link": "/crud/${id}"
+                  "actionType": "dialog",
+                  "dialog": {
+                    "title": "查看",
+                    "body": {
+                      "type": "form",
+                      "body": [
+                        {
+                          "type": "static",
+                          "name": "id",
+                          "label": "用户id"
+                        },
+                        {
+                          "type": "divider"
+                        },
+                        {
+                          "type": "static",
+                          "name": "username",
+                          "label": "用户名称"
+                        }
+                      ]
+                    }
+                  }
                 },
                 {
                   "type": "button",
                   "label": "修改",
                   "level": "info",
-                  "actionType": "link",
-                  "link": "/crud/${id}/edit"
+                  "actionType": "drawer",
+                  "drawer": {
+                    "position": "left",
+                    "size": "lg",
+                    "title": "编辑",
+                    "body": {
+                      "type": "form",
+                      "name": "sample-edit-form",
+                      "api": {
+                        "method": "put",
+                        "url": "/restful/accounts",
+                        "messages": {
+                          "success": "成功了-${env}"
+                        }
+                      },
+                      "body": [
+                        {
+                          "type": "static",
+                          "name": "id",
+                          "label": "用户id"
+                        },
+                        {
+                          "type": "divider"
+                        },
+                        {
+                          "type": "input-text",
+                          "name": "username",
+                          "label": "用户名称",
+                          "required": true
+                        }
+                      ]
+                    }
+                  }
                 },
                 {
                   "type": "button",
                   "label": "删除",
+                  "className": "m-l",
                   "level": "danger",
                   "actionType": "ajax",
                   "confirmText": "您确认要删除?",
-                  "api": "delete:${API_HOST}/api/amis-mock/sample/$id"
+                  "api": "delete:${API_HOST}/restful/accounts/$id"
                 }
               ]
             }

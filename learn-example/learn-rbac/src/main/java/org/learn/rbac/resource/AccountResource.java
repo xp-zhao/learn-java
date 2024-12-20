@@ -3,8 +3,10 @@ package org.learn.rbac.resource;
 import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -16,6 +18,7 @@ import org.learn.rbac.infrastructure.jaxrs.CommonResponse;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
 
 /**
@@ -50,8 +53,23 @@ public class AccountResource {
 
   /** 创建新用户 */
   @POST
-  @CacheEvict(key = "#user.username")
+  @Caching(evict = {@CacheEvict(key = "#user.username"), @CacheEvict(key = "'ALL_ACCOUNT'")})
   public Response createUser(@Valid Account user) {
     return CommonResponse.op(() -> service.createAccount(user));
+  }
+
+  /** 更新用户信息 */
+  @PUT
+  @Caching(evict = {@CacheEvict(key = "#user.username"), @CacheEvict(key = "'ALL_ACCOUNT'")})
+  public Response updateUser(@Valid Account user) {
+    return CommonResponse.op(() -> service.updateAccount(user));
+  }
+
+  /** 删除用户信息 */
+  @DELETE
+  @Path("/{id}")
+  @Caching(evict = {@CacheEvict(key = "#id"), @CacheEvict(key = "'ALL_ACCOUNT'")})
+  public Response removeAccount(@PathParam("id") Integer id) {
+    return CommonResponse.op(() -> service.removeAccount(id));
   }
 }

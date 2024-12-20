@@ -21,20 +21,9 @@
             "schemaApi": "get:/pages/account-list.json"
           },
           {
-            "label": "新增",
+            "label": "角色列表",
             "url": "/crud/new",
-            "icon": "fa fa-plus",
-            "schemaApi": "get:/pages/account-new.json"
-          },
-          {
-            "label": "查看",
-            "url": "/crud/:id",
-            "schemaApi": "get:/pages/crud-view.json"
-          },
-          {
-            "label": "修改",
-            "url": "/crud/:id/edit",
-            "schemaApi": "get:/pages/crud-edit.json"
+            "icon": "fa fa-list"
           }
         ]
       }

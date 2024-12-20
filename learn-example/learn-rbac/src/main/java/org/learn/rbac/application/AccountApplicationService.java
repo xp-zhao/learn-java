@@ -28,4 +28,12 @@ public class AccountApplicationService {
   public void createAccount(Account account) {
     accountRepository.save(account);
   }
+
+  public void updateAccount(Account account) {
+    accountRepository.save(account);
+  }
+
+  public void removeAccount(Integer id) {
+    accountRepository.deleteById(id);
+  }
 }
