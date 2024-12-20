@@ -74,6 +74,11 @@
       ],
       "columns": [
         {
+          "type": "avatar",
+          "label": "头像",
+          "text": "${username}"
+        },
+        {
           "name": "id",
           "label": "用户id",
           "width": 20,
@@ -102,6 +107,11 @@
                     "body": {
                       "type": "form",
                       "body": [
+                        {
+                          "type": "avatar",
+                          "label": "头像",
+                          "text": "${username}"
+                        },
                         {
                           "type": "static",
                           "name": "id",
