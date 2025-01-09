@@ -20,4 +20,14 @@ public class UserRegisterTest {
   public void testRegister() {
     userService.register("xp");
   }
+
+  @Test
+  public void testOrder() {
+    userService.order("xp");
+  }
+
+  @Test
+  public void testEventPublish() {
+    userService.eventPublish("xp");
+  }
 }

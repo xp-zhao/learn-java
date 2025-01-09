@@ -1,5 +1,6 @@
 package com.example.feature.event;
 
+import com.example.feature.event.entity.UserRegister;
 import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
 
@@ -12,11 +13,11 @@ public class UserRegisterEvent extends ApplicationEvent {
 
   @Getter private String userName;
 
-  public UserRegisterEvent(Object source) {
+  public UserRegisterEvent(UserRegister source) {
     super(source);
   }
 
-  public UserRegisterEvent(Object source, String userName) {
+  public UserRegisterEvent(UserRegister source, String userName) {
     super(source);
     this.userName = userName;
   }
