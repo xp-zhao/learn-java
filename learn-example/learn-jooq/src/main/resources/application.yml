@@ -1,0 +1,30 @@
+database: hsqldb
+
+spring:
+  datasource:
+    driverClassName: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:mem:rbac;shutdown=true
+    username: sa
+    password:
+  sql:
+    init:
+      mode: always
+      schema-locations: "classpath:db/${database}/schema.sql"
+      data-locations: "classpath:db/${database}/data.sql"
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  resources:
+    chain:
+      compressed: true
+      cache: true
+    cache:
+      period: 86400
+
+logging:
+  pattern:
+    console: "%clr(%d{HH:mm:ss.SSS}){faint} %clr(${LOG_LEVEL_PATTERN:%5p}) %clr(-){faint} %clr([%t]){faint} %clr(%-40logger{39}){cyan}[%line]%clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:%wEx}"
+  level:
+    root: INFO
