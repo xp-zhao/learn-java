@@ -27,6 +27,7 @@
         <module>learn-arthas</module>
         <module>learn-rbac</module>
         <module>learn-jooq</module>
+        <module>learn-statemachine</module>
     </modules>
 
     <properties>
