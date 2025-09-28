@@ -1,0 +1,38 @@
+{
+  "type": "page",
+  "title": "修改 ${params.id}",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/crud/list",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "type": "form",
+      "initApi": "${API_HOST}/crud/query/${params.id}",
+      "api": "${API_HOST}/crud/save",
+      "redirect": "/crud/list",
+      "controls": [
+        {
+          "type": "text",
+          "name": "userId",
+          "label": "id",
+          "required": true
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "text",
+          "name": "userName",
+          "label": "用户名",
+          "required": true
+        }
+      ]
+    }
+  ]
+}

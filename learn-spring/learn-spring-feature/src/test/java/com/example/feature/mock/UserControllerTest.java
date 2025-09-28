@@ -43,7 +43,7 @@ public class UserControllerTest {
 
   @Test
   public void testPostMethod() throws Exception {
-    UserEntity user = new UserEntity();
+    UserEntity user = new UserEntity("1", "1");
     user.setUserId("xxx");
     mockMvc
         .perform(
@@ -56,7 +56,7 @@ public class UserControllerTest {
 
   @Test
   public void testPostMethodException() throws Exception {
-    UserEntity user = new UserEntity();
+    UserEntity user = new UserEntity("1", "1");
     mockMvc
         .perform(
             MockMvcRequestBuilders.post("/saveUser")

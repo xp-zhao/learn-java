@@ -3,3 +3,6 @@ config:
   period: 1000
   queueSizeLimit: 6
   capacity: 10
+
+index-page:
+  path: /index.html

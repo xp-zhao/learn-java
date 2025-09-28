@@ -1,0 +1,34 @@
+{
+  "type": "page",
+  "title": "查看详情 ${params.id}",
+  "remark": null,
+  "toolbar": [
+    {
+      "type": "button",
+      "actionType": "link",
+      "link": "/crud/list",
+      "label": "返回列表"
+    }
+  ],
+  "body": [
+    {
+      "type": "form",
+      "initApi": "${API_HOST}/crud/query/${params.id}",
+      "controls": [
+        {
+          "type": "text",
+          "name": "userId",
+          "label": "userId"
+        },
+        {
+          "type": "divider"
+        },
+        {
+          "type": "text",
+          "name": "userName",
+          "label": "userName"
+        }
+      ]
+    }
+  ]
+}
