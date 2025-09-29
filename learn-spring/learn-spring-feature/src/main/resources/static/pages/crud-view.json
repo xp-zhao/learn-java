@@ -16,7 +16,7 @@
       "initApi": "${API_HOST}/crud/query/${params.id}",
       "controls": [
         {
-          "type": "text",
+          "type": "static",
           "name": "userId",
           "label": "userId"
         },
@@ -24,7 +24,7 @@
           "type": "divider"
         },
         {
-          "type": "text",
+          "type": "static",
           "name": "userName",
           "label": "userName"
         }

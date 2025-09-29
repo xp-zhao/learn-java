@@ -80,6 +80,12 @@
                 "schemaApi": "get:/pages/crud-list.json"
               },
               {
+                "label": "列表-分页",
+                "url": "/crud/list-page",
+                "icon": "fa fa-list",
+                "schemaApi": "get:/pages/crud-list-page.json"
+              },
+              {
                 "label": "新增",
                 "url": "/crud/new",
                 "icon": "fa fa-plus",

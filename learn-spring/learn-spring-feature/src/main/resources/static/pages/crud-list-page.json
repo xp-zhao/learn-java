@@ -1,6 +1,6 @@
 {
   "type": "page",
-  "title": "列表",
+  "title": "列表-分页",
   "remark": null,
   "name": "page-demo",
   "toolbar": [
@@ -16,7 +16,7 @@
     {
       "type": "crud",
       "name": "sample",
-      "api": "${API_HOST}/crud/list",
+      "api": "${API_HOST}/crud/page?page=${page}&perPage=${perPage}&keywords=${keywords}",
       "filter": {
         "title": "",
         "mode": "inline",
